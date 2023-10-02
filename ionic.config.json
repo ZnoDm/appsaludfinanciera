@@ -1,0 +1,7 @@
+{
+  "name": "saludfinanciera-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
