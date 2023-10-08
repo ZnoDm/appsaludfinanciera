@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { GastosPageRoutingModule } from './gastos-routing.module';
+import { SettingsPageRoutingModule } from './settings-routing.module';
 
-import { GastosPage } from './gastos.page';
+import { SettingsPage } from './settings.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { ComponentsModule } from 'src/app/components/components.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    GastosPageRoutingModule,
+    SettingsPageRoutingModule,
     ComponentsModule
   ],
-  declarations: [GastosPage]
+  declarations: [SettingsPage]
 })
-export class GastosPageModule {}
+export class SettingsPageModule {}

@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <div class="ion-text-capitalize">
+        <h6 style="margin: 0px;">Perfil</h6>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content color="light">
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-img
+          style="margin: auto;padding: 2rem 0rem 1rem 0rem;max-width: 150px;"
+          src="./assets/avatars/av-1.png"
+          alt="Profile">
+        </ion-img>
+      </ion-col>
+      <ion-col size="12">
+        <ion-list [inset]="true" style="padding: 0px;">
+          <ion-item [button]="true" (click)="navigateToSettings()">
+            <ion-icon slot="start" name="settings-sharp"></ion-icon>
+            <ion-label>Configuracion</ion-label>
+            <ion-icon slot="end" name="chevron-forward-sharp" size="small"></ion-icon>
+          </ion-item>
+          <ion-item [button]="true" (click)="navigateToChangePassword()">
+            <ion-icon slot="start" name="lock-closed-sharp"></ion-icon>
+            <ion-label>Cambiar Contraseña</ion-label>
+            <ion-icon slot="end" name="chevron-forward-sharp" size="small"></ion-icon>
+          </ion-item>
+          <ion-item [button]="true">
+            <ion-icon slot="start" name="log-out-sharp"></ion-icon>
+            <ion-label>Salir</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+</ion-content>

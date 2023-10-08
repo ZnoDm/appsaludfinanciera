@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { GastosPageRoutingModule } from './gastos-routing.module';
+import { ChangePasswordPageRoutingModule } from './change-password-routing.module';
 
-import { GastosPage } from './gastos.page';
+import { ChangePasswordPage } from './change-password.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { ComponentsModule } from 'src/app/components/components.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    GastosPageRoutingModule,
+    ChangePasswordPageRoutingModule,
     ComponentsModule
   ],
-  declarations: [GastosPage]
+  declarations: [ChangePasswordPage]
 })
-export class GastosPageModule {}
+export class ChangePasswordPageModule {}

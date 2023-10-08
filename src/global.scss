@@ -24,3 +24,9 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+
+/* Establece el tamaño y la posición del modal */
+.modal-header-periodo {
+  --height: 20%;
+  --width: 100%
+}

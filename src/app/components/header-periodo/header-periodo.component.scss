@@ -1,0 +1,16 @@
+.periodo{
+  width: 150px;
+  height: 80px;
+  border: 4px dashed #333;
+  border-radius: 20px;
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  h1,span{
+    margin: 0;
+  }
+}

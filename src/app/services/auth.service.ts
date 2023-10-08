@@ -91,7 +91,7 @@ export class AuthService {
     await this.cargarToken();
 
     if ( !this.token ) {
-      this.redirectToMain()
+      this.redirectToLogin()
       return Promise.resolve(false);
     }
 
@@ -104,7 +104,6 @@ export class AuthService {
 
       this.http.get(`${ URL }/api/auth/check-status`, { headers })
         .subscribe( (resp:any) => {
-
           if ( resp.ok ) {
             console.log(resp)
             this.usuario = resp.usuario;
@@ -123,6 +122,7 @@ export class AuthService {
 
   async cargarToken() {
     this.token = await this.storage.get('token') || null;
+    console.log('cargar Token:', this.token);
   }
 
 

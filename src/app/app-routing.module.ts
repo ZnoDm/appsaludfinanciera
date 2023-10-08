@@ -6,12 +6,12 @@ import { NoLoggedInGuard } from './guards/no-logged-in.guard';
 const routes: Routes = [
   {
     path: 'auth',
-    canLoad: [ NoLoggedInGuard],
+  /*   canLoad: [ NoLoggedInGuard], */
     loadChildren: () => import('./pages/auth/auth.module').then( m => m.AuthPageModule)
   },
   {
     path: 'main',
-    canLoad: [ LoggedInGuard],
+  /*   canLoad: [ LoggedInGuard], */
     loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
@@ -20,12 +20,8 @@ const routes: Routes = [
     redirectTo  : 'auth',
   },
   {
-    path: 'perfil',
-    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
-  },
-  {
-    path: 'gastos',
-    loadChildren: () => import('./pages/gastos/gastos.module').then( m => m.GastosPageModule)
+    path: 'profile',
+    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
   },
 ];
 @NgModule({

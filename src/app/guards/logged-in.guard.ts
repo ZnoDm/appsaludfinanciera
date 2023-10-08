@@ -11,8 +11,7 @@ export class LoggedInGuard implements CanLoad {
   constructor( private authService: AuthService ) {}
 
   canLoad(): Observable<boolean> | Promise<boolean> | boolean  {
-
-    return this.authService.validaToken();
+    return this.authService.validaToken() || false;
   }
 
   // canActivate(): Observable<boolean> | Promise<boolean> | boolean {
