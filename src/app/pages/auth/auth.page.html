@@ -1,0 +1,104 @@
+<ion-content class="ion-padding">
+  <swiper-container #swiper [autoplay]="false" [modules]="swiperModules" (slidechange)="swiperSlideChanged($event)">
+
+    <swiper-slide>
+
+      <form [formGroup]="formLogin" autocomplete="off">
+        <ion-grid fixed >
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-img
+                style="margin: auto;padding: 0rem 2rem 3rem 2rem;"
+                src="../../../assets/logo.svg"
+                alt="Salud Financiera"
+              ></ion-img>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-input label="Email" name="email" type="email" formControlName="email" required>
+              </ion-input>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-input label="Password" name="password" formControlName="password" type="password" required></ion-input>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block" shape="round" color="dark" size="large" (click)="onSubmitLogin()">
+                Login
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+          <ng-container *ngIf="isLoading$ | async; else inactive">
+            <h2>Cargando ... </h2>
+          </ng-container>
+          <ng-template #inactive>
+            <h1>Prueba</h1>
+          </ng-template>
+
+        </ion-grid>
+      </form>
+
+    </swiper-slide>
+
+    <swiper-slide>
+
+      <form [formGroup]="formRegister" (ngSubmit)="onSubmitRegister()">
+        <ion-grid fixed  >
+
+          <ion-row>
+            <ion-col>
+              <h1 style="font-weight: 600;">Crear una cuenta</h1>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-input label="Email" name="email" type="email" formControlName="email" required></ion-input>
+            </ion-col>
+            <ion-col size="12">
+              <ion-input label="Password" name="password" formControlName="password" type="password" required></ion-input>
+            </ion-col>
+            <ion-col size="12">
+              <ion-input label="Confirmar Password" name="confirmPassword" formControlName="confirmPassword" type="password"
+                required></ion-input>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-button type="submit" expand="block" shape="round" color="dark"> Login </ion-button>
+            </ion-col>
+          </ion-row>
+
+        </ion-grid>
+      </form>
+
+    </swiper-slide>
+
+  </swiper-container>
+
+</ion-content>
+
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-row>
+      <ion-col>
+        <ion-button shape="round" expand="full" fill="outline" color="dark" (click)="showLogIn()">
+          Ingresar
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button shape="round" expand="full" fill="outline" color="dark" (click)="showLogOut()">
+          Registrarme
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
