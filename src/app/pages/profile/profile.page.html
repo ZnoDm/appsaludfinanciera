@@ -1,9 +1,7 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      <div class="ion-text-capitalize">
-        <h6 style="margin: 0px;">Perfil</h6>
-      </div>
+  <ion-toolbar color="tertiary">
+    <ion-title class="ion-text-capitalize">
+        Perfil
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -20,23 +18,28 @@
           alt="Profile">
         </ion-img>
       </ion-col>
+
       <ion-col size="12">
         <ion-list [inset]="true" style="padding: 0px;">
           <ion-item [button]="true" (click)="navigateToSettings()">
             <ion-icon slot="start" name="settings-sharp"></ion-icon>
             <ion-label>Configuracion</ion-label>
-            <ion-icon slot="end" name="chevron-forward-sharp" size="small"></ion-icon>
+            <ion-icon slot="end" name="chevron-forward-sharp" size="small" [ios]="false"></ion-icon>
           </ion-item>
           <ion-item [button]="true" (click)="navigateToChangePassword()">
             <ion-icon slot="start" name="lock-closed-sharp"></ion-icon>
             <ion-label>Cambiar Contraseña</ion-label>
-            <ion-icon slot="end" name="chevron-forward-sharp" size="small"></ion-icon>
+            <ion-icon slot="end" name="chevron-forward-sharp" size="small" [ios]="false"></ion-icon>
           </ion-item>
           <ion-item [button]="true">
             <ion-icon slot="start" name="log-out-sharp"></ion-icon>
             <ion-label>Salir</ion-label>
           </ion-item>
         </ion-list>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-img [src]="'./assets/saludfinanciera/profile.svg'"></ion-img>
       </ion-col>
     </ion-row>
   </ion-grid>

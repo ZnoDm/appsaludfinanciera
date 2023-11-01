@@ -1,4 +1,19 @@
 
+ion-modal {
+  --height: auto;
+}
+
+ion-fab-button {
+  width: 130px;
+  height: 80px;
+  margin-bottom: -9px;
+  margin-right: -9px;
+  --border-radius:  60px 0px 0px 0px;
+  --color: #f4f5f8;
+  --background: var(--ion-color-tertiary);
+}
+
+
 .block {
   width: 100%;
   height: calc(100vh - 100px);
@@ -7,9 +22,6 @@
   justify-content: center;
 }
 
-ion-modal {
-  --height: auto;
-}
 
 .gastos-status{
   display: flex;
@@ -34,6 +46,12 @@ ion-modal {
   line-height: 30px;
   color: white;
 }
-ion-card{
-  margin: 0.25rem;
+
+
+
+.circle-leyend{
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+
 }

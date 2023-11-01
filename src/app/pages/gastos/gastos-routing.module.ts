@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: GastosPage
+  },
+  {
+    path: 'historial',
+    loadChildren: () => import('./pages/historial/historial.module').then( m => m.HistorialPageModule)
   }
 ];
 

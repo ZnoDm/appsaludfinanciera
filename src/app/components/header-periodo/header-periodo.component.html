@@ -1,21 +1,28 @@
-<ion-content class="ion-padding">
-
-
-  <ion-segment [scrollable]="true"  [(ngModel)]="selectedSegment" style="display: flex;gap: 80px;">
+<ion-content class="ion-padding" style="z-index: 10;">
+  <ion-segment [scrollable]="true"  [(ngModel)]="selectedSegment" mode="md">
+    <ion-segment-button value="pizza">
       <div class="periodo">
         <h1>Feb</h1>
         <span>20233</span>
       </div>
+    </ion-segment-button>
+    <ion-segment-button value="pizza2">
       <div class="periodo">
         <h1>Feb</h1>
         <span>20233</span>
       </div>
+    </ion-segment-button>
+    <ion-segment-button value="pizza3">
       <div class="periodo">
         <h1>Feb</h1>
         <span>20233</span>
       </div>
-
+    </ion-segment-button>
+    <ion-segment-button value="pizza4">
+      <div class="periodo">
+        <h1>Feb</h1>
+        <span>20233</span>
+      </div>
+    </ion-segment-button>
   </ion-segment>
-
-
 </ion-content>

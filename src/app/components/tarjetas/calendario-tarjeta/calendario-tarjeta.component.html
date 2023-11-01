@@ -1,0 +1,31 @@
+<div class="calendar px-3 py-4 px-lg-5 py-lg-4">
+  <div class="calendar_header">
+    <h4 class="calendar_month">{{ calendario.fechaInicio }}</h4>
+    <h4 class="calendar_year">{{ anio }}</h4>
+  </div>
+
+  <div class="calendar_weekdays">
+    <div>DO</div>
+    <div>LU</div>
+    <div>MA</div>
+    <div>MI</div>
+    <div>JU</div>
+    <div>VI</div>
+    <div>SA</div>
+  </div>
+
+  <div class="calendar_body">
+    <div *ngFor="let item of array_dias;let index=index;"
+          [class.border-initial-days]="index%7===0"
+          [class.border-end-days]="(index+1)%7===0"
+          [class.border-inicia]="item.inicia"
+          [class.border-termina]="item.fin"
+          class="{{item.clase}}">
+      <span class="mb-0" *ngIf="!item.hoy">{{(item.dia !== null) ? item.dia : ''}}</span>
+      <div *ngIf="item.hoy" class="d-flex flex-column justify-content-center align-items-center">
+        <span style="font-size: 0.5rem;line-height: 0.4rem;margin-top: -2.05px;">HOY</span>
+        <span class="mb-0" >{{(item.dia !== null) ? item.dia : ''}}</span>
+      </div>
+    </div>
+  </div>
+</div>

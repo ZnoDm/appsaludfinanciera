@@ -1,0 +1,43 @@
+<ion-header slot="fixed">
+
+  <ion-toolbar  color="tertiary">
+    <ion-segment [(ngModel)]="selectedTab">
+      <ion-segment-button value="tendecias" >
+        <ion-label>Tendecias</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="favoritos" layout="icon-start">
+        <ion-label>FAVORITOS</ion-label>
+        <ion-icon name="star"></ion-icon>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content color="light">
+
+  <!-- Contenido basado en el valor del segmento -->
+  <div *ngIf="selectedTab === 'tendecias'">
+    <app-articles
+    [articles]="articles"
+    ></app-articles>
+
+  </div>
+
+  <div *ngIf="selectedTab === 'favoritos'">
+    <app-articles
+    [articles]="articlesFavoritos"
+  ></app-articles>
+  </div>
+
+  <ion-infinite-scroll
+        #infiniteScroll
+        threshold="25%"
+        position="bottom"
+        (ionInfinite)="loadData()"
+      >
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+</ion-content>

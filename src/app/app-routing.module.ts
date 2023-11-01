@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: 'auth',
   /*   canLoad: [ NoLoggedInGuard], */
-    loadChildren: () => import('./pages/auth/auth.module').then( m => m.AuthPageModule)
+    loadChildren: () => import('./auth/auth.module').then( m => m.AuthPageModule)
   },
   {
     path: 'main',
@@ -23,6 +23,7 @@ const routes: Routes = [
     path: 'profile',
     loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
   },
+
 ];
 @NgModule({
   imports: [

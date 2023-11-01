@@ -1,0 +1,118 @@
+<app-header titulo=""></app-header>
+
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+
+  <ion-header collapse="condense">
+    <ion-toolbar class="ion-padding-horizontal">
+      <ion-select label="Default label" placeholder="Favorite Fruit">
+        <ion-select-option value="apple">Apple</ion-select-option>
+        <ion-select-option value="banana">Banana</ion-select-option>
+        <ion-select-option value="orange">Orange</ion-select-option>
+      </ion-select>
+    </ion-toolbar>
+  </ion-header>
+
+
+
+
+  <ion-card>
+    <ion-card-header color="danger">
+      <ion-card-title >
+        <p _ngcontent-jbm-c231="" class="texto-alumno">RICARDO ASMAT ADMIN</p>
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="12">
+            <ion-segment [scrollable]="true" value="heart">
+              <ion-segment-button value="home">
+                <ion-icon name="home"></ion-icon>
+              </ion-segment-button>
+              <ion-segment-button value="heart">
+                <ion-icon name="heart"></ion-icon>
+              </ion-segment-button>
+              <ion-segment-button value="pin">
+                <ion-icon name="pin"></ion-icon>
+              </ion-segment-button>
+              <ion-segment-button value="star">
+                <ion-icon name="star"></ion-icon>
+              </ion-segment-button>
+              <ion-segment-button value="call">
+                <ion-icon name="call"></ion-icon>
+              </ion-segment-button>
+              <ion-segment-button value="globe">
+                <ion-icon name="globe"></ion-icon>
+              </ion-segment-button>
+              <ion-segment-button value="basket">
+                <ion-icon name="basket"></ion-icon>
+              </ion-segment-button>
+              <ion-segment-button value="barbell">
+                <ion-icon name="barbell"></ion-icon>
+              </ion-segment-button>
+              <ion-segment-button value="trash">
+                <ion-icon name="trash"></ion-icon>
+              </ion-segment-button>
+              <ion-segment-button value="person">
+                <ion-icon name="person"></ion-icon>
+              </ion-segment-button>
+            </ion-segment>
+          </ion-col>
+          <ion-col size="12">
+            <ion-img
+              [src]="'https://content-us-2.content-cms.com/9b3f67ef-5a9f-4acc-8ce8-bcc27fa681c7/dxdam/57/5711408d-93ab-4b4a-a014-8259f2fddd48/img_tc-visa-clasica_2x-min.png?tc=1648684027&t=1686075592159'"></ion-img>
+
+            <div _ngcontent-jbm-c231="" class="d-flex align-items-center py-3 flex-wrap justify-content-center">
+              <span _ngcontent-jbm-c231=""
+                style="font-weight: bolder; color: #FF0000; font-size: 9rem; line-height: 9rem;">49</span>
+              <div _ngcontent-jbm-c231="" class="d-flex flex-column">
+                <h1 _ngcontent-jbm-c231="" style="font-weight: bolder; margin-bottom: 0px; font-size: 3.5rem;">días
+                </h1>
+                <h1 _ngcontent-jbm-c231="" style="font-weight: bolder; margin-bottom: 0px; font-size: 2.5rem;">
+                  ATRASO</h1>
+              </div>
+            </div><!----><!---->
+            <div _ngcontent-jbm-c231="" class="py-5"><!---->
+              <h6 _ngcontent-jbm-c231="" style="color: #FF0000; font-weight: 400;"> Los consumos que hagas desde
+                el<span _ngcontent-jbm-c231="" style="font-weight: 600;"> 26 de Julio del 2023</span> hasta el <span
+                  _ngcontent-jbm-c231="" style="font-weight: 600;">25 de Agosto del 2023 </span>se factura en el
+                <span _ngcontent-jbm-c231="" style="font-weight: 600;">Siguiente Periodo</span>. </h6><!---->
+            </div>
+            <div _ngcontent-jbm-c231="" class="pb-5">
+              <div _ngcontent-jbm-c231=""
+                class="d-flex flex-column flex-lg-row justify-content-between align-items-center pb-3 pb-md-0">
+                <h5 _ngcontent-jbm-c231="" class="mb-0 pr-md-5" style="font-weight: 600;"><img
+                    _ngcontent-jbm-c231=""
+                    src="../../../../../../assets/media/aspire-targox/icon-tarjeta/icono fecha cierre.svg"
+                    alt="Icono Fecha Cierre" class="mr-2"> Fecha de Cierre:</h5>
+                <h5 _ngcontent-jbm-c231="" class="mb-0 pl-0 pl-xl-5" style="font-weight: 400;">25 de Julio del 2023
+                </h5>
+              </div>
+              <div _ngcontent-jbm-c231=""
+                class="d-flex flex-column flex-lg-row justify-content-between align-items-center">
+                <h5 _ngcontent-jbm-c231="" class="mb-0 pr-md-5" style="font-weight: 600;"><img
+                    _ngcontent-jbm-c231=""
+                    src="../../../../../../assets/media/aspire-targox/icon-tarjeta/icono ultimo dia pago.svg"
+                    alt="Icono Fecha Cierre" class="mr-2"> Último día de Pago: </h5>
+                <h5 _ngcontent-jbm-c231="" class="mb-0 pl-0 pl-xl-5" style="font-weight: 400;">21 de Agosto del 2023
+                </h5>
+              </div>
+            </div>
+
+          </ion-col>
+          <ion-col size="12">
+            <ion-chip color="primary">Primary</ion-chip>
+            <ion-chip color="secondary">Secondary</ion-chip>
+            <ion-chip color="tertiary">Tertiary</ion-chip>
+          </ion-col>
+          <ion-col size="12">
+            <app-calendario-tarjeta></app-calendario-tarjeta>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
