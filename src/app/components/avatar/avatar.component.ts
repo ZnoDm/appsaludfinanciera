@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Observable, finalize } from 'rxjs';
+import { PersonService } from 'src/app/services/person/person.service';
+
 
 @Component({
   selector: 'app-avatar',
@@ -7,36 +10,47 @@ import { Observable, finalize } from 'rxjs';
   styleUrls: ['./avatar.component.scss']
 })
 export class AvatarComponent {
- /*  imagenSeleccionada: File | null = null;
-  tareaSubida: AngularFireUploadTask;
-  porcentajeSubida: Observable<number>;
-  urlImagen: Observable<string>;
+  @ViewChild('fileInput') fileInput: ElementRef;
+  uploadPercent: Observable<number>;
 
   constructor(
     private storage: AngularFireStorage,
-    private db: AngularFireDatabase
-  ) {}
+    private personService : PersonService
+  ) {
+  }
+  onUploadFile(){
+  // Obtén el elemento del archivo
+  const fileInputElement = this.fileInput.nativeElement;
 
-  seleccionarImagen(event: any) {
-    this.imagenSeleccionada = event.target.files[0];
+  // Haz clic en el elemento del archivo
+  fileInputElement.click();
+  }
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    const filePath = `tesis/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, file);
+
+    // observe percentage changes
+    this.uploadPercent = task.percentageChanges();
+    // get notified when the download URL is available
+    task.snapshotChanges().pipe(
+        finalize(async () => {
+          let downloadURL = await fileRef.getDownloadURL().toPromise();
+          this.updateAvatar(downloadURL);
+        } )
+     )
+    .subscribe()
+  }
+  updateAvatar(url:string){
+    this.personService.updateAvatar({urlAvatar: url}).subscribe(
+			(data:any)=>{
+				console.log(data);
+			}, (error)=>{
+				console.log(error);
+			}
+		);
   }
 
-  subirImagen() {
-    if (this.imagenSeleccionada) {
-      const ruta = `imagenes/${new Date().getTime()}_${this.imagenSeleccionada.name}`;
-      this.tareaSubida = this.storage.upload(ruta, this.imagenSeleccionada);
-      this.porcentajeSubida = this.tareaSubida.percentageChanges();
-      this.tareaSubida.snapshotChanges().pipe(
-        finalize(() => {
-          this.urlImagen = this.storage.ref(ruta).getDownloadURL();
-          this.urlImagen.subscribe((url) => {
-            // Aquí puedes guardar la URL de la imagen en Firebase Database o Firestore
-            this.db.list('imagenes').push(url);
-          });
-        })
-      )
-      .subscribe();
-    }
-  }
-} */
 }
+

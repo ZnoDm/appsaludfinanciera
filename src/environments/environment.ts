@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: 'http://localhost:3000',
+  url: 'http://localhost:3000/api',
 
 
   apiNewsUrl: 'https://newsapi.org/v2',
@@ -13,7 +13,7 @@ export const environment = {
   apiNewsMediaKey: 'a7fecab9f72c75221ba500292392c6a1',
 
 
-  firebaseConfig: {
+  firebaseConfig : {
     apiKey: "AIzaSyADmRuv4oe9klWtsE4TKPvJzA3fNTC1u5g",
     authDomain: "nelsontest-e2954.firebaseapp.com",
     projectId: "nelsontest-e2954",

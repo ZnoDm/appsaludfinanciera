@@ -1,12 +1,15 @@
 
 <div class="container-avatar">
-  <img [src]="'./assets/avatars/av-1.png'" alt="Profile" class="img-avatar">
+  <div class="container-img">
+    <img [src]="'./assets/avatars/av-1.png'" alt="Profile" class="img-avatar">
 
-  <div class="btn-editar">
-   <!--  <form (ngSubmit)="subirImagen()">
-      <input type="file" (change)="seleccionarImagen($event)" accept="image/*" />
-      <ion-button expand="full" type="submit" [disabled]="!imagenSeleccionada">Subir Imagen</ion-button>
-    </form> -->
+    <div class="btn-editar">
+      <ion-fab-button size="small" (click)="onUploadFile()">
+        <input #fileInput id="fileInput" type="file" (change)="onFileSelected($event)" accept="image/*" class="ion-hide" />
+        <ion-icon name="pencil"></ion-icon>
+      </ion-fab-button>
+    </div>
   </div>
+
 </div>
 

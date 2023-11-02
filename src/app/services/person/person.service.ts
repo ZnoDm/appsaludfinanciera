@@ -4,9 +4,10 @@ import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { Usuario } from 'src/app/interfaces/user';
 import { environment } from 'src/environments/environment';
-import { BehaviorSubject, Observable, catchError, finalize, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, finalize, map, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastrService } from 'src/app/services/toastr.service';
+import { AuthService } from '../auth/auth.service';
 
 interface DataLogin  {
   email: string;
@@ -17,10 +18,7 @@ const URL = environment.url;
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-
-  token: string = null;
-  usuario: Usuario = {};
+export class PersonService {
 
   isLoading$: Observable<boolean>;
   isLoadingSubject: BehaviorSubject<boolean>;
@@ -31,34 +29,40 @@ export class AuthService {
     private navCtrl: NavController,
     private router: Router,
     private toastr: ToastrService,
+    private authService:AuthService,
   ) {
-    this.init();
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.isLoading$ = this.isLoadingSubject.asObservable();
   }
 
-  async init() {
-    await this.storage.create();
-  }
-
-
-  login( email: string, password: string ) {
-
-    const data = { email, password };
+  updateAvatar(data) {
+    const headers = new HttpHeaders({
+      'Authorization': this.authService.getToken()
+    });
 
     this.isLoadingSubject.next(true);
 
-    return new Promise( resolve => {
+    return this.http.patch(`${ URL }/person/update/avatar`, data ,{
+        headers: headers
+    }).pipe(
+      map( data => data ),
+      finalize( () =>{this.isLoadingSubject.next(false);})
+    );
+  }
 
-      this.http.post(`${ URL }/auth/login`, data )
+/*   async updateAvatar( data:any ) {
+    const headers = new HttpHeaders({
+      'Authorization': this.authService.getToken()
+    });
+    this.isLoadingSubject.next(true);
+
+    return new Promise( resolve => {
+    this.http.post(`${ URL }/person/update/avatar`, data )
       .subscribe({
         next: async (resp : any) => {
           if (resp.ok) {
-            await this.guardarToken(resp.token);
             resolve(true);
           } else {
-            this.token = null;
-            this.storage.clear();
             resolve(false);
           }
         },
@@ -76,8 +80,8 @@ export class AuthService {
 
     });
 
-  }
-
+  } */
+/*
   registro( usuario: Usuario ) {
     this.isLoadingSubject.next(true);
 
@@ -98,7 +102,7 @@ export class AuthService {
         },
         error: (error) => {
           console.log(error)
-          this.toastr.alertaInformativa(error.error.message ?? error.message);
+          this.toastr.alertaInformativa(error.error.message);
 
           this.isLoadingSubject.next(false);
           resolve(false);
@@ -147,9 +151,6 @@ export class AuthService {
           error: (error) => {
             this.redirectToLogin()
             resolve(false);
-            this.token   = null;
-            this.usuario = null;
-            this.storage.clear()
           },
         });
 
@@ -185,17 +186,13 @@ export class AuthService {
     return { ...this.usuario };
   }
 
-  getToken() {
-    return this.token;
-  }
-
   redirectToLogin() {
     this.router.navigate(['auth'])
   }
 
   redirectToMain() {
     this.router.navigate(['main/tabs/gastos'])
-  }
+  } */
 
   /* actualizarUsuario( usuario: Usuario ) {
 
