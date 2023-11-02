@@ -46,24 +46,43 @@ export class AuthPage implements OnInit{
   }
 
   async onSubmitLogin() {
+    if ( this.formLogin.invalid ) {
+      this.toastr.alertaInformativa('Formulario Inválido');
+      return;
+    }
     const valido = await this.usuario_s.login(this.formLogin.get('email').value , this.formLogin.get('password').value);
-    this.usuario_s.redirectToMain();
-   /*  if ( valido ) {
+    if ( valido ) {
       this.usuario_s.redirectToMain();
-    } */
+    }
   }
-  onSubmitRegister() {
-    if (this.formRegister.valid) {
 
-      console.log('Nombre enviado:', this.formLogin.get('email').value);
-      // Aquí puedes realizar acciones adicionales, como enviar el formulario al servidor.
+  private prepareModelRegistro(){
+    const formData = this.formRegister.value;
+    return {
+      email: formData.email,
+      password: formData.password,
+      nombres: formData.nombres,
+      apellidos: formData.apellidos
+    }
+  }
+
+  async onSubmitRegister() {
+    if (this.formRegister.invalid) {
+      this.toastr.alertaInformativa('Formulario Inválido');
+    }
+    const model = this.prepareModelRegistro();
+    const valido = await this.usuario_s.registro( model);
+
+    if ( valido ) {
+      this.usuario_s.redirectToMain();
     }
   }
   formRegisterInit(){
     this.formRegister = this.fb.group({
+      nombres: [null, Validators.required],
+      apellidos: [null, Validators.required],
       email: [null, Validators.required],
-      password: [null, Validators.required],
-      confirmPassword: [null, Validators.required],
+      password: [null, Validators.required]
     });
   }
 

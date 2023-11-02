@@ -1,0 +1,27 @@
+.container-avatar{
+  display: flex;
+  justify-content: center;
+  position: relative;
+  align-items: center;
+  .img-avatar{
+    width: 100%;
+    max-width: 100px;
+    height: auto;
+  }
+  .btn-editar{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+  }
+}
+
+.boton-circular {
+  width: 60px; /* Ancho del botón */
+  height: 60px; /* Alto del botón */
+  border-radius: 50%; /* Hace que el botón sea circular */
+  background-color: #007bff; /* Color de fondo del botón */
+  color: #fff; /* Color del texto/icono del botón */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

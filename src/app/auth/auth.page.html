@@ -1,45 +1,48 @@
 <ion-content class="ion-padding">
-  <swiper-container #swiper [autoplay]="false" [modules]="swiperModules" (slidechange)="swiperSlideChanged($event)">
+  <swiper-container #swiper [autoplay]="false" [modules]="swiperModules" [allowTouchMove] ="false">
 
     <swiper-slide>
 
       <form [formGroup]="formLogin" autocomplete="off">
         <ion-grid fixed >
 
-          <ion-row>
+          <ion-row class="ion-padding-bottom">
             <ion-col size="12">
-              <ion-img
-                style="margin: auto;padding: 0rem 2rem 3rem 2rem;"
-                src="./assets/logo.svg"
-                alt="Salud Financiera"
-              ></ion-img>
+              <div class="auth-logo">
+                <app-logo></app-logo>
+                <app-eslogan></app-eslogan>
+              </div>
             </ion-col>
-
-            <ion-col size="12">
-              <ion-input label="Email" name="email" type="email" formControlName="email" required>
-              </ion-input>
-            </ion-col>
-
-            <ion-col size="12">
-              <ion-input label="Password" name="password" formControlName="password" type="password" required></ion-input>
-            </ion-col>
-
           </ion-row>
 
-          <ion-row>
-            <ion-col>
-              <ion-button expand="block" shape="round" color="dark" size="large" (click)="onSubmitLogin()">
-                Login
+          <ion-row class="ion-padding-vertical">
+            <ion-col size="12">
+              <ion-input label="Email" name="email" type="email" formControlName="email" required mode="ios">
+              </ion-input>
+            </ion-col>
+            <ion-col size="12">
+              <ion-input label="Password" name="password" formControlName="password" type="password" required mode="ios"></ion-input>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="ion-padding-top">
+            <ion-col size="12">
+              <ion-button expand="block" shape="round" color="dark" (click)="onSubmitLogin()" [disabled]="(isLoading$ | async)" mode="ios">
+                <ng-container *ngIf="isLoading$ | async; else inactive">
+                  <ion-spinner name="circular"></ion-spinner>
+                </ng-container>
+                <ng-template #inactive>
+                  <span>Iniciar Sesión</span>
+                </ng-template>
+              </ion-button>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-button shape="round" expand="full" fill="outline" color="dark" (click)="showLogOut()" mode="ios">
+                Registrarme
               </ion-button>
             </ion-col>
           </ion-row>
-
-          <ng-container *ngIf="isLoading$ | async; else inactive">
-            <h2>Cargando ... </h2>
-          </ng-container>
-          <ng-template #inactive>
-            <h1>Prueba</h1>
-          </ng-template>
 
         </ion-grid>
       </form>
@@ -49,30 +52,53 @@
     <swiper-slide>
 
       <form [formGroup]="formRegister" (ngSubmit)="onSubmitRegister()">
-        <ion-grid fixed  >
+        <ion-grid fixed >
 
           <ion-row>
-            <ion-col>
-              <h1 style="font-weight: 600;">Crear una cuenta</h1>
+            <ion-col size="12">
+              <div class="auth-logo">
+                <app-logo></app-logo>
+              </div>
             </ion-col>
           </ion-row>
 
-          <ion-row>
-            <ion-col size="12">
-              <ion-input label="Email" name="email" type="email" formControlName="email" required></ion-input>
-            </ion-col>
-            <ion-col size="12">
-              <ion-input label="Password" name="password" formControlName="password" type="password" required></ion-input>
-            </ion-col>
-            <ion-col size="12">
-              <ion-input label="Confirmar Password" name="confirmPassword" formControlName="confirmPassword" type="password"
-                required></ion-input>
+          <ion-row class="ion-padding-bottom">
+            <ion-col>
+              <h2 class="ion-no-margin" style="font-weight: 600;">Crear una cuenta</h2>
             </ion-col>
           </ion-row>
 
-          <ion-row>
-            <ion-col>
-              <ion-button type="submit" expand="block" shape="round" color="dark"> Login </ion-button>
+          <ion-row class="ion-padding-vertical">
+            <ion-col size="12">
+              <ion-input label="Nombres" name="nombres" type="text" formControlName="nombres" required mode="ios"></ion-input>
+            </ion-col>
+            <ion-col size="12">
+              <ion-input label="Apellidos" name="apellidos" type="text" formControlName="apellidos" required mode="ios"></ion-input>
+            </ion-col>
+            <ion-col size="12">
+              <ion-input label="Email" name="email" type="email" formControlName="email" required mode="ios"></ion-input>
+            </ion-col>
+            <ion-col size="12">
+              <ion-input label="Password" name="password" formControlName="password" type="password" required mode="ios"></ion-input>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="ion-padding-top">
+            <ion-col size="12" class="ion-padding-top">
+              <ion-button expand="block" shape="round" color="dark" (click)="onSubmitRegister()" [disabled]="(isLoading$ | async)" [ios]="true" mode="ios">
+                <ng-container *ngIf="isLoading$ | async; else inactiveR">
+                  <ion-spinner name="circular"></ion-spinner>
+                </ng-container>
+                <ng-template #inactiveR>
+                  <span>Registrarme</span>
+                </ng-template>
+              </ion-button>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-button shape="round" expand="full" fill="outline" color="dark" (click)="showLogIn()" [ios]="true" mode="ios">
+                Iniciar Sesión
+              </ion-button>
             </ion-col>
           </ion-row>
 
@@ -84,21 +110,3 @@
   </swiper-container>
 
 </ion-content>
-
-
-<ion-footer class="ion-no-border">
-  <ion-toolbar>
-    <ion-row>
-      <ion-col>
-        <ion-button shape="round" expand="full" fill="outline" color="dark" (click)="showLogIn()">
-          Ingresar
-        </ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button shape="round" expand="full" fill="outline" color="dark" (click)="showLogOut()">
-          Registrarme
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-toolbar>
-</ion-footer>

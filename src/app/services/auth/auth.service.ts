@@ -53,8 +53,6 @@ export class AuthService {
       this.http.post(`${ URL }/api/auth/login`, data )
       .subscribe({
         next: async (resp : any) => {
-          console.log(resp);
-
           if (resp.ok) {
             await this.guardarToken(resp.token);
             resolve(true);
@@ -65,8 +63,10 @@ export class AuthService {
           }
         },
         error: (error) => {
+          console.log(error)
+          this.toastr.alertaInformativa(error.error.message);
+
           this.isLoadingSubject.next(false);
-          this.toastr.alertaInformativa(error || error.error.message);
           resolve(false);
         },
         complete: () => {
@@ -78,18 +78,48 @@ export class AuthService {
 
   }
 
+  registro( usuario: Usuario ) {
+    this.isLoadingSubject.next(true);
+
+    return new Promise( resolve => {
+
+      this.http.post(`${ URL }/api/auth/register`, usuario )
+      .subscribe({
+        next: async (resp : any) => {
+          if (resp.ok) {
+            await this.guardarToken(resp.token);
+            this.toastr.presentToast("Su cuenta fue creada con éxito")
+            resolve(true);
+          } else {
+            this.token = null;
+            this.storage.clear();
+            resolve(false);
+          }
+        },
+        error: (error) => {
+          console.log(error)
+          this.toastr.alertaInformativa(error.error.message);
+
+          this.isLoadingSubject.next(false);
+          resolve(false);
+        },
+        complete: () => {
+          this.isLoadingSubject.next(false);
+        },
+      });
+    });
+
+
+  }
 
   async guardarToken( token: string ) {
     this.token = token;
     await this.storage.set('token', token);
-    return this.validaToken();
   }
 
 
   async validaToken(): Promise<boolean> {
-
     await this.cargarToken();
-
     if ( !this.token ) {
       this.redirectToLogin()
       return Promise.resolve(false);
@@ -103,16 +133,21 @@ export class AuthService {
       });
 
       this.http.get(`${ URL }/api/auth/check-status`, { headers })
-        .subscribe( (resp:any) => {
-          if ( resp.ok ) {
-            console.log(resp)
-            this.usuario = resp.usuario;
-            resolve(true);
-          } else {
+        .subscribe( {
+          next: (resp:any) => {
+            if ( resp.ok ) {
+              this.usuario = resp.user;
+              console.log(this.usuario);
+              resolve(true);
+            } else {
+              this.redirectToLogin()
+              resolve(false);
+            }
+          },
+          error: (error) => {
             this.redirectToLogin()
             resolve(false);
-          }
-
+          },
         });
 
 
@@ -130,40 +165,21 @@ export class AuthService {
     this.token   = null;
     this.usuario = null;
     this.storage.clear();
-    this.navCtrl.navigateRoot('/login', { animated: true });
+    this.navCtrl.navigateRoot('/auth', { animated: true });
   }
 
- /*  registro( usuario: Usuario ) {
 
-    return new Promise( resolve => {
-
-      this.http.post(`${ URL }/user/create`, usuario )
-          .subscribe( async resp => {
-            console.log(resp);
-
-            if ( resp['ok'] ) {
-              await this.guardarToken( resp['token'] );
-              resolve(true);
-            } else {
-              this.token = null;
-              this.storage.clear();
-              resolve(false);
-            }
-
-          });
-
-
-    });
-
-
-  } */
+  async isLoggedIn() : Promise<boolean>{
+    await this.cargarToken();
+    if ( !this.token ) {
+      return Promise.resolve(true);
+    }
+    this.redirectToMain();
+    return Promise.resolve(false);
+  }
 
   getUsuario() {
-    if ( !this.usuario.id ) {
-      this.validaToken();
-    }
     return { ...this.usuario };
-
   }
 
   redirectToLogin() {

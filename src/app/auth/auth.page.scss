@@ -1,3 +1,5 @@
+
+
 swiper-container {
   --swiper-pagination-bullet-inactive-color: var(--ion-color-step-200, #cccccc);
   --swiper-pagination-color: var(--ion-color-primary, #3880ff);
@@ -35,6 +37,11 @@ swiper-slide {
 
 
 
-.auth-img {
-  width: 120px;
+
+.auth-logo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.5rem;
 }

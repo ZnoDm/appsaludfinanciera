@@ -11,12 +11,9 @@ export class NoLoggedInGuard implements CanLoad {
   constructor( private authService: AuthService ) {}
 
   canLoad(): Observable<boolean> | Promise<boolean> | boolean  {
-    console.log(this.authService.usuario)
-    if (this.authService.usuario.email) {
-      this.authService.redirectToMain();
-      return false;
-    }
-    return true;
+    console.log('Guard: ruta auth')
+   return this.authService.isLoggedIn();
+
   }
 
   // canActivate(): Observable<boolean> | Promise<boolean> | boolean {

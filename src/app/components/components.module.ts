@@ -7,6 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { ArticleComponent } from './news/article/article.component';
 import { ArticlesComponent } from './news/articles/articles.component';
 import { CalendarioTarjetaComponent } from './tarjetas/calendario-tarjeta/calendario-tarjeta.component';
+import { LogoComponent } from './logo/logo.component';
+import { EsloganComponent } from './eslogan/eslogan.component';
+import { AvatarComponent } from './avatar/avatar.component';
 
 @NgModule({
   declarations: [
@@ -14,14 +17,20 @@ import { CalendarioTarjetaComponent } from './tarjetas/calendario-tarjeta/calend
     HeaderPeriodoComponent,
     ArticleComponent,
     ArticlesComponent,
-    CalendarioTarjetaComponent
+    CalendarioTarjetaComponent,
+    LogoComponent,
+    EsloganComponent,
+    AvatarComponent
   ],
   exports: [
     HeaderPeriodoComponent,
     HeaderComponent,
     ArticleComponent,
     ArticlesComponent,
-    CalendarioTarjetaComponent
+    CalendarioTarjetaComponent,
+    LogoComponent,
+    EsloganComponent,
+    AvatarComponent
   ],
   imports: [
     CommonModule,

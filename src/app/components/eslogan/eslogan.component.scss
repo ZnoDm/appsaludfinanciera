@@ -1,0 +1,13 @@
+.theme-dependent-image {
+  width: 100px; /* Ajusta el tamaño según tus necesidades */
+  height: auto; /* Ajusta el tamaño según tus necesidades */
+  g path,path {
+    fill: var(--ion-color-dark);
+  }
+  // Cambia el color de la imagen cuando el tema es dark
+  ion-item.dark & {
+    g path,path{
+      fill: var(--ion-color-light);
+    }
+  }
+}

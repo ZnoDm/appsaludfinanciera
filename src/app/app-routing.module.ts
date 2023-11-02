@@ -6,16 +6,16 @@ import { NoLoggedInGuard } from './guards/no-logged-in.guard';
 const routes: Routes = [
   {
     path: 'auth',
-  /*   canLoad: [ NoLoggedInGuard], */
+    canLoad: [ NoLoggedInGuard],
     loadChildren: () => import('./auth/auth.module').then( m => m.AuthPageModule)
   },
   {
     path: 'main',
-  /*   canLoad: [ LoggedInGuard], */
+    canLoad: [ LoggedInGuard],
     loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
-    path  : '',
+    path  : '**',
     pathMatch :  'full',
     redirectTo  : 'auth',
   },
