@@ -1,2 +1,43 @@
-<app-header titulo="Configuracion"></app-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/tabs/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Perfil
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="personForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Nombres</ion-label>
+      <ion-input formControlName="nombres" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Apellidos</ion-label>
+      <ion-input formControlName="apellidos" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Teléfono</ion-label>
+      <ion-input formControlName="telefono" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Tipo de Documento de Identidad</ion-label>
+      <ion-input formControlName="tipoDocumentoIdentidad" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Documento de Identidad</ion-label>
+      <ion-input formControlName="documentoIdentidad" required></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" type="submit">Actualizar</ion-button>
+  </form>
+</ion-content>
+
 

@@ -2,16 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
-import { Usuario } from 'src/app/interfaces/user';
+import { Usuario } from 'src/app/interfaces';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, Observable, catchError, finalize, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastrService } from 'src/app/services/toastr.service';
 
-interface DataLogin  {
-  email: string;
-  password: string;
-}
 const URL = environment.url;
 
 @Injectable({
@@ -20,7 +16,7 @@ const URL = environment.url;
 export class AuthService {
 
   token: string = null;
-  usuario: Usuario = {};
+  usuario: Usuario;
 
   isLoading$: Observable<boolean>;
   isLoadingSubject: BehaviorSubject<boolean>;
@@ -64,7 +60,7 @@ export class AuthService {
         },
         error: (error) => {
           console.log(error)
-          this.toastr.alertaInformativa(error.error.message);
+          this.toastr.alertaInformativa(error?.error?.message || error?.message);
 
           this.isLoadingSubject.next(false);
           resolve(false);
@@ -120,6 +116,7 @@ export class AuthService {
 
   async validaToken(): Promise<boolean> {
     await this.cargarToken();
+
     if ( !this.token ) {
       this.redirectToLogin()
       return Promise.resolve(false);
@@ -137,7 +134,7 @@ export class AuthService {
           next: (resp:any) => {
             if ( resp.ok ) {
               this.usuario = resp.user;
-              console.log(this.usuario);
+              console.log(this.usuario)
               resolve(true);
             } else {
               this.redirectToLogin()
@@ -160,7 +157,6 @@ export class AuthService {
 
   async cargarToken() {
     this.token = await this.storage.get('token') || null;
-    console.log('cargar Token:', this.token);
   }
 
 

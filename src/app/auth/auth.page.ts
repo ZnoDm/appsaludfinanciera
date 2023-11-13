@@ -25,11 +25,11 @@ export class AuthPage implements OnInit{
   isLoading$: Observable<boolean>;
   constructor(
     private fb: FormBuilder,
-    private usuario_s:AuthService,
+    private authService:AuthService,
     private router: Router,
     private toastr: ToastrService,
   ) {
-    this.isLoading$ = this.usuario_s.isLoading$;
+    this.isLoading$ = this.authService.isLoading$;
   }
 
   ngOnInit() {
@@ -50,9 +50,9 @@ export class AuthPage implements OnInit{
       this.toastr.alertaInformativa('Formulario Inválido');
       return;
     }
-    const valido = await this.usuario_s.login(this.formLogin.get('email').value , this.formLogin.get('password').value);
+    const valido = await this.authService.login(this.formLogin.get('email').value , this.formLogin.get('password').value);
     if ( valido ) {
-      this.usuario_s.redirectToMain();
+      this.authService.redirectToMain();
     }
   }
 
@@ -71,10 +71,10 @@ export class AuthPage implements OnInit{
       this.toastr.alertaInformativa('Formulario Inválido');
     }
     const model = this.prepareModelRegistro();
-    const valido = await this.usuario_s.registro( model);
+    const valido = await this.authService.registro( model);
 
     if ( valido ) {
-      this.usuario_s.redirectToMain();
+      this.authService.redirectToMain();
     }
   }
   formRegisterInit(){

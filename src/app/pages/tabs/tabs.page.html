@@ -12,7 +12,7 @@
     </ion-tab-button>
 
     <ion-tab-button tab="gastos" href="/tabs/gastos">
-      <ion-icon [ngClass]="'icon-gastos'" size="large" [src]="'./assets/saludfinanciera/gastos.svg'"></ion-icon>
+      <ion-icon [ngClass]="'icon-gastos'" [src]="'./assets/saludfinanciera/gastos.svg'"></ion-icon>
       <ion-label>Gastos</ion-label>
     </ion-tab-button>
 
@@ -22,8 +22,8 @@
     </ion-tab-button>
 
     <ion-tab-button tab="profile" href="/tabs/profile">
-      <ion-img [src]="'./assets/avatars/av-1.png'" style="max-height: 2rem;padding-bottom: 4px;padding-top: 4px;"></ion-img>
-      <ion-label style="font-size: 10px;">Perfil</ion-label>
+      <ion-icon name="settings"></ion-icon>
+      <ion-label>Perfil</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 

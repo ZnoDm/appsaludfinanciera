@@ -8,7 +8,8 @@
   position: absolute;
   top:  45px;
   z-index: 20;
-
+  margin: auto;
+  width: 100%;
 }
 .card{
   border-radius: 1.25rem!important;
@@ -16,5 +17,4 @@
 .footer-img{
   position: absolute;bottom: 0px;right: 0px;
 }
-
 

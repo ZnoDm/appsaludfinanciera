@@ -15,6 +15,7 @@ import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { environment } from 'src/environments/environment';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { environment } from 'src/environments/environment';
     CommonModule,
     IonicModule,
     FormsModule,
+    HttpClientModule,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

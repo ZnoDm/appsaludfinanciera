@@ -1,7 +1,10 @@
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Observable, finalize } from 'rxjs';
+import { Person, Usuario } from 'src/app/interfaces';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { PersonService } from 'src/app/services/person/person.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 
 @Component({
@@ -9,21 +12,52 @@ import { PersonService } from 'src/app/services/person/person.service';
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss']
 })
-export class AvatarComponent {
+export class AvatarComponent implements OnInit{
   @ViewChild('fileInput') fileInput: ElementRef;
   uploadPercent: Observable<number>;
 
+
+  user : Usuario =null;
+  person : Person = null;
+
+
+  defaultUrlAvatar:string = './assets/avatars/av-1.png';
+
   constructor(
     private storage: AngularFireStorage,
-    private personService : PersonService
+    private personService : PersonService,
+    private authService: AuthService,
+    private toastr: ToastrService,
   ) {
   }
-  onUploadFile(){
-  // Obtén el elemento del archivo
-  const fileInputElement = this.fileInput.nativeElement;
 
-  // Haz clic en el elemento del archivo
-  fileInputElement.click();
+  ngOnInit(): void {
+    this.user = this.authService.getUsuario();
+    this.getPerson()
+  }
+
+  getPerson(){
+    this.personService.getPerson().subscribe({
+      next: (resp : any) => {
+        if(resp.ok){
+          console.log(resp);
+          this.person = resp.person
+        }else{
+          this.toastr.alertaInformativa(resp.message || resp);
+        }
+      },
+      error: (error) => {
+        this.toastr.alertaInformativa(error?.error?.message || error?.message);
+        console.log(error);
+      }
+    });
+  }
+
+
+
+  onUploadFile(){
+    const fileInputElement = this.fileInput.nativeElement;
+    fileInputElement.click();
   }
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -37,19 +71,23 @@ export class AvatarComponent {
     task.snapshotChanges().pipe(
         finalize(async () => {
           let downloadURL = await fileRef.getDownloadURL().toPromise();
+          console.log(downloadURL);
           this.updateAvatar(downloadURL);
         } )
      )
     .subscribe()
   }
   updateAvatar(url:string){
-    this.personService.updateAvatar({urlAvatar: url}).subscribe(
-			(data:any)=>{
-				console.log(data);
-			}, (error)=>{
-				console.log(error);
-			}
-		);
+    console.log('updateAvata')
+    this.personService.updateAvatar({urlAvatar: url}).subscribe({
+      next: (resp : any) => {
+        this.person.urlAvatar = url;
+        console.log(resp);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
 }
