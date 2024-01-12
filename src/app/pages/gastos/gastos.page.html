@@ -1,0 +1,43 @@
+
+
+<ion-content >
+  <section class="ion-padding">
+    <div class="header-cuentas">
+      <h4>Cuenta</h4>
+      <a href="">Ver todas</a>
+    </div>
+    <div class="container-cuentas">
+      <div class="cuenta" *ngFor="let cuenta of array_cuentas">
+        <h5>{{cuenta.nombre}}</h5>
+        <p>S/.{{cuenta.gasto}}</p>
+      </div>
+      <div class="btn-add-cuenta">
+          <ion-icon name="add-circle" size="large"></ion-icon>
+      </div>
+    </div>
+  </section>
+
+  <div class="container-movimientos">
+    <a href=""> PROXIMOS MOVIMIENTOS</a>
+  </div>
+
+  <section class="ion-padding">
+    <div class="card-historial">
+      <div class="historia">
+        
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+</ion-content>

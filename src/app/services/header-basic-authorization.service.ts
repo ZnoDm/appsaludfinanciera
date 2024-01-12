@@ -1,24 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
-import { AuthService } from './auth/auth.service';
+import { StorageService } from './storage.service';
+import { StorageKeyEnum } from '../enums/storage-key.enum';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HeaderBasicAuthorizationService {
-  token:string = null;
-  constructor(
-    private authService:AuthService,
-  ) {
-    this.token = this.authService.getToken();
-  }
+  constructor(private storageService:StorageService) {}
 
-  get() : HttpHeaders{
+  getHeaders(): HttpHeaders {
+    const token = this.storageService.get(StorageKeyEnum.JWT_AUTHORIZATION)
     let headers = new HttpHeaders({
-        'Authorization': 'Bearer '+this.token
+      'Authorization': 'Bearer ' + token
     });
     return headers;
   }
-
 
 }

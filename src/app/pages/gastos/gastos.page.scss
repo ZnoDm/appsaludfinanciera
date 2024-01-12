@@ -1,3 +1,84 @@
+.header-cuentas{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.container-cuentas{
+  display: grid;
+  grid-template-columns: 50% 50%;
+  gap: 0.5rem;
+
+}
+.cuenta{
+  cursor: pointer;
+
+  border: 1px solid #f0f0f0;
+  border-radius: 0.25rem;
+  width: 100%;
+  height: auto;
+  padding:  0.5rem 1rem;
+  min-height: 4rem;
+
+
+  h5,p{
+    margin: 0px;
+  }
+  p{
+    padding-top: 0.25rem;
+  }
+}
+.btn-add-cuenta{
+  cursor: pointer;
+
+  border: 1px solid #f0f0f0;
+  border-radius: 0.25rem;
+  width: 100%;
+  height: auto;
+  padding:  0.5rem 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 4rem;
+  h5{
+    margin: 0px;
+  }
+}
+
+.container-movimientos{
+  background-color: #f0f0f0;
+  color: #000;
+  text-align: center;
+  padding:  0.5rem 1rem;
+  a{
+    text-align: center;
+    color: inherit;
+    text-decoration: none;
+    font-size: 0.75rem;
+  }
+}
+
+.historia{
+  border: 1px solid #f0f0f0;
+  border-radius: 0.25rem;
+  width: 100%;
+  height: auto;
+  padding:  0.5rem 1rem;
+  min-height: 4rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 ion-modal {
   --height: auto;

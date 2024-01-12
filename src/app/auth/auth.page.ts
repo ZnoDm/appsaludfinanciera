@@ -51,8 +51,9 @@ export class AuthPage implements OnInit{
       return;
     }
     const valido = await this.authService.login(this.formLogin.get('email').value , this.formLogin.get('password').value);
+    console.log({valido});
     if ( valido ) {
-      this.authService.redirectToMain();
+       this.authService.redirectToMain();
     }
   }
 
@@ -72,10 +73,10 @@ export class AuthPage implements OnInit{
     }
     const model = this.prepareModelRegistro();
     const valido = await this.authService.registro( model);
-
-    if ( valido ) {
-      this.authService.redirectToMain();
-    }
+    console.log(valido)
+    // if ( valido ) {
+    //   this.authService.redirectToMain();
+    // }
   }
   formRegisterInit(){
     this.formRegister = this.fb.group({

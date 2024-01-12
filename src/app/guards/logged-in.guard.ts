@@ -1,22 +1,29 @@
+
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, CanLoad } from '@angular/router';
-import { Observable } from 'rxjs';
+
+import {
+  Router,
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+} from '@angular/router';
+import { map } from 'rxjs/operators';
 import { AuthService } from '../services/auth/auth.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class LoggedInGuard implements CanLoad {
+@Injectable({ providedIn: 'root' })
+export class LoggedInGuard implements CanActivate {
+  constructor(
+    private authService: AuthService,
+    ) {}
 
-  constructor( private authService: AuthService ) {}
+    async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+      const valor = await this.authService.isLoggedIn();
+      console.log(valor);
+      if (valor) {
+        return true;
+      }
 
-  canLoad(): Observable<boolean> | Promise<boolean> | boolean  {
-    console.log('Guard: ruta normal')
-    return this.authService.validaToken();
-  }
-
-  // canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-  //   return false;
-  // }
-
+      this.authService.redirectToMain();
+      return false;
+    }
 }

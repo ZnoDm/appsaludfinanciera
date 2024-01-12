@@ -32,7 +32,7 @@ export class AvatarComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.user = this.authService.getUsuario();
+    // this.user = this.authService.getUsuario();
     this.getPerson()
   }
 

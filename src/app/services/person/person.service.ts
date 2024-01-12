@@ -35,7 +35,7 @@ export class PersonService {
   getPerson() {
     this.isLoadingSubject.next(true);
     return this.http.get(`${ URL }/person` ,{
-      headers: this.headerBasicAuthorization.get()
+      headers: this.headerBasicAuthorization.getHeaders()
     }).pipe(
       map( data => data ),
       finalize( () =>{this.isLoadingSubject.next(false);})
@@ -45,7 +45,7 @@ export class PersonService {
   updateAvatar(data) {
     this.isLoadingSubject.next(true);
     return this.http.patch(`${ URL }/person/update/avatar`, data ,{
-      headers: this.headerBasicAuthorization.get()
+      headers: this.headerBasicAuthorization.getHeaders()
     }).pipe(
       map( data => data ),
       finalize( () =>{this.isLoadingSubject.next(false);})
@@ -55,7 +55,7 @@ export class PersonService {
   updatePerson(data) {
     this.isLoadingSubject.next(true);
     return this.http.patch(`${ URL }/person/update`, data ,{
-      headers: this.headerBasicAuthorization.get()
+      headers: this.headerBasicAuthorization.getHeaders()
     }).pipe(
       map( data => data ),
       finalize( () =>{this.isLoadingSubject.next(false);})
