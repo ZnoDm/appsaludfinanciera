@@ -9,8 +9,8 @@ import { StorageKeyEnum } from '../enums/storage-key.enum';
 export class HeaderBasicAuthorizationService {
   constructor(private storageService:StorageService) {}
 
-  getHeaders(): HttpHeaders {
-    const token = this.storageService.get(StorageKeyEnum.JWT_AUTHORIZATION)
+  async getHeaders() {
+    const token = await this.storageService.get(StorageKeyEnum.JWT_AUTHORIZATION)
     let headers = new HttpHeaders({
       'Authorization': 'Bearer ' + token
     });

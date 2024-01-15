@@ -1,53 +1,83 @@
 <ion-header>
-  <ion-toolbar color="tertiary">
+  <ion-toolbar >
     <ion-title class="ion-text-capitalize">
         Tarjetas
     </ion-title>
+    <ion-progress-bar type="indeterminate" *ngIf="isLoading$ | async"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
+<ion-content color="light">
   <ion-grid fixed>
     <ion-row>
-      <ion-col size="12"  class="ion-padding">
-        <ion-select label="Default label" placeholder="Favorite Fruit">
-          <ion-select-option value="apple">Apple</ion-select-option>
-          <ion-select-option value="banana">Banana</ion-select-option>
-          <ion-select-option value="orange">Orange</ion-select-option>
+
+      <ion-col size="12" class="ion-padding">
+
+        <ion-select label="Estado" interface="action-sheet" justify="space-between" placeholder="Todos" fill="solid"  value="1">
+          <ion-select-option value="1">Todos</ion-select-option>
+          <ion-select-option value="2">Días de consumo</ion-select-option>
+          <ion-select-option value="3">Aviso para pagar</ion-select-option>
+          <ion-select-option value="4">Días de retraso</ion-select-option>
+          <ion-select-option value="5">Canceladas</ion-select-option>
         </ion-select>
+
       </ion-col>
-      <ion-col size="12">
-        <ion-list lines="full" inset="true">
-          <ion-item-sliding *ngFor="let user of usuarios" (click)="onShow()">
 
-            <ion-item-options side="start">
-                <ion-item-option >
-                    <ion-icon slot="icon-only" name="heart-outline"></ion-icon>
-                </ion-item-option>
-                <ion-item-option color="danger">
-                    <ion-icon slot="icon-only" name="share-outline"></ion-icon>
-                </ion-item-option>
-            </ion-item-options>
 
-            <ion-item>
-                <ion-label>
-                  <h3>{{ user.name }}</h3>
-                  <p> {{ user.email }} </p>
+      <ion-col size="12" *ngIf="array_tarjetas.length > 0">
+          <ion-list lines="full" inset="true">
+            <ion-item-sliding *ngFor="let tarjeta of array_tarjetas" (click)="onShow()">
+
+              <ion-item-options side="start">
+                  <ion-item-option >
+                      <ion-icon slot="icon-only" name="heart-outline"></ion-icon>
+                  </ion-item-option>
+                  <ion-item-option color="danger">
+                      <ion-icon slot="icon-only" name="share-outline"></ion-icon>
+                  </ion-item-option>
+              </ion-item-options>
+
+              <ion-item>
+                <ng-container *ngIf="tarjeta.estado ==='0003'">
+                  <ion-icon name="alert-circle-sharp" color="danger" size="large"></ion-icon>
+                </ng-container>
+
+                <ng-container *ngIf="tarjeta.estado  ==='0002'">
+                  <ion-icon name="alert-circle-sharp" style="color: #FFDE00;" size="large"></ion-icon>
+                </ng-container>
+
+                <ng-container *ngIf="tarjeta.estado  ==='0001'">
+                  <ion-icon name=" checkmark-circle-sharp" color="success" size="large"></ion-icon>
+                </ng-container>
+
+                <!-- <ion-icon color="danger" slot="start" name="list-circle" size="large"> </ion-icon> -->
+                <ion-label class="ion-margin-start">
+                  <h3>{{ tarjeta?.nombreTarjeta }}</h3>
+                  <p> {{ tarjeta?.tipoTarjeta }} </p>
                 </ion-label>
+                <!-- <ion-note slot="end">6</ion-note> -->
+                <!-- <ion-label slot="start" class="ion-text-start text-small">
+                  {{ tarjeta?.isActive }}
+                </ion-label> -->
 
-                <ion-label slot="end" class="ion-text-end text-small"> {{ user.phone }} </ion-label>
+              </ion-item>
 
-            </ion-item>
+              <ion-item-options side="end">
+                  <ion-item-option color="danger">
+                      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                  </ion-item-option>
+              </ion-item-options>
 
-            <ion-item-options side="end">
-                <ion-item-option color="danger">
-                    <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-                </ion-item-option>
-            </ion-item-options>
-
-          </ion-item-sliding>
-        </ion-list>
+            </ion-item-sliding>
+          </ion-list>
       </ion-col>
+
+      <ion-col size="12">
+        <ion-button class="ion-padding-horizontal ion-align-items-center" (click)="onSaveUpdate()" expand="block" fill="solid" shape="round" color="success">
+          + Agregar nueva tarjeta
+        </ion-button>
+      </ion-col>
+
     </ion-row>
   </ion-grid>
 </ion-content>

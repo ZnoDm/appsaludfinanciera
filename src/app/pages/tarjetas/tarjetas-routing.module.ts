@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'show',
     loadChildren: () => import('./pages/show/show.module').then( m => m.ShowPageModule)
+  },
+  {
+    path: 'save-update-tarjeta',
+    loadChildren: () => import('./pages/save-update-tarjeta/save-update-tarjeta.module').then( m => m.SaveUpdateTarjetaPageModule)
   }
 ];
 

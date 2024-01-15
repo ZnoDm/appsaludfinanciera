@@ -17,7 +17,9 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      mode: 'ios'
+  }),
     IonicStorageModule.forRoot(),
     HttpClientModule,
     AppRoutingModule,

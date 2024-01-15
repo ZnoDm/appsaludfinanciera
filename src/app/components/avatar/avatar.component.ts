@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Observable, finalize } from 'rxjs';
 import { Person, Usuario } from 'src/app/interfaces';
@@ -28,37 +28,42 @@ export class AvatarComponent implements OnInit{
     private personService : PersonService,
     private authService: AuthService,
     private toastr: ToastrService,
+    private chgRef: ChangeDetectorRef
   ) {
   }
 
   ngOnInit(): void {
-    // this.user = this.authService.getUsuario();
+    this.user = this.authService.currentUserValue;
     this.getPerson()
   }
 
-  getPerson(){
-    this.personService.getPerson().subscribe({
-      next: (resp : any) => {
-        if(resp.ok){
+  async getPerson() {
+    const getPerson = await this.personService.getPerson();
+
+    getPerson.subscribe({
+      next: async (resp: any) => {
+        if (resp.ok) {
           console.log(resp);
-          this.person = resp.person
-        }else{
+          this.person = resp.person;
+          this.chgRef.markForCheck();
+        } else {
           this.toastr.alertaInformativa(resp.message || resp);
         }
       },
-      error: (error) => {
+      error: async (error) => {
         this.toastr.alertaInformativa(error?.error?.message || error?.message);
         console.log(error);
-      }
+      },
     });
-  }
 
+  }
 
 
   onUploadFile(){
     const fileInputElement = this.fileInput.nativeElement;
     fileInputElement.click();
   }
+  
   onFileSelected(event: any) {
     const file = event.target.files[0];
     const filePath = `tesis/${new Date().getTime()}_${file.name}`;

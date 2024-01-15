@@ -23,7 +23,7 @@ export class LoggedInGuard implements CanActivate {
         return true;
       }
 
-      this.authService.redirectToMain();
+      this.authService.redirectToLogin();
       return false;
     }
 }

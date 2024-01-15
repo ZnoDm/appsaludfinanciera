@@ -15,12 +15,12 @@ interface DataLogin  {
   password: string;
 }
 
-
 @Injectable({
   providedIn: 'root'
 })
-export class PersonService {
-  apiUrl = environment.url + '/person';
+export class TarjetaService {
+  apiUrl = environment.url + '/tarjeta';
+
   isLoading$: Observable<boolean>;
   isLoadingSubject: BehaviorSubject<boolean>;
 
@@ -30,8 +30,8 @@ export class PersonService {
   ) {
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.isLoading$ = this.isLoadingSubject.asObservable();
-
   }
+
 
   async obtenerHeaders() {
     try {
@@ -43,10 +43,10 @@ export class PersonService {
     }
   }
 
-  async getPerson() {
+  async getTarjetasByPerson(){
     this.isLoadingSubject.next(true);
     const headers = await this.obtenerHeaders();
-    return this.http.get(`${this.apiUrl}`, {
+    return this.http.get(`${this.apiUrl}/recordatorio/listar`, {
       headers: headers
     }).pipe(
       map(data => data),
@@ -54,22 +54,15 @@ export class PersonService {
     );
   }
 
-  updateAvatar(data) {
+  async create(data) {
     this.isLoadingSubject.next(true);
-    return this.http.patch(`${ this.apiUrl }/update/avatar`, data ,{
+    const headers = await this.obtenerHeaders();
+    return this.http.post(`${ this.apiUrl }`, data ,{
     }).pipe(
       map( data => data ),
       finalize( () =>{this.isLoadingSubject.next(false);})
     );
   }
 
-  updatePerson(data) {
-    this.isLoadingSubject.next(true);
-    return this.http.patch(`${ this.apiUrl }/update`, data ,{
-    }).pipe(
-      map( data => data ),
-      finalize( () =>{this.isLoadingSubject.next(false);})
-    );
-  }
 
 }
