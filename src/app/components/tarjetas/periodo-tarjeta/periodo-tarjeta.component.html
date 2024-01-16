@@ -1,0 +1,17 @@
+
+
+<div class="periodo"
+    [class.periodo-actual]="periodo.mes === periodoActual.mes && periodo.anio === periodoActual.anio"
+    [class.periodo-enabled]="periodo.estado !== '0003'">
+
+  <h4 class="number-periodo"
+      [class.periodo-none]="periodo.estado === '0003'">{{periodo.mes}}
+  </h4>
+
+  <div class="periodo-tool-success" *ngIf="periodo.estado === '0001'">
+    <span class="check"></span>
+  </div>
+  <div class="periodo-tool-danger" *ngIf="periodo.estado === '0002'">
+  </div>
+
+</div>

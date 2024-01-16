@@ -15,10 +15,7 @@ import { ToastrService } from 'src/app/services/toastr.service';
 export class AvatarComponent implements OnInit{
   @ViewChild('fileInput') fileInput: ElementRef;
   uploadPercent: Observable<number>;
-
-
-  user : Usuario =null;
-  person : Person = null;
+  @Input() user =null
 
 
   defaultUrlAvatar:string = './assets/avatars/av-1.png';
@@ -30,70 +27,14 @@ export class AvatarComponent implements OnInit{
     private toastr: ToastrService,
     private chgRef: ChangeDetectorRef
   ) {
+
   }
 
   ngOnInit(): void {
-    this.user = this.authService.currentUserValue;
-    this.getPerson()
-  }
-
-  async getPerson() {
-    const getPerson = await this.personService.getPerson();
-
-    getPerson.subscribe({
-      next: async (resp: any) => {
-        if (resp.ok) {
-          console.log(resp);
-          this.person = resp.person;
-          this.chgRef.markForCheck();
-        } else {
-          this.toastr.alertaInformativa(resp.message || resp);
-        }
-      },
-      error: async (error) => {
-        this.toastr.alertaInformativa(error?.error?.message || error?.message);
-        console.log(error);
-      },
-    });
 
   }
 
 
-  onUploadFile(){
-    const fileInputElement = this.fileInput.nativeElement;
-    fileInputElement.click();
-  }
-  
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    const filePath = `tesis/${new Date().getTime()}_${file.name}`;
-    const fileRef = this.storage.ref(filePath);
-    const task = this.storage.upload(filePath, file);
-
-    // observe percentage changes
-    this.uploadPercent = task.percentageChanges();
-    // get notified when the download URL is available
-    task.snapshotChanges().pipe(
-        finalize(async () => {
-          let downloadURL = await fileRef.getDownloadURL().toPromise();
-          console.log(downloadURL);
-          this.updateAvatar(downloadURL);
-        } )
-     )
-    .subscribe()
-  }
-  updateAvatar(url:string){
-    console.log('updateAvata')
-    this.personService.updateAvatar({urlAvatar: url}).subscribe({
-      next: (resp : any) => {
-        this.person.urlAvatar = url;
-        console.log(resp);
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
-  }
 
 }
 

@@ -24,7 +24,6 @@ export class AuthService {
   // public fields
   currentUser$: Observable<any>;
 
-  currentUserSubject: BehaviorSubject<any>;
   isLoadingSubject: BehaviorSubject<boolean>;
   isLoading$: Observable<boolean>;
 
@@ -35,9 +34,6 @@ export class AuthService {
     private toastr: ToastrService,
     private jwtService:JwtService,
   ) {
-    this.currentUserSubject = new BehaviorSubject<any>(undefined);
-    this.currentUser$ = this.currentUserSubject.asObservable();
-
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.isLoading$ = this.isLoadingSubject.asObservable();
   }
@@ -55,7 +51,6 @@ export class AuthService {
         next: async (response : any) => {
           if (response.ok) {
             this.storageService.set(StorageKeyEnum.USER_DETAIL, JSON.stringify(response.user));
-            this.currentUserSubject = new BehaviorSubject<any>(response.user);
             this.storageService.set(StorageKeyEnum.JWT_AUTHORIZATION, response.token);
             this.jwtService.load(response.JWT);
             resolve(true);
@@ -79,19 +74,16 @@ export class AuthService {
 
   }
 
-  get currentUserValue(): any {
-    const userData = this.storageService.get(StorageKeyEnum.USER_DETAIL)
-    // const user: any = JSON.parse(userData.);
-    // this.currentUserSubject = new BehaviorSubject<any>(user);
-    // console.log(this.currentUserSubject.value)
-    // return this.currentUserSubject.value;
-    return userData;
+  async getCurrentUserValue() {
+    let userData = await this.storageService.get(StorageKeyEnum.USER_DETAIL)
+    const user: any = JSON.parse(userData);
+    return user;
   }
 
-  set currentUserValue(user: any) {
-    this.storageService.set(StorageKeyEnum.USER_DETAIL, JSON.stringify(user));
-    this.currentUserSubject.next(user);
+  async setCurrentUserValue(person) {
+    await  this.storageService.set(StorageKeyEnum.USER_DETAIL, JSON.stringify(person));
   }
+
 
   async isLoggedIn() {
     let jwt = await this.storageService.get(StorageKeyEnum.JWT_AUTHORIZATION);
@@ -105,14 +97,12 @@ export class AuthService {
     }
   }
 
-  logout() {
+  async logout() {
     this.storageService.remove(StorageKeyEnum.JWT_AUTHORIZATION);
+    this.storageService.remove(StorageKeyEnum.USER_DETAIL);
     this.jwtService.clear();
-    this.router.navigate(['/auth/login'], {
-      queryParams: {},
-    });
+    this.router.navigate(['/auth/login']);
   }
-
 
   registro( usuario: Usuario ) {
     this.isLoadingSubject.next(true);

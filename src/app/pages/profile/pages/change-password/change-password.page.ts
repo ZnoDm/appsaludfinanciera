@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { PersonService } from 'src/app/services/person/person.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-change-password',
@@ -7,22 +12,38 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
   styleUrls: ['./change-password.page.scss'],
 })
 export class ChangePasswordPage implements OnInit {
-  userForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  passwordForm: FormGroup;
+
+  isLoading$: Observable<boolean>;
+
+  constructor(
+    private fb: FormBuilder,
+    private personService:PersonService,
+    private toastr: ToastrService,
+    private chgRef: ChangeDetectorRef,
+    private toastrService: ToastrService,
+    private router: Router,
+    private authService:AuthService,
+  ) {
+    this.isLoading$ = this.personService.isLoading$;
+  }
+
 
   ngOnInit() {
-    // Crea el formulario con los campos correspondientes, incluyendo contraseña y confirmación de contraseña
-    this.userForm = this.fb.group({
+
+    this.passwordFormInit()
+
+  }
+
+  passwordFormInit(){
+    this.passwordForm = this.fb.group({
+      oldPassword: ['', Validators.required], // Campo de contraseña
       password: ['', Validators.required], // Campo de contraseña
       confirmPassword: ['', Validators.required], // Campo de confirmación de contraseña
     }, {
       validator: this.passwordMatchValidator // Agrega la validación personalizada
     });
-
-    // Llama al servicio para obtener los datos del usuario y actualiza el formulario
-
-
   }
 
   // Función de validación personalizada para asegurarse de que las contraseñas coincidan
@@ -34,13 +55,41 @@ export class ChangePasswordPage implements OnInit {
     return password === confirmPassword ? null : { 'passwordMismatch': true };
   }
 
- // Puedes usar esta función para enviar el formulario
- onSubmit() {
-  if (this.userForm.valid) {
-    // Aquí puedes enviar los datos a tu backend
-    console.log(this.userForm.value);
-  } else {
-    // El formulario no es válido, puedes manejarlo según tus necesidades
+  private prepareModel(){
+    const formData = this.passwordForm.value;
+    return {
+      oldPassword: formData.oldPassword,
+      newPassword:  formData.password,
+      confirmPassword: formData.confirmPassword,
+    }
   }
+ // Puedes usar esta función para enviar el formulario
+ async onSubmit() {
+  const controls = this.passwordForm.controls;
+  if ( this.passwordForm.invalid ) {
+    Object.keys(controls).forEach(controlName =>
+      controls[controlName].markAsTouched()
+    );
+    this.toastrService.alertaInformativa('Formulario Inválido');
+    return;
+  }
+  const model = this.prepareModel()
+  const updatePassword = await this.personService.updatePassword(model);
+
+  updatePassword.subscribe({
+    next: async (resp: any) => {
+      console.log(resp);
+      if (resp.ok) {
+        this.router.navigate(['/main/tabs/profile']);
+      } else {
+        this.toastrService.alertaInformativa(resp.message || resp);
+      }
+      this.chgRef.markForCheck();
+    },
+    error: async (error) => {
+      this.toastrService.alertaInformativa(error?.error?.message || error?.message);
+      console.log(error);
+    },
+  });
 }
 }

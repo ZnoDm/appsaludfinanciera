@@ -11,20 +11,32 @@ import { ToastrService } from 'src/app/services/toastr.service';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-
+  usuario = null;
   constructor(
     private router: Router,
+    private authService:AuthService
   ) { }
 
   ngOnInit() {
 
   }
+  ionViewWillEnter() {
+    this.getUser();
+  }
 
+  async getUser(){
+    const user = await this.authService.getCurrentUserValue();
+    console.log(user)
+    this.usuario =  user;
+  }
 
   navigateToSettings() {
     this.router.navigate(['/main/tabs/profile/settings']);
   }
   navigateToChangePassword() {
     this.router.navigate(['main/tabs/profile/change-password']);
+  }
+  async logout(){
+    await this.authService.logout();
   }
 }

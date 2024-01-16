@@ -54,6 +54,40 @@ export class TarjetaService {
     );
   }
 
+  async getAniosByTarjeta(idTarjeta:number){
+    this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
+    return this.http.get(`${this.apiUrl}/${idTarjeta}/recordatorio/anios`, {
+      headers: headers
+    }).pipe(
+      map(data => data),
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
+
+  async getPeriodosByTarjeta(idTarjeta:number,anio:number){
+    this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
+    return this.http.get(`${this.apiUrl}/${idTarjeta}/recordatorio/periodos?anio=${anio}`, {
+      headers: headers
+    }).pipe(
+      map(data => data),
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
+
+  async getCronogramaByTarjeta(idTarjeta:number,anio:number,mes:number){
+    this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
+    return this.http.get(`${this.apiUrl}/${idTarjeta}/recordatorio/cronograma?anio=${anio}&mes=${mes}`, {
+      headers: headers
+    }).pipe(
+      map(data => data),
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
+
+
   async create(data) {
     this.isLoadingSubject.next(true);
     const headers = await this.obtenerHeaders();

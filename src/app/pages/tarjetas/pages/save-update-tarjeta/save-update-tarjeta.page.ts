@@ -165,7 +165,9 @@ export class SaveUpdateTarjetaPage implements OnInit {
         console.log(resp);
         if (resp.ok) {
           console.log(resp);
-          this.router.navigate(['/main/tabs/tarjetas']);
+          this.router.navigate(['/main/tabs/tarjetas']).then(() => {
+            window.location.reload();
+          });
         } else {
           this.toastrService.alertaInformativa(resp.message || resp);
         }

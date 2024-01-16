@@ -1,5 +1,5 @@
-<ion-header>
-  <ion-toolbar >
+<ion-header >
+  <ion-toolbar color="tertiary">
     <ion-title class="ion-text-capitalize">
         Tarjetas
     </ion-title>
@@ -9,7 +9,7 @@
 
 <ion-content [fullscreen]="true" color="light">
 
-  <div class="ion-padding-horizontal" [formGroup]="filterGroup">
+  <div class="ion-padding-horizontal ion-margin-top" [formGroup]="filterGroup">
       <ion-select
       label="Estado"
       interface="action-sheet"
@@ -26,34 +26,23 @@
   </div>
 
   <ion-list lines="full" [inset]="true" *ngIf="array_tarjetas.length > 0">
-    <ion-item-sliding *ngFor="let tarjeta of array_tarjetas" (click)="onShow()">
+    <ion-item-sliding *ngFor="let tarjeta of array_tarjetas" >
 
       <ion-item-options side="start">
           <ion-item-option >
-              <ion-icon slot="icon-only" name="heart-outline"></ion-icon>
-          </ion-item-option>
-          <ion-item-option color="danger">
-              <ion-icon slot="icon-only" name="share-outline"></ion-icon>
+             <ion-icon slot="icon-only" name="pencil"></ion-icon>
           </ion-item-option>
       </ion-item-options>
 
-      <ion-item>
+      <ion-item  detail="true" detail-icon="caret-forward-outline" (click)="onShow(tarjeta)">
         <ion-icon name="alert-circle-sharp" color="danger" size="large" *ngIf="tarjeta.estado ==='0003'"></ion-icon>
-
         <ion-icon name="alert-circle-sharp" style="color: #FFDE00;" size="large" *ngIf="tarjeta.estado  ==='0002'"></ion-icon>
-
         <ion-icon name="checkmark-circle-sharp" color="success" size="large" *ngIf="tarjeta.estado  ==='0001'"></ion-icon>
 
-
-        <!-- <ion-icon color="danger" slot="start" name="list-circle" size="large"> </ion-icon> -->
         <ion-label class="ion-margin-start">
           <h3>{{ tarjeta?.nombreTarjeta }}</h3>
           <p> {{ tarjeta?.tipoTarjeta }} </p>
         </ion-label>
-        <!-- <ion-note slot="end">6</ion-note> -->
-        <!-- <ion-label slot="start" class="ion-text-start text-small">
-          {{ tarjeta?.isActive }}
-        </ion-label> -->
 
       </ion-item>
 
@@ -67,11 +56,11 @@
   </ion-list>
 
   <ion-button
-  class="ion-padding-horizontal"
-  (click)="onSaveUpdate()"
-  expand="block"
-  fill="solid"
-  color="success">
+    class="ion-padding-horizontal"
+    (click)="onSaveUpdate()"
+    expand="block"
+    shape="round"
+    color="tertiary">
     Nueva Tarjeta
   </ion-button>
 </ion-content>

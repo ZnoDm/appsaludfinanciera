@@ -2,7 +2,7 @@ import { map } from 'rxjs/operators';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonList } from '@ionic/angular';
+import { IonList, NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { TarjetaService } from 'src/app/services/tarjeta/tarjetas.service';
 import { ToastrService } from 'src/app/services/toastr.service';
@@ -31,6 +31,7 @@ export class TarjetasPage implements OnInit {
   isLoading$: Observable<boolean>;
 
   constructor(
+    private navCtrl: NavController,
     private router: Router,
     private fb: FormBuilder,
     private tarjetaService:TarjetaService,
@@ -42,6 +43,7 @@ export class TarjetasPage implements OnInit {
 
   ngOnInit() {
     this.filterInit();
+    this.getTarjetasByPerson();
   }
 
   filterInit(){
@@ -77,9 +79,9 @@ export class TarjetasPage implements OnInit {
   }
 
   async getTarjetasByPerson() {
-    const getPerson = await this.tarjetaService.getTarjetasByPerson();
+    const getTarjetasByPerson = await this.tarjetaService.getTarjetasByPerson();
 
-    getPerson.subscribe({
+    getTarjetasByPerson.subscribe({
       next: async (resp: any) => {
         console.log(resp);
         this.array_tarjetas = resp;
@@ -94,12 +96,12 @@ export class TarjetasPage implements OnInit {
 
   }
 
-  ionViewWillEnter() {
-   this.getTarjetasByPerson();
-  }
+  // ionViewWillEnter() {
+  //  this.getTarjetasByPerson();
+  // }
 
-  onShow(){
-    this.router.navigate(['/main/tabs/tarjetas/show']);
+  onShow(tarjeta){
+    this.router.navigate(['/main/tabs/tarjetas/show',tarjeta]);
   }
 
   onSaveUpdate(){

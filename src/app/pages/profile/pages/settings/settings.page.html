@@ -1,16 +1,28 @@
-<ion-header>
-  <ion-toolbar mode="ios">
+<ion-header mode="ios">
+  <ion-toolbar >
+
     <ion-buttons slot="start">
-      <ion-back-button slot="icon-only" default-href="/tabs/profile"></ion-back-button>
+      <ion-back-button
+        defaultHref="/tabs/profile"
+        text="Volver"
+        color="primary">
+      </ion-back-button>
     </ion-buttons>
-    <ion-title>
-      Perfil
-    </ion-title>
+
+
+    <ion-progress-bar type="indeterminate" *ngIf="isLoading$ | async"></ion-progress-bar>
+
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+
+<ion-content [fullscreen]="true" color="light">
   <form [formGroup]="personForm" (ngSubmit)="onSubmit()">
+    <h6 class="ion-padding-horizontal">INFORMACION PERSONAL</h6>
+
+    <ion-list ion-list [inset]="true">
+
+
     <ion-item>
       <ion-label position="floating">Nombres</ion-label>
       <ion-input formControlName="nombres" required></ion-input>
@@ -27,17 +39,25 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Tipo de Documento de Identidad</ion-label>
+      <ion-label position="floating">T. Documento</ion-label>
       <ion-input formControlName="tipoDocumentoIdentidad" required></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Documento de Identidad</ion-label>
+      <ion-label position="floating">Doc. Identidad</ion-label>
       <ion-input formControlName="documentoIdentidad" required></ion-input>
     </ion-item>
+  </ion-list>
 
-    <ion-button expand="full" type="submit">Actualizar</ion-button>
+    <ion-button
+    expand="block"
+    type="submit"
+    mode="ios"
+    shape="round"
+    color="tertiary"
+    class="ion-padding">Actualizar</ion-button>
   </form>
+
 </ion-content>
 
 

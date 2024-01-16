@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { PersonService } from '../../../../services/person/person.service';
+import { ToastrService } from 'src/app/services/toastr.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-settings',
@@ -9,12 +14,30 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class SettingsPage implements OnInit {
 
   personForm: FormGroup;
+
+  isLoading$: Observable<boolean>;
+
+  customCounterFormatter(inputLength: number, maxLength: number) {
+    return `${maxLength - inputLength} characters remaining`;
+  }
   constructor(
-    private fb: FormBuilder
-  ) { }
+    private fb: FormBuilder,
+    private personService:PersonService,
+    private toastr: ToastrService,
+    private chgRef: ChangeDetectorRef,
+    private toastrService: ToastrService,
+    private router: Router,
+    private authService:AuthService,
+  ) {
+    this.isLoading$ = this.personService.isLoading$;
+  }
 
   ngOnInit() {
-    // Crea el formulario con los campos correspondientes
+    this.personFormInit();
+    this.getDatosPersonales();
+  }
+
+  personFormInit(){
     this.personForm = this.fb.group({
       nombres: ['', Validators.required],
       apellidos: ['', Validators.required],
@@ -22,28 +45,68 @@ export class SettingsPage implements OnInit {
       tipoDocumentoIdentidad: ['', Validators.required],
       documentoIdentidad: ['', Validators.required],
     });
-
-    /*
-    // Llama al servicio para obtener los datos del usuario y actualiza el formulario
-    this.userService.getUserData().subscribe(
-      (userData) => {
-        // Actualiza el formulario con los datos obtenidos
-        this.userForm.patchValue(userData);
-      },
-      (error) => {
-        // Manejar el error según tus necesidades
-        console.error('Error al obtener datos del usuario:', error);
-      }
-    ); */
   }
 
-  // Puedes usar esta función para enviar el formulario
-  onSubmit() {
-    if (this.personForm.valid) {
-      // Aquí puedes enviar los datos a tu backend
-      console.log(this.personForm.value);
-    } else {
-      // El formulario no es válido, puedes manejarlo según tus necesidades
+  async getDatosPersonales() {
+    const getDatosPersonales = await this.personService.getDatosPersonales();
+
+    getDatosPersonales.subscribe({
+      next: async (resp: any) => {
+        if (resp.ok) {
+          console.log(resp.person);
+          this.personForm.patchValue(resp.person);
+          this.chgRef.markForCheck();
+        } else {
+          this.toastr.alertaInformativa(resp.message || resp);
+        }
+      },
+      error: async (error) => {
+        this.toastr.alertaInformativa(error?.error?.message || error?.message);
+        console.log(error);
+      },
+    });
+
+  }
+
+  private prepareModel(){
+    const formData = this.personForm.value;
+    return {
+			nombres:         formData.nombres,
+			apellidos:    formData.apellidos,
+			telefono:     formData.telefono,
+			tipoDocumentoIdentidad:  formData.tipoDocumentoIdentidad,
+			documentoIdentidad: formData.documentoIdentidad,
     }
+  }
+  // Puedes usar esta función para enviar el formulario
+  async onSubmit() {
+    const controls = this.personForm.controls;
+    if ( this.personForm.invalid ) {
+      Object.keys(controls).forEach(controlName =>
+				controls[controlName].markAsTouched()
+			);
+      this.toastrService.alertaInformativa('Formulario Inválido');
+      return;
+    }
+    const model = this.prepareModel()
+    const updatePerson = await this.personService.updatePerson(model);
+
+    updatePerson.subscribe({
+      next: async (resp: any) => {
+        console.log(resp);
+        if (resp.ok) {
+          console.log(resp);
+          await this.authService.setCurrentUserValue(resp.user);
+          this.router.navigate(['/main/tabs/profile']);
+        } else {
+          this.toastrService.alertaInformativa(resp.message || resp);
+        }
+        this.chgRef.markForCheck();
+      },
+      error: async (error) => {
+        this.toastrService.alertaInformativa(error?.error?.message || error?.message);
+        console.log(error);
+      },
+    });
   }
 }

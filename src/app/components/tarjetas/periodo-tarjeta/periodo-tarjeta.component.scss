@@ -1,0 +1,67 @@
+.periodo{
+    position: relative;
+}
+
+
+.periodo-enabled{
+    cursor: pointer;
+}
+.periodo-enabled:hover{
+    -webkit-transform: scale(1.2);
+ }
+.periodo-none{
+    color: #3F3F3F;
+}
+.periodo-actual{
+    color: #0E0D12!important;
+    -webkit-transform: scale(1.1);
+    background: #FFF!important;
+    border-radius: 1.5rem;
+    h4{
+        font-size: 1.5rem!important;
+    }
+}
+
+h4{
+    line-height: 1.5rem;
+    padding-top: 2px;
+}
+.number-periodo{
+    font-weight: 700;
+    width: 2.5rem;
+}
+
+.periodo-tool-success{
+    position: absolute;
+    top: -3px;
+    right: 0px;
+    width: 12px;
+    height: 12px;
+    background-color: #0CBB00;
+    border-radius: 50%;
+}
+.check {
+    display: block;
+    transform: rotate(45deg);
+    height: 7px;
+    width: 3px;
+    border-bottom: 2px solid #FFF;
+    border-right: 2px solid #FFF;
+
+    margin-left: 4.5px;
+    margin-top: 2px;
+  }
+
+
+/*
+
+.periodo-tool-warning{
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 20px;
+    height: 20px;
+    background-color: #FFD500;
+    border-radius: 50%;
+}
+*/

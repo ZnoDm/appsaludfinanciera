@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { HeaderComponent } from './header/header.component';
 import { HeaderPeriodoComponent } from './header-periodo/header-periodo.component';
 import { FormsModule } from '@angular/forms';
 import { ArticleComponent } from './news/article/article.component';
@@ -16,27 +15,34 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
+import { PeriodoTarjetaComponent } from './tarjetas/periodo-tarjeta/periodo-tarjeta.component';
+import { AvatarEditComponent } from './avatar-edit/avatar-edit.component';
 
 @NgModule({
   declarations: [
-    HeaderComponent,
     HeaderPeriodoComponent,
     ArticleComponent,
     ArticlesComponent,
-    CalendarioTarjetaComponent,
     LogoComponent,
     EsloganComponent,
-    AvatarComponent
+
+    AvatarComponent,
+    AvatarEditComponent,
+
+    CalendarioTarjetaComponent,
+    PeriodoTarjetaComponent
   ],
   exports: [
     HeaderPeriodoComponent,
-    HeaderComponent,
     ArticleComponent,
     ArticlesComponent,
-    CalendarioTarjetaComponent,
     LogoComponent,
     EsloganComponent,
-    AvatarComponent
+    AvatarComponent,
+    AvatarEditComponent,
+
+    CalendarioTarjetaComponent,
+    PeriodoTarjetaComponent
   ],
   imports: [
     CommonModule,

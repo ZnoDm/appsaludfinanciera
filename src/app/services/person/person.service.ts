@@ -20,6 +20,7 @@ interface DataLogin  {
   providedIn: 'root'
 })
 export class PersonService {
+
   apiUrl = environment.apiUrl + '/person';
   isLoading$: Observable<boolean>;
   isLoadingSubject: BehaviorSubject<boolean>;
@@ -43,7 +44,7 @@ export class PersonService {
     }
   }
 
-  async getPerson() {
+  async getDatosPersonales() {
     this.isLoadingSubject.next(true);
     const headers = await this.obtenerHeaders();
     return this.httpClient.get(`${this.apiUrl}`, {
@@ -54,22 +55,38 @@ export class PersonService {
     );
   }
 
-  updateAvatar(data) {
+  async updateAvatar(data) {
     this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
     return this.httpClient.patch(`${ this.apiUrl }/update/avatar`, data ,{
+      headers: headers
     }).pipe(
       map( data => data ),
       finalize( () =>{this.isLoadingSubject.next(false);})
     );
   }
 
-  updatePerson(data) {
+  async updatePerson(data) {
     this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
     return this.httpClient.patch(`${ this.apiUrl }/update`, data ,{
+      headers: headers
     }).pipe(
       map( data => data ),
       finalize( () =>{this.isLoadingSubject.next(false);})
     );
   }
+
+  async updatePassword(data) {
+    this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
+    return this.httpClient.post(`${ this.apiUrl }/update/password`, data ,{
+      headers: headers
+    }).pipe(
+      map( data => data ),
+      finalize( () =>{this.isLoadingSubject.next(false);})
+    );
+  }
+
 
 }

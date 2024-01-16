@@ -10,6 +10,7 @@ import { DatePipe} from '@angular/common';
 })
 export class CalendarioTarjetaComponent implements OnInit {
 
+
   @Input() hoy: any;
   @Input() anio: string;
 
@@ -19,7 +20,7 @@ export class CalendarioTarjetaComponent implements OnInit {
   /* @Input() fechaFin: string; */
   /* @Input() diaInicio: number; */
 
-
+  mes:string;
   array_days: any = [
     { dia:1,clase:'day',inicia:false,fin:false,hoy:false},
     { dia:2,clase:'day',inicia:false,fin:false,hoy:false},
@@ -60,27 +61,6 @@ export class CalendarioTarjetaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.hoy = new Date(); // Puede ser una instancia de JavaScript Date que representa la fecha actual.
-  
-    this.anio = '2023'; // Puede ser un año en formato de cadena.
-
-    this.calendario = {
-      diaInicio: 1,
-      fechaFin: '2023-10-31',
-      inicioConsumo: '2023-10-05',
-      finConsumo: '2023-10-15',
-      inicioRuleteo: '2023-10-08',
-      finRuleteo: '2023-10-18',
-      atrasoInicio: '2023-10-12',
-      atrasoFin: '2023-10-22',
-      ultimoDiaPago: '2023-10-25',
-      mes: 10 // Mes del calendario
-    };
-
-
-
-
-
 
     /*LOGICA PARA CREAR CALENDARIO */
     let primerDiaMes = this.calendario.diaInicio==7?0:this.calendario.diaInicio;
@@ -169,11 +149,6 @@ export class CalendarioTarjetaComponent implements OnInit {
     this.array_dias =  this.array_days;
 
 
-    /* console.log(this.anio,
-      this.mes,
-      this.fechaInicio,
-      this.fechaFin,
-      this.diaInicio) */
   }
 
 }

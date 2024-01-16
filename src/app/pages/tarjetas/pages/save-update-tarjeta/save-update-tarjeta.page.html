@@ -16,102 +16,107 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <div class="ion-text-center ion-padding-horizontal">
-    <h4 class="title">Registra tus Tarjetas para recibir recordatorios de pago </h4>
-  </div>
+
+  <h4 class="title ion-padding ion-text-center">Registra tus Tarjetas para recibir recordatorios de pago </h4>
+
   <form [formGroup]="tarjetaForm" (ngSubmit)="onSubmit()">
+    <h6 class="ion-padding-horizontal">DATOS GENERALES</h6>
+    <ion-list lines="none" [inset]="true">
 
-  <ion-list lines="none" [inset]="true">
-    <ion-item>
-      <h6 class="ion-padding-vertical">DATOS GENERALES</h6>
-    </ion-item>
-
-    <ion-item>
-      <ion-input
-      label="Nombre"
-      labelPlacement="floating"
-      formControlName="nombre"
-      required
-      type="text"
-      fill="solid"
-      errorText="Tu Tarjeta necesita un Alias."
-      ></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-select mode="ios"
-        label-placement="floating"
-        formControlName="banco"
-        fill="solid"
+      <ion-item>
+        <ion-input
+        label="Nombre"
+        labelPlacement="floating"
+        formControlName="nombre"
         required
-        (ionChange)="getTipoTarjetaListar(tarjetaForm.controls['banco'].value,tarjetaForm.controls['proveedorTarjeta'].value);getTipoCierreListar(tarjetaForm.controls['banco'].value)">
-        <div slot="label">Banco <ion-text color="danger" *ngIf="controlHasError('required', 'banco')">(*)</ion-text></div>
-        <ion-select-option *ngFor="let banco of array_banco" [value]="banco.id">
-          {{ banco.nombre | uppercase}}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
-
-    <ion-item >
-      <ion-select mode="ios"
-        label-placement="floating"
-        formControlName="proveedorTarjeta"
+        type="text"
         fill="solid"
-        required
-        (ionChange)="getTipoTarjetaListar(tarjetaForm.controls['banco'].value,tarjetaForm.controls['proveedorTarjeta'].value)">
-        <div slot="label">Proveedor Tarjeta <ion-text color="danger" *ngIf="controlHasError('required', 'proveedorTarjeta')">(*)</ion-text></div>
-        <ion-select-option *ngFor="let proveedorTarjeta of array_proveedorTarjeta" [value]="proveedorTarjeta.id">
-          {{ proveedorTarjeta.nombre }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+        errorText="Tu Tarjeta necesita un Alias."
+        ></ion-input>
+      </ion-item>
 
-    <ion-item >
-      <ion-select mode="ios"
-        label-placement="floating"
-        formControlName="tipoTarjeta"
-        fill="solid"
-        required>
-        <div slot="label">Tipo Tarjeta <ion-text color="danger" *ngIf="controlHasError('required', 'tipoTarjeta')">(*)</ion-text></div>
-        <ion-select-option *ngFor="let tipoTarjeta of array_tipoTarjeta" [value]="tipoTarjeta.id">
-          {{ tipoTarjeta.nombre }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+      <ion-item>
+        <ion-select mode="ios"
+          label-placement="floating"
+          formControlName="banco"
+          fill="solid"
+          required
+          (ionChange)="getTipoTarjetaListar(tarjetaForm.controls['banco'].value,tarjetaForm.controls['proveedorTarjeta'].value);getTipoCierreListar(tarjetaForm.controls['banco'].value)">
+          <div slot="label">Banco <ion-text color="danger" *ngIf="controlHasError('required', 'banco')">(*)</ion-text></div>
+          <ion-select-option *ngFor="let banco of array_banco" [value]="banco.id">
+            {{ banco.nombre | uppercase}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
 
-    <ion-item>
-      <h6 class="ion-padding-vertical">CRONOGRAMA DE PAGOS 2024</h6>
-    </ion-item>
+      <ion-item >
+        <ion-select mode="ios"
+          label-placement="floating"
+          formControlName="proveedorTarjeta"
+          fill="solid"
+          required
+          (ionChange)="getTipoTarjetaListar(tarjetaForm.controls['banco'].value,tarjetaForm.controls['proveedorTarjeta'].value)">
+          <div slot="label">Proveedor Tarjeta <ion-text color="danger" *ngIf="controlHasError('required', 'proveedorTarjeta')">(*)</ion-text></div>
+          <ion-select-option *ngFor="let proveedorTarjeta of array_proveedorTarjeta" [value]="proveedorTarjeta.id">
+            {{ proveedorTarjeta.nombre }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
 
-    <ion-item >
-      <ion-select mode="ios"
-        formControlName="tipoCierre"
-        fill="solid"
-        required>
-        <div slot="label">Tipo Cierre <ion-text color="danger" *ngIf="controlHasError('required', 'tipoCierre')">(*)</ion-text></div>
-        <ion-select-option *ngFor="let tipoCierre of array_tipoCierre" [value]="tipoCierre.id">
-          {{ tipoCierre.nombre }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+      <ion-item >
+        <ion-select mode="ios"
+          label-placement="floating"
+          formControlName="tipoTarjeta"
+          fill="solid"
+          required>
+          <div slot="label">Tipo Tarjeta <ion-text color="danger" *ngIf="controlHasError('required', 'tipoTarjeta')">(*)</ion-text></div>
+          <ion-select-option *ngFor="let tipoTarjeta of array_tipoTarjeta" [value]="tipoTarjeta.id">
+            {{ tipoTarjeta.nombre }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
 
-    <ion-item>
-      <h6 class="ion-padding-vertical">ALERTAS</h6>
-    </ion-item>
+    <h6 class="ion-padding-horizontal">CRONOGRAMA DE PAGOS 2024</h6>
 
-    <ion-item>
-      <ion-toggle formControlName="hasNotifyCelular" mode="ios">Móvil</ion-toggle>
-    </ion-item>
+    <ion-list lines="none" [inset]="true">
+      <ion-item >
+        <ion-select mode="ios"
+          formControlName="tipoCierre"
+          fill="solid"
+          required>
+          <div slot="label">Tipo Cierre <ion-text color="danger" *ngIf="controlHasError('required', 'tipoCierre')">(*)</ion-text></div>
+          <ion-select-option *ngFor="let tipoCierre of array_tipoCierre" [value]="tipoCierre.id">
+            {{ tipoCierre.nombre }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
 
-    <ion-item>
-      <ion-toggle formControlName="hasNotifyEmail" mode="ios">Email</ion-toggle>
-    </ion-item>
+    <h6 class="ion-padding-horizontal">NOTIFICACIONES</h6>
 
-    <ion-button expand="block" type="submit" mode="ios" size="default" class="ion-padding">Guardar</ion-button>
+    <ion-list lines="none" [inset]="true">
+      <ion-item>
+        <ion-toggle formControlName="hasNotifyCelular" mode="ios">
+          <ion-label>Phone Notifications</ion-label>
+          <ion-note color="medium">Unsubscribe at any time</ion-note>
+        </ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-toggle formControlName="hasNotifyEmail" mode="ios">
+          <ion-label>Email Notifications</ion-label>
+          <ion-note color="medium">Unsubscribe at any time</ion-note>
+        </ion-toggle>
+      </ion-item>
+    </ion-list>
 
-
-
-  </ion-list>
+    <ion-button
+    expand="block"
+    type="submit"
+    mode="ios"
+    shape="round"
+    color="tertiary"
+    class="ion-padding">Guardar</ion-button>
   </form>
 
 

@@ -1,118 +1,129 @@
-<app-header titulo=""></app-header>
+<ion-header mode="ios">
+  <ion-toolbar >
+
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/main/tabs/tarjetas"
+        text="Volver"
+        color="primary">
+      </ion-back-button>
+    </ion-buttons>
+
+    <div [formGroup]="filterGroup">
+      <ion-select
+        interface="action-sheet"
+        justify="space-between"
+        fill="solid"
+        formControlName="Anio"
+        (ionChange)="getFilter($event)"
+        justify="end"
+        class="custom-ion-select">
+      <ion-select-option *ngFor="let year of array_anios"
+      [value]="year.value">
+        {{ year.nombre }}
+      </ion-select-option>
+    </ion-select>
+  </div>
 
 
-<ion-content [fullscreen]="true" class="ion-padding">
+    <ion-progress-bar type="indeterminate" *ngIf="isLoading$ | async"></ion-progress-bar>
 
+  </ion-toolbar>
+</ion-header>
 
-  <ion-header collapse="condense">
-    <ion-toolbar class="ion-padding-horizontal">
-      <ion-select label="Default label" placeholder="Favorite Fruit">
-        <ion-select-option value="apple">Apple</ion-select-option>
-        <ion-select-option value="banana">Banana</ion-select-option>
-        <ion-select-option value="orange">Orange</ion-select-option>
-      </ion-select>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" color="light">
 
-
-
+  <div class="ion-padding-horizontal ion-margin-top">
+    <ion-label>
+      <h3>Banco {{tarjeta.banco | titlecase}}</h3>
+      <p>{{tarjeta.proveedorTarjeta}}</p>
+      <p>{{tarjeta.tipoTarjeta}}</p>
+    </ion-label>
+  </div>
 
   <ion-card>
-    <ion-card-header color="danger">
-      <ion-card-title >
-        <p _ngcontent-jbm-c231="" class="texto-alumno">RICARDO ASMAT ADMIN</p>
+    <ion-card-header [style.background]="periodoActual.estado === '0001'?'#0CBB00':
+                (fechaActual< periodoActual.fechaFacturacion?'#FFFFFF':
+                (fechaActual< periodoActual.fechaPago?'#FFDE00':
+                '#FF0000'))">
+      <ion-card-title class="ion-text-center" >
+        <h5 class="ion-no-margin"  [style.color]="periodoActual.estado === '0001'?'#FFFFFF':(fechaActual< periodoActual.fechaFacturacion?'#000':
+        (fechaActual< periodoActual.fechaPago?'#000':'#FFFFFF'))" >{{tarjeta.nombreTarjeta}}</h5>
       </ion-card-title>
     </ion-card-header>
 
+    <div>
+      <ion-segment [scrollable]="true" value="{{periodoActual.mes}}">
+        <ion-segment-button *ngFor="let periodo of array_periodo" value="{{periodo.mes}}" (click)="changePeriodo(periodo)">
+            <app-periodo-tarjeta [periodo]="periodo" [periodoActual]="periodoActual"  ></app-periodo-tarjeta>
+        </ion-segment-button>
+
+      </ion-segment>
+    </div>
+
     <ion-card-content>
-      <ion-grid fixed>
-        <ion-row>
-          <ion-col size="12">
-            <ion-segment [scrollable]="true" value="heart">
-              <ion-segment-button value="home">
-                <ion-icon name="home"></ion-icon>
-              </ion-segment-button>
-              <ion-segment-button value="heart">
-                <ion-icon name="heart"></ion-icon>
-              </ion-segment-button>
-              <ion-segment-button value="pin">
-                <ion-icon name="pin"></ion-icon>
-              </ion-segment-button>
-              <ion-segment-button value="star">
-                <ion-icon name="star"></ion-icon>
-              </ion-segment-button>
-              <ion-segment-button value="call">
-                <ion-icon name="call"></ion-icon>
-              </ion-segment-button>
-              <ion-segment-button value="globe">
-                <ion-icon name="globe"></ion-icon>
-              </ion-segment-button>
-              <ion-segment-button value="basket">
-                <ion-icon name="basket"></ion-icon>
-              </ion-segment-button>
-              <ion-segment-button value="barbell">
-                <ion-icon name="barbell"></ion-icon>
-              </ion-segment-button>
-              <ion-segment-button value="trash">
-                <ion-icon name="trash"></ion-icon>
-              </ion-segment-button>
-              <ion-segment-button value="person">
-                <ion-icon name="person"></ion-icon>
-              </ion-segment-button>
-            </ion-segment>
-          </ion-col>
-          <ion-col size="12">
-            <ion-img
-              [src]="'https://content-us-2.content-cms.com/9b3f67ef-5a9f-4acc-8ce8-bcc27fa681c7/dxdam/57/5711408d-93ab-4b4a-a014-8259f2fddd48/img_tc-visa-clasica_2x-min.png?tc=1648684027&t=1686075592159'"></ion-img>
+      <div class="ion-padding">
+        <ion-img [src]="tarjeta.urlTarjetaLogo"></ion-img>
+      </div>
+      <div class="ion-padding-vertical">
+        <div class="ion-text-center" *ngIf="periodoActual.estado !== '0001' && fechaActual< periodoActual.fechaFacturacion">
+          <h1 style="font-weight: bolder;margin-bottom: 0px;font-size: 2rem;">TE QUEDAN</h1>
+          <span style="font-weight: bolder;font-size: 5rem;line-height: 5rem;">
+            {{getDiferenciaFechas(fechaActual,periodoActual.fechaFacturacion ) +1}}
+          </span>
+          <h1 style="font-weight: bolder;margin-bottom: 0px;font-size: 2rem;">DÍAS DE CONSUMO</h1>
+        </div>
+        <div class="ion-text-center" *ngIf="periodoActual.estado !== '0001' && fechaActual>periodoActual.fechaFacturacion && fechaActual< periodoActual.fechaPago">
+          <h1 style="font-weight: bolder;margin-bottom: 0px;font-size: 2rem;">TE QUEDAN</h1>
+          <span style="font-weight: bolder;font-size: 5rem;line-height: 5rem;">{{periodoActual.diasPago + 1}}</span>
+          <h1 style="font-weight: bolder;margin-bottom: 0px;font-size: 1rem;text-align: center;">días para Último día de Pago</h1>
+        </div>
 
-            <div _ngcontent-jbm-c231="" class="d-flex align-items-center py-3 flex-wrap justify-content-center">
-              <span _ngcontent-jbm-c231=""
-                style="font-weight: bolder; color: #FF0000; font-size: 9rem; line-height: 9rem;">49</span>
-              <div _ngcontent-jbm-c231="" class="d-flex flex-column">
-                <h1 _ngcontent-jbm-c231="" style="font-weight: bolder; margin-bottom: 0px; font-size: 3.5rem;">días
-                </h1>
-                <h1 _ngcontent-jbm-c231="" style="font-weight: bolder; margin-bottom: 0px; font-size: 2.5rem;">
-                  ATRASO</h1>
-              </div>
-            </div><!----><!---->
-            <div _ngcontent-jbm-c231="" class="py-5"><!---->
-              <h6 _ngcontent-jbm-c231="" style="color: #FF0000; font-weight: 400;"> Los consumos que hagas desde
-                el<span _ngcontent-jbm-c231="" style="font-weight: 600;"> 26 de Julio del 2023</span> hasta el <span
-                  _ngcontent-jbm-c231="" style="font-weight: 600;">25 de Agosto del 2023 </span>se factura en el
-                <span _ngcontent-jbm-c231="" style="font-weight: 600;">Siguiente Periodo</span>. </h6><!---->
-            </div>
-            <div _ngcontent-jbm-c231="" class="pb-5">
-              <div _ngcontent-jbm-c231=""
-                class="d-flex flex-column flex-lg-row justify-content-between align-items-center pb-3 pb-md-0">
-                <h5 _ngcontent-jbm-c231="" class="mb-0 pr-md-5" style="font-weight: 600;"><img
-                    _ngcontent-jbm-c231=""
-                    src="../../../../../../assets/media/aspire-targox/icon-tarjeta/icono fecha cierre.svg"
-                    alt="Icono Fecha Cierre" class="mr-2"> Fecha de Cierre:</h5>
-                <h5 _ngcontent-jbm-c231="" class="mb-0 pl-0 pl-xl-5" style="font-weight: 400;">25 de Julio del 2023
-                </h5>
-              </div>
-              <div _ngcontent-jbm-c231=""
-                class="d-flex flex-column flex-lg-row justify-content-between align-items-center">
-                <h5 _ngcontent-jbm-c231="" class="mb-0 pr-md-5" style="font-weight: 600;"><img
-                    _ngcontent-jbm-c231=""
-                    src="../../../../../../assets/media/aspire-targox/icon-tarjeta/icono ultimo dia pago.svg"
-                    alt="Icono Fecha Cierre" class="mr-2"> Último día de Pago: </h5>
-                <h5 _ngcontent-jbm-c231="" class="mb-0 pl-0 pl-xl-5" style="font-weight: 400;">21 de Agosto del 2023
-                </h5>
-              </div>
-            </div>
+        <div class="ion-text-center"  *ngIf="periodoActual.estado !== '0001' && periodoActual.diasAtraso > 0 ">
+          <span style="font-weight: bolder;font-size: 6rem;line-height: 6rem;">{{periodoActual.diasAtraso}}</span>
+          <div>
+            <h1 style="font-weight: bolder;margin-bottom: 0px;font-size: 2.5rem;">días</h1>
+            <h1 style="font-weight: bolder;margin-bottom: 0px;font-size: 1.5rem;">ATRASO</h1>
+          </div>
+        </div>
+      </div>
 
-          </ion-col>
-          <ion-col size="12">
-            <ion-chip color="primary">Primary</ion-chip>
-            <ion-chip color="secondary">Secondary</ion-chip>
-            <ion-chip color="tertiary">Tertiary</ion-chip>
-          </ion-col>
-          <ion-col size="12">
-            <app-calendario-tarjeta></app-calendario-tarjeta>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+
+
+      <div class="ion-padding ion-text-center">
+        <h6 style="color: #FF0000;" *ngIf="periodoActual.fechaPagoPeriodo != null">
+          La fecha en la que realizaste el pago fue: <span style="font-weight: 600;"> {{periodoActual.fechaPagoPeriodo | date:'d'}} de {{periodoActual.fechaPagoPeriodo | date:'MMMM' |titlecase}} del {{periodoActual.fechaPagoPeriodo | date:'y'}}.</span>
+        </h6>
+        <h6 style="color: #FF0000;" *ngIf="periodoActual.fechaPagoPeriodo == null">
+          Los consumos que hagas desde el<span style="font-weight: 600;"> {{periodoSiguiente.fechaDesde | date:'d'}} de {{periodoSiguiente.fechaDesde | date:'MMMM' |titlecase}} del {{periodoSiguiente.fechaDesde | date:'y'}}</span> hasta el <span style="font-weight: 600;">{{periodoSiguiente.fechaHasta | date:'d'}} de {{periodoSiguiente.fechaHasta | date:'MMMM' |titlecase}} del {{periodoSiguiente.fechaHasta | date:'y'}} </span>se factura en el <span style="font-weight: 600;">Siguiente Periodo</span>.
+        </h6>
+      </div>
+
+      <div class="ion-padding-vertical ion-text-center">
+        <h5>
+          <ion-icon name="calendar-outline"></ion-icon> Fecha Facturación: {{periodoActual.fechaFacturacion | date:'d'}} de {{periodoActual.fechaFacturacion | date:'MMMM' |titlecase}} del {{periodoActual.fechaFacturacion | date:'y'}}
+        </h5>
+        <h5 style="font-weight: 600;">
+          <ion-icon name="calendar-outline"></ion-icon>  Último día Pago: {{periodoActual.fechaPago | date:'d'}} de {{periodoActual.fechaPago | date:'MMMM' |titlecase}} del {{periodoActual.fechaPago | date:'y'}}
+        </h5>
+      </div>
+
+
+      <div class="ion-padding-vertical ion-text-center">
+        <ion-chip class="caption-consumo">Consumo</ion-chip>
+        <ion-chip class="caption-ruleteo">Ruleteo</ion-chip>
+        <ion-chip class="caption-diaPago">Último día pago</ion-chip>
+        <ion-chip class="caption-diaAtraso" *ngIf="periodoActual.diasAtraso > 0 && periodoActual.estado =='0002'">Atraso</ion-chip>
+      </div>
+
+      <ng-container *ngFor="let item of array_calendario">
+        <app-calendario-tarjeta
+                                  [hoy]="this.fechaActual"
+                                  [anio]="item.anio"
+                                  [calendario]="item">
+        </app-calendario-tarjeta>
+      </ng-container>
     </ion-card-content>
   </ion-card>
+
 </ion-content>

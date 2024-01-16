@@ -4,16 +4,24 @@
     background-color: #fff;
     color: #000;
     width: min-content;
-    margin: 1rem auto;    
+    margin: 1rem auto;
     min-width: 240px;
     width: 100%;
     max-width: 350px;
+    padding: 1rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.flex-center{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .calendar_header{
     width: 100%;
 
     display: flex;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     text-align: start;
     align-items: center;
     h4{
@@ -23,7 +31,6 @@
     }
     .calendar_month{
         color: #131313;
-        padding-left: 2rem;
     }
     .calendar_year{
         color: #EE2025;
@@ -33,13 +40,13 @@
 
 .calendar_weekdays{
     display: flex;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     font-size: 1rem!important;
     div{
         color: #131313;
         flex: 1 0 14%;
         text-align: center;
-        font-weight: 600;        
+        font-weight: 600;
         align-items: center;
         justify-content: center;
         height: 22px;
@@ -48,8 +55,8 @@
 
 .calendar_body{
     display:flex;
-    flex-wrap: wrap; 
-    font-weight: 400;    
+    flex-wrap: wrap;
+    font-weight: 400;
     font-size: 1rem!important;
     div{
         padding-top: 2px;
