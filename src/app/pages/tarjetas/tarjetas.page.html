@@ -7,77 +7,71 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="light">
-  <ion-grid fixed>
-    <ion-row>
+<ion-content [fullscreen]="true" color="light">
 
-      <ion-col size="12" class="ion-padding">
+  <div class="ion-padding-horizontal" [formGroup]="filterGroup">
+      <ion-select
+      label="Estado"
+      interface="action-sheet"
+      justify="space-between"
+      placeholder="Todos"
+      fill="solid"
+      formControlName="Estado"
+      (ionChange)="getFilter($event)"
+      value="0001">
+      <ion-select-option *ngFor="let estado of array_estado" [value]="estado.value">
+        {{ estado.nombre | titlecase}}
+      </ion-select-option>
+      </ion-select>
+  </div>
 
-        <ion-select label="Estado" interface="action-sheet" justify="space-between" placeholder="Todos" fill="solid"  value="1">
-          <ion-select-option value="1">Todos</ion-select-option>
-          <ion-select-option value="2">Días de consumo</ion-select-option>
-          <ion-select-option value="3">Aviso para pagar</ion-select-option>
-          <ion-select-option value="4">Días de retraso</ion-select-option>
-          <ion-select-option value="5">Canceladas</ion-select-option>
-        </ion-select>
+  <ion-list lines="full" [inset]="true" *ngIf="array_tarjetas.length > 0">
+    <ion-item-sliding *ngFor="let tarjeta of array_tarjetas" (click)="onShow()">
 
-      </ion-col>
+      <ion-item-options side="start">
+          <ion-item-option >
+              <ion-icon slot="icon-only" name="heart-outline"></ion-icon>
+          </ion-item-option>
+          <ion-item-option color="danger">
+              <ion-icon slot="icon-only" name="share-outline"></ion-icon>
+          </ion-item-option>
+      </ion-item-options>
+
+      <ion-item>
+        <ion-icon name="alert-circle-sharp" color="danger" size="large" *ngIf="tarjeta.estado ==='0003'"></ion-icon>
+
+        <ion-icon name="alert-circle-sharp" style="color: #FFDE00;" size="large" *ngIf="tarjeta.estado  ==='0002'"></ion-icon>
+
+        <ion-icon name="checkmark-circle-sharp" color="success" size="large" *ngIf="tarjeta.estado  ==='0001'"></ion-icon>
 
 
-      <ion-col size="12" *ngIf="array_tarjetas.length > 0">
-          <ion-list lines="full" inset="true">
-            <ion-item-sliding *ngFor="let tarjeta of array_tarjetas" (click)="onShow()">
+        <!-- <ion-icon color="danger" slot="start" name="list-circle" size="large"> </ion-icon> -->
+        <ion-label class="ion-margin-start">
+          <h3>{{ tarjeta?.nombreTarjeta }}</h3>
+          <p> {{ tarjeta?.tipoTarjeta }} </p>
+        </ion-label>
+        <!-- <ion-note slot="end">6</ion-note> -->
+        <!-- <ion-label slot="start" class="ion-text-start text-small">
+          {{ tarjeta?.isActive }}
+        </ion-label> -->
 
-              <ion-item-options side="start">
-                  <ion-item-option >
-                      <ion-icon slot="icon-only" name="heart-outline"></ion-icon>
-                  </ion-item-option>
-                  <ion-item-option color="danger">
-                      <ion-icon slot="icon-only" name="share-outline"></ion-icon>
-                  </ion-item-option>
-              </ion-item-options>
+      </ion-item>
 
-              <ion-item>
-                <ng-container *ngIf="tarjeta.estado ==='0003'">
-                  <ion-icon name="alert-circle-sharp" color="danger" size="large"></ion-icon>
-                </ng-container>
+      <ion-item-options side="end">
+          <ion-item-option color="danger">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-item-option>
+      </ion-item-options>
 
-                <ng-container *ngIf="tarjeta.estado  ==='0002'">
-                  <ion-icon name="alert-circle-sharp" style="color: #FFDE00;" size="large"></ion-icon>
-                </ng-container>
+    </ion-item-sliding>
+  </ion-list>
 
-                <ng-container *ngIf="tarjeta.estado  ==='0001'">
-                  <ion-icon name=" checkmark-circle-sharp" color="success" size="large"></ion-icon>
-                </ng-container>
-
-                <!-- <ion-icon color="danger" slot="start" name="list-circle" size="large"> </ion-icon> -->
-                <ion-label class="ion-margin-start">
-                  <h3>{{ tarjeta?.nombreTarjeta }}</h3>
-                  <p> {{ tarjeta?.tipoTarjeta }} </p>
-                </ion-label>
-                <!-- <ion-note slot="end">6</ion-note> -->
-                <!-- <ion-label slot="start" class="ion-text-start text-small">
-                  {{ tarjeta?.isActive }}
-                </ion-label> -->
-
-              </ion-item>
-
-              <ion-item-options side="end">
-                  <ion-item-option color="danger">
-                      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-                  </ion-item-option>
-              </ion-item-options>
-
-            </ion-item-sliding>
-          </ion-list>
-      </ion-col>
-
-      <ion-col size="12">
-        <ion-button class="ion-padding-horizontal ion-align-items-center" (click)="onSaveUpdate()" expand="block" fill="solid" shape="round" color="success">
-          + Agregar nueva tarjeta
-        </ion-button>
-      </ion-col>
-
-    </ion-row>
-  </ion-grid>
+  <ion-button
+  class="ion-padding-horizontal"
+  (click)="onSaveUpdate()"
+  expand="block"
+  fill="solid"
+  color="success">
+    Nueva Tarjeta
+  </ion-button>
 </ion-content>

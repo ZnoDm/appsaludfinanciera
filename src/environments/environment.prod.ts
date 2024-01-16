@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  url: 'http://localhost:3000/api',
+  apiUrl: 'http://localhost:3000/api',
 
   apiNewsUrl: 'https://newsapi.org/v2',
   apiNewsKey: 'e51fbc55994e45afbe1ccde7a5620c0e',

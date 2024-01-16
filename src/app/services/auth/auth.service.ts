@@ -13,7 +13,7 @@ import * as jwtDecode from 'jwt-decode';
 import { JwtService } from '../jwt.service';
 import { resolve } from 'dns';
 
-const URL = environment.url;
+const URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'

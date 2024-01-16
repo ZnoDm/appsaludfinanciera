@@ -19,7 +19,7 @@ interface DataLogin  {
   providedIn: 'root'
 })
 export class TarjetaService {
-  apiUrl = environment.url + '/tarjeta';
+  apiUrl = environment.apiUrl + '/tarjeta';
 
   isLoading$: Observable<boolean>;
   isLoadingSubject: BehaviorSubject<boolean>;
@@ -58,6 +58,7 @@ export class TarjetaService {
     this.isLoadingSubject.next(true);
     const headers = await this.obtenerHeaders();
     return this.http.post(`${ this.apiUrl }`, data ,{
+      headers: headers
     }).pipe(
       map( data => data ),
       finalize( () =>{this.isLoadingSubject.next(false);})

@@ -20,12 +20,12 @@ interface DataLogin  {
   providedIn: 'root'
 })
 export class PersonService {
-  apiUrl = environment.url + '/person';
+  apiUrl = environment.apiUrl + '/person';
   isLoading$: Observable<boolean>;
   isLoadingSubject: BehaviorSubject<boolean>;
 
   constructor(
-    private http: HttpClient,
+    private httpClient: HttpClient,
     private headerBasicAuthorization: HeaderBasicAuthorizationService,
   ) {
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
@@ -46,7 +46,7 @@ export class PersonService {
   async getPerson() {
     this.isLoadingSubject.next(true);
     const headers = await this.obtenerHeaders();
-    return this.http.get(`${this.apiUrl}`, {
+    return this.httpClient.get(`${this.apiUrl}`, {
       headers: headers
     }).pipe(
       map(data => data),
@@ -56,7 +56,7 @@ export class PersonService {
 
   updateAvatar(data) {
     this.isLoadingSubject.next(true);
-    return this.http.patch(`${ this.apiUrl }/update/avatar`, data ,{
+    return this.httpClient.patch(`${ this.apiUrl }/update/avatar`, data ,{
     }).pipe(
       map( data => data ),
       finalize( () =>{this.isLoadingSubject.next(false);})
@@ -65,7 +65,7 @@ export class PersonService {
 
   updatePerson(data) {
     this.isLoadingSubject.next(true);
-    return this.http.patch(`${ this.apiUrl }/update`, data ,{
+    return this.httpClient.patch(`${ this.apiUrl }/update`, data ,{
     }).pipe(
       map( data => data ),
       finalize( () =>{this.isLoadingSubject.next(false);})
