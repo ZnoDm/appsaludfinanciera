@@ -98,6 +98,37 @@ export class TarjetaService {
       finalize( () =>{this.isLoadingSubject.next(false);})
     );
   }
+  
+  async update(data) {
+    this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
+    return this.http.post(`${ this.apiUrl }`, data ,{
+      headers: headers
+    }).pipe(
+      map( data => data ),
+      finalize( () =>{this.isLoadingSubject.next(false);})
+    );
+  }
+  async enabledDisabledTarjeta(data) {
+    this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
+    return this.http.post(`${ this.apiUrl }`, data ,{
+      headers: headers
+    }).pipe(
+      map( data => data ),
+      finalize( () =>{this.isLoadingSubject.next(false);})
+    );
+  }
+  async delete(data) {
+    this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
+    return this.http.post(`${ this.apiUrl }`, data ,{
+      headers: headers
+    }).pipe(
+      map( data => data ),
+      finalize( () =>{this.isLoadingSubject.next(false);})
+    );
+  }
 
 
 }

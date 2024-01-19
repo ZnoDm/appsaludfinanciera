@@ -1,0 +1,40 @@
+// .container-date{
+//   border-radius: 8px;
+//   border: 2px solid #6A64FF;
+//   border-style: dotted;
+//   border-spacing: 5px;
+//   border-width: 5px;
+//   padding: 1rem;
+//   position: relative;
+// }
+.container-date {
+  width: 100%;
+  border-radius: 8px;
+  border: 2px solid #6A64FF;
+  border-style: dotted;
+  border-spacing: 5px;
+  border-width: 5px;
+  padding: 1rem;
+  position: relative;
+}
+
+.container-date::before,
+.container-date::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 50px; /* Ajusta el ancho según sea necesario */
+  height: 50px; /* Ajusta la altura según sea necesario */
+  border-radius: 50%;
+  background-color: transparent; /* Ajusta el color según sea necesario */
+}
+
+.container-date::before {
+  left: 0;
+  border-left: 2px dotted #6A64FF; /* Ajusta el ancho y el color según sea necesario */
+}
+
+.container-date::after {
+  right: 0;
+  border-right: 2px dotted #6A64FF; /* Ajusta el ancho y el color según sea necesario */
+}

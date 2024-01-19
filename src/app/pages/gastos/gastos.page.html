@@ -1,7 +1,16 @@
 
+<ion-header >
+  <ion-toolbar>
+    <ion-title class="ion-text-capitalize">
+        Tarjetas
+    </ion-title>
+    <!-- <ion-progress-bar type="indeterminate" ></ion-progress-bar> -->
+  </ion-toolbar>
+</ion-header>
 
-<ion-content >
-  <section class="ion-padding">
+<ion-content [fullscreen]="true" color="light">
+
+  <!-- <section class="ion-padding">
     <div class="header-cuentas">
       <h4>Cuenta</h4>
       <a href="">Ver todas</a>
@@ -19,15 +28,15 @@
 
   <div class="container-movimientos">
     <a href=""> PROXIMOS MOVIMIENTOS</a>
-  </div>
+  </div> -->
 
-  <section class="ion-padding">
+  <!-- <section class="ion-padding">
     <div class="card-historial">
       <div class="historia">
-        
+
       </div>
     </div>
-  </section>
+  </section> -->
 
 
 
@@ -35,7 +44,11 @@
 
 
 
-
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" id="open-modal"  expand="block" >
+    <ion-fab-button color="tertiary" (click)="agregar()">
+      <ion-img [src]="'./assets/saludfinanciera/gastos_white.svg'" style="padding:2rem;max-width: 136px;margin-right: -20px;"></ion-img>
+    </ion-fab-button>
+  </ion-fab>
 
 
 

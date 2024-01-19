@@ -1,14 +1,13 @@
-<ion-content  scroll-y="false">
-  <div class="header-toolbar">
-    <ion-toolbar color="tertiary" mode="ios">
-      <ion-title class="ion-text-capitalize" class="ion-text-center">
-          Perfil
-      </ion-title>
-    </ion-toolbar>
-  </div>
+<ion-header >
+  <ion-toolbar>
+    <ion-title class="ion-text-capitalize">
+      Perfil
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <div class="container">
-    <ion-card class="card ion-ios" style="margin-top: 0px!important;">
+<ion-content [fullscreen]="true" color="light">
+    <ion-card class="card" >
       <ion-grid fixed >
         <ion-row >
           <ion-col size="12">
@@ -39,9 +38,8 @@
         </ion-row>
       </ion-grid>
     </ion-card>
-  </div>
 
-  <div class="footer-img">
+  <!-- <div class="footer-img">
     <ion-img [src]="'./assets/saludfinanciera/profile.svg'"></ion-img>
-  </div>
+  </div> -->
 </ion-content>
