@@ -7,10 +7,11 @@
       </ion-button>
     </ion-buttons>
 
-    <ion-title ></ion-title>
+    <ion-title></ion-title>
+
     <ion-buttons slot="start">
-      <ion-button>
-        <app-logo-header></app-logo-header>
+      <ion-button >
+        <app-logo-header style="margin-left: 0.25rem;"></app-logo-header>
       </ion-button>
     </ion-buttons>
 
@@ -32,10 +33,10 @@
     <ion-row class="ion-padding-vertical">
       <ion-col size="12" >
         <div style="display: flex;justify-content: space-between;align-items: center;" >
-          <h6 class="ion-no-margin">Cuentas</h6>
+          <h5 class="ion-no-margin">Cuentas</h5>
           <ion-buttons slot="end">
-            <ion-button (click)="addCuenta()" color="tertiary">
-              <ion-icon name="chevron-forward-outline" slot="end" class="ion-no-margin"></ion-icon> Ver más
+            <ion-button (click)="addCuenta()" color="tertiary" size="small">
+              <ion-icon name="chevron-forward-outline" slot="end" class="ion-no-margin" size="small"></ion-icon> Ver más
             </ion-button>
           </ion-buttons>
         </div>
@@ -49,6 +50,9 @@
     </ion-row>
 
     <ion-row class="ion-no-padding">
+      <ion-col size="12">
+        <h5 class="ion-no-margin">Mira tu progreso</h5>
+      </ion-col>
       <ion-col size="12">
         <app-chart-pie></app-chart-pie>
       </ion-col>

@@ -43,5 +43,37 @@ export class CuentaService {
       finalize(() => this.isLoadingSubject.next(false))
     );
   }
+  async getCuentasListarByUser() {
+    this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
+    return this.httpClient.get(`${this.apiUrl}/listar/user`, {
+      headers: headers
+    }).pipe(
+      map(data => data),
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
 
+
+  async create(data) {
+    this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
+    return this.httpClient.post(`${ this.apiUrl }`, data ,{
+      headers: headers
+    }).pipe(
+      map( data => data ),
+      finalize( () =>{this.isLoadingSubject.next(false);})
+    );
+  }
+
+  async update(data) {
+    this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
+    return this.httpClient.post(`${ this.apiUrl }`, data ,{
+      headers: headers
+    }).pipe(
+      map( data => data ),
+      finalize( () =>{this.isLoadingSubject.next(false);})
+    );
+  }
 }

@@ -4,6 +4,10 @@
     text-align: center;
     font-weight: 600;
     color: var(--ion-color-dark);
+    font-size: smaller;
+  }
+  p.subtitle{
+    text-align: center;
   }
   .container-gasto-total{
     display: flex;
@@ -32,15 +36,17 @@
     justify-content: center;
     align-items: center;
     padding-bottom: 0.75rem;
+    padding-top: 0.25rem;
     h6{
       font-weight: 900;
       margin-bottom: 0px;
-      font-size: 0.75rem;
+      font-size: 0.85rem;
       color: var(--ion-color-danger);
     }
-    h5{
+    h4{
       font-weight: 900;
       margin-bottom: 0px;
+      margin-top: 0px;
       color: var(--ion-color-danger);
     }
     span{
@@ -48,7 +54,6 @@
       display: inline-flex;
       font-weight: 900;
       font-size: 0.75rem;
-      margin-bottom: -1px;
       color: var(--ion-color-danger);
     }
   }

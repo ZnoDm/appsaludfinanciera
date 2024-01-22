@@ -1,6 +1,6 @@
 <ion-header mode="ios">
   <ion-toolbar >
-    <ion-title>Cuenta</ion-title>
+    <ion-title> {{ cuenta != null ? 'Editar' : 'Nueva'  }} Cuenta</ion-title>
     <ion-buttons slot="end" >
       <ion-button color="danger" (click)="cerrarModal()">
       Cerrar
@@ -12,7 +12,8 @@
 </ion-header>
 
 
-<ion-content [fullscreen]="true" color="light" class="ion-padding">
+<ion-content [fullscreen]="true"  class="ion-padding">
+
   <form [formGroup]="cuentaForm" (ngSubmit)="onSubmit()">
     <ion-item>
       <ion-label position="floating">Alias:</ion-label>
@@ -20,18 +21,12 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Saldo Inicial:</ion-label>
-      <ion-input type="number" formControlName="saldo" required></ion-input>
-    </ion-item>
-
-    <ion-item>
       <ion-label position="floating">Máximo a consumir ( mensual):</ion-label>
       <ion-input type="number" formControlName="saldoMensualPromedio" required></ion-input>
     </ion-item>
 
-    <ion-item>
-      <ion-label>Metas:</ion-label>
-      <ion-select formControlName="metas">
+    <ion-item >
+      <ion-select formControlName="metas"  label-placement="stacked" label="Metas:">
         <ion-select-option *ngFor="let meta of array_metas" [value]="meta.id">{{meta.nombre}}</ion-select-option>
         <ion-select-option value="Otro">Otro</ion-select-option>
       </ion-select>
@@ -42,6 +37,15 @@
       <ion-input formControlName="metaOtro" required></ion-input>
     </ion-item>
 
-    <ion-button expand="full" type="submit" [disabled]="cuentaForm.invalid">Registrar</ion-button>
+    <div
+      class="ion-padding-top">
+      <ion-button
+      expand="block"
+      type="submit"
+      mode="ios"
+      shape="round"
+      color="tertiary"
+      [disabled]="cuentaForm.invalid">Guardar</ion-button>
+    </div>
   </form>
 </ion-content>

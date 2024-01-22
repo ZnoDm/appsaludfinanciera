@@ -15,8 +15,11 @@ ion-item.ion-item-custom{
   display: flex;
   flex-direction: column;
 
-  margin: 0px;
-  h5,p{
+  p{
     margin: 0px;
+  }
+  h6{
+    margin-top: 0px;
+    margin-bottom: 0.25rem;
   }
 }
