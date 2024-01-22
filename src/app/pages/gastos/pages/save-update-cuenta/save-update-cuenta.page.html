@@ -1,21 +1,47 @@
 <ion-header mode="ios">
   <ion-toolbar >
-
+    <ion-title>Cuenta</ion-title>
     <ion-buttons slot="end" >
       <ion-button color="danger" (click)="cerrarModal()">
-      close
+      Cerrar
       </ion-button>
-      </ion-buttons>
+    </ion-buttons>
 
 
   </ion-toolbar>
 </ion-header>
 
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">save-update-cuenta</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" color="light" class="ion-padding">
+  <form [formGroup]="cuentaForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Nombre:</ion-label>
+      <ion-input formControlName="nombre" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Saldo:</ion-label>
+      <ion-input type="number" formControlName="saldo" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Saldo Mensual Promedio:</ion-label>
+      <ion-input type="number" formControlName="saldoMensualPromedio" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Metas:</ion-label>
+      <ion-select formControlName="metas">
+        <ion-select-option *ngFor="let meta of array_metas" [value]="meta">{{meta}}</ion-select-option>
+        <ion-select-option value="Otro">Otro</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="cuentaForm.get('metas').value === 'Otro'">
+      <ion-label position="floating">Especifica otra meta:</ion-label>
+      <ion-input formControlName="metaOtro" required></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" [disabled]="cuentaForm.invalid">Registrar</ion-button>
+  </form>
 </ion-content>

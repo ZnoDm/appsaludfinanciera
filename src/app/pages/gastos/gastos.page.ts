@@ -1,7 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { AnimationController, IonModal, ModalController, PickerController, ActionSheetController } from '@ionic/angular';
+import { Component,OnInit} from '@angular/core';
+import { ModalController} from '@ionic/angular';
 
-import { Chart , registerables } from 'chart.js';
+
 import { Router } from '@angular/router';
 import { AgregarPage } from './pages/agregar/agregar.page';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -12,52 +12,9 @@ import { SaveUpdateCuentaPage } from './pages/save-update-cuenta/save-update-cue
   styleUrls: ['./gastos.page.scss'],
 })
 export class GastosPage implements OnInit{
+
   usuario :any = null;
   selectedTab:string = 'cuentas';
-
-
-  @ViewChild('barCanvas') barCanvas: ElementRef | undefined;
-  barChart: any;
-
-  ngAfterViewInit(){
-    Chart.register(...registerables);
-    this.barChartMethod();
-  }
-  barChartMethod() {
-    // Now we need to supply a Chart element reference with an object that defines the type of chart we want to use, and the type of data we want to display.
-    this.barChart = new Chart(this.barCanvas?.nativeElement, {
-      type: "bar",
-      data: {
-        labels: ['BJP', 'INC', 'AAP', 'CPI', 'CPI-M', 'NCP'],
-        datasets: [{
-          label: '# of Votes',
-          data: [200, 50, 30, 15, 20, 34],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255,99,132,1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-
-        }
-      }
-    });
-  }
 
   array_cuentas = [
     { nombre : 'Cuenta A',
@@ -76,11 +33,12 @@ export class GastosPage implements OnInit{
   ) {}
 
   ngOnInit() {
-
-  }
-  ionViewWillEnter() {
     this.getUser();
   }
+
+  // ionViewWillEnter() {
+  //   this.getUser();
+  // }
 
   async getUser(){
     const user = await this.authService.getCurrentUserValue();
@@ -106,7 +64,7 @@ export class GastosPage implements OnInit{
 
   }
 
-  agregar() {
+  addCuenta() {
     this.modalController.create({
       component: SaveUpdateCuentaPage
     }).then(modal => {

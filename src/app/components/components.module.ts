@@ -17,9 +17,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { PeriodoTarjetaComponent } from './tarjetas/periodo-tarjeta/periodo-tarjeta.component';
 import { AvatarEditComponent } from './avatar-edit/avatar-edit.component';
 import { LogoHeaderComponent } from './logo-header/logo-header.component';
-import { CuentasComponent } from './gastos/cuentas/cuentas.component';
+import { CuentaComponent } from './gastos/cuenta/cuenta.component';
 import { HistorialComponent } from './gastos/historial/historial.component';
 import { AvatarSlimComponent } from './gastos/avatar-slim/avatar-slim.component';
+import { ChartPieComponent } from './gastos/chart-pie/chart-pie.component';
+import { ResumenComponent } from './gastos/resumen/resumen.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { AvatarSlimComponent } from './gastos/avatar-slim/avatar-slim.component'
     PeriodoTarjetaComponent,
 
     HistorialComponent,
-    CuentasComponent
+    CuentaComponent,
+    ChartPieComponent,
+    ResumenComponent
   ],
   exports: [
     ArticleComponent,
@@ -51,7 +55,9 @@ import { AvatarSlimComponent } from './gastos/avatar-slim/avatar-slim.component'
     PeriodoTarjetaComponent,
 
     HistorialComponent,
-    CuentasComponent
+    CuentaComponent,
+    ChartPieComponent,
+    ResumenComponent
   ],
   imports: [
     CommonModule,

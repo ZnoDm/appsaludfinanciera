@@ -1,0 +1,55 @@
+.gastos-status{
+  padding: 0.75rem 1rem;
+  p.title{
+    text-align: center;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+  }
+  .container-gasto-total{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h2{
+      font-weight: 900;
+      margin-bottom: 0px;
+      color: var(--ion-color-dark);
+    }
+    h1{
+      font-weight: 900;
+      font-size: 2.25rem;
+      margin-bottom: 0px;
+      color: var(--ion-color-dark);
+    }
+    span{
+      margin-top: auto;
+      display: inline-flex;
+      font-weight: 900;
+      color: var(--ion-color-dark);
+    }
+  }
+  .container-gasto-faltante{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 0.75rem;
+    h6{
+      font-weight: 900;
+      margin-bottom: 0px;
+      font-size: 0.75rem;
+      color: var(--ion-color-danger);
+    }
+    h5{
+      font-weight: 900;
+      margin-bottom: 0px;
+      color: var(--ion-color-danger);
+    }
+    span{
+      margin-top: auto;
+      display: inline-flex;
+      font-weight: 900;
+      font-size: 0.75rem;
+      margin-bottom: -1px;
+      color: var(--ion-color-danger);
+    }
+  }
+}

@@ -3,7 +3,7 @@
   <ion-toolbar>
     <ion-buttons slot="end">
       <ion-button>
-        <ion-icon name="notifications-outline"></ion-icon>
+        <ion-icon name="notifications-outline" color="tertiary"></ion-icon>
       </ion-button>
     </ion-buttons>
 
@@ -25,84 +25,32 @@
         <app-avatar-slim [user]="usuario" [showUser]= "false"></app-avatar-slim>
       </ion-col>
       <ion-col size="8">
-        <ion-card class="ion-no-margin">
-          <ion-card-content class="ion-no-margin ion-no-padding">
-            <div class="gastos-status">
-              <p class="title">Vas gastando</p>
-              <div class="container-gasto-total">
-                <h2>S/. </h2>
-                <h1> 1,080 </h1>
-                <span>.80</span>
-              </div>
-              <div class="container-gasto-faltante">
-                <h6>de S/. </h6>
-                <h5> 1,380 </h5>
-                <span>.80</span>
-              </div>
-              <div>
-                <p style="font-size: smaller;">Faltan gastar <span style="color: var(--ion-color-danger);">S/ 500.00</span> para 5 días</p>
-              </div>
-              <div class="progress-container">
-                <div class="progress-bar" id="myProgressBar"></div>
-              </div>
-            </div>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col size="12">
-        <div style="display: flex;justify-content: space-between;align-items: center;" >
-          <p>Cuentas</p>
-          <ion-buttons slot="end">
-            <ion-button>
-              <ion-icon slot="icon-only" name="add"></ion-icon> NUEVO
-            </ion-button>
-          </ion-buttons>
-        </div>
+        <app-resumen></app-resumen>
       </ion-col>
     </ion-row>
 
     <ion-row class="ion-padding-vertical">
-      <ion-col size="12" *ngFor="let currentCuenta of array_cuentas">
-        <app-cuentas [cuenta] = "currentCuenta"></app-cuentas>
-      </ion-col>
-
-      <ion-col size="12">
-        <div style="display: flex;justify-content: center;">
-          <a>
-            Ver más
-          </a>
+      <ion-col size="12" >
+        <div style="display: flex;justify-content: space-between;align-items: center;" >
+          <h6 class="ion-no-margin">Cuentas</h6>
+          <ion-buttons slot="end">
+            <ion-button (click)="addCuenta()" color="tertiary">
+              <ion-icon name="chevron-forward-outline" slot="end" class="ion-no-margin"></ion-icon> Ver más
+            </ion-button>
+          </ion-buttons>
         </div>
       </ion-col>
+      <ion-col size="12" *ngFor="let currentCuenta of array_cuentas">
+        <app-cuenta [cuenta] = "currentCuenta"></app-cuenta>
+      </ion-col>
+      <ion-col size="12" >
+        <app-cuenta [nuevo]="true" (click)="addCuenta()"></app-cuenta>
+      </ion-col>
     </ion-row>
+
     <ion-row class="ion-no-padding">
       <ion-col size="12">
-        <ion-card class="ion-no-margin">
-          <ion-card-content>
-            <h2>Mira tu progreso</h2>
-            <h3>Vienes gastando S./ 1, 080.80</h3>
-            <div>
-              <canvas #barCanvas style="position: relative; width:100%;height: auto;"></canvas>
-            </div>
-
-            <ion-grid fixed>
-              <ion-row>
-                <ion-col size="6">
-                  <div class="circle-leyend"[ngStyle]="{'background-color': '#4CAF50'}"></div>
-                  <h6>Compras</h6>
-                </ion-col>
-                <ion-col size="6">
-                  <div class="circle-leyend"[ngStyle]="{'background-color': '#4CAF50'}"></div>
-                  <h6>Comida</h6>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-
-          </ion-card-content>
-        </ion-card>
-
+        <app-chart-pie></app-chart-pie>
       </ion-col>
     </ion-row>
   </ion-grid>
