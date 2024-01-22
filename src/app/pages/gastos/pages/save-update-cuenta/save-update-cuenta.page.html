@@ -15,24 +15,24 @@
 <ion-content [fullscreen]="true" color="light" class="ion-padding">
   <form [formGroup]="cuentaForm" (ngSubmit)="onSubmit()">
     <ion-item>
-      <ion-label position="floating">Nombre:</ion-label>
+      <ion-label position="floating">Alias:</ion-label>
       <ion-input formControlName="nombre" required></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Saldo:</ion-label>
+      <ion-label position="floating">Saldo Inicial:</ion-label>
       <ion-input type="number" formControlName="saldo" required></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Saldo Mensual Promedio:</ion-label>
+      <ion-label position="floating">Máximo a consumir ( mensual):</ion-label>
       <ion-input type="number" formControlName="saldoMensualPromedio" required></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label>Metas:</ion-label>
       <ion-select formControlName="metas">
-        <ion-select-option *ngFor="let meta of array_metas" [value]="meta">{{meta}}</ion-select-option>
+        <ion-select-option *ngFor="let meta of array_metas" [value]="meta.id">{{meta.nombre}}</ion-select-option>
         <ion-select-option value="Otro">Otro</ion-select-option>
       </ion-select>
     </ion-item>
