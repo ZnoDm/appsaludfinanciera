@@ -1,40 +1,61 @@
-// .container-date{
-//   border-radius: 8px;
-//   border: 2px solid #6A64FF;
-//   border-style: dotted;
-//   border-spacing: 5px;
-//   border-width: 5px;
-//   padding: 1rem;
-//   position: relative;
-// }
+
 .container-date {
   width: 100%;
-  border-radius: 8px;
-  border: 2px solid #6A64FF;
-  border-style: dotted;
-  border-spacing: 5px;
-  border-width: 5px;
-  padding: 1rem;
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+}
+span{
+  display: inline-block;
+  color	: var(--ion-color-tertiary);
 }
 
-.container-date::before,
-.container-date::after {
-  content: '';
+ion-item.ion-item-custom{
+  --background: transparent!important;
+}
+
+ion-input.custom-input{
+  display: flex;
+  font-size: 3.5rem;
+  margin: auto;
+  text-align: center;
+
+  --color	: var(--ion-color-tertiary);
+  --highlight-color-valid: none;
+  --placeholder-color : rgba(var(--ion-color-tertiary), 0.1)
+  --padding: 0px;
+}
+
+ion-input.custom-gasto-input{
+  text-align: center;
+  border-bottom: 1px solid var(--ion-color-light);
+}
+
+.prefix-soles{
   position: absolute;
-  top: 0;
-  width: 50px; /* Ajusta el ancho según sea necesario */
-  height: 50px; /* Ajusta la altura según sea necesario */
-  border-radius: 50%;
-  background-color: transparent; /* Ajusta el color según sea necesario */
+  font-weight: 700;
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+  font-size: 1.75rem!important;
+  color: var(--ion-color-tertiary); /* Color personalizado de Ionic */
 }
 
-.container-date::before {
-  left: 0;
-  border-left: 2px dotted #6A64FF; /* Ajusta el ancho y el color según sea necesario */
-}
 
-.container-date::after {
-  right: 0;
-  border-right: 2px dotted #6A64FF; /* Ajusta el ancho y el color según sea necesario */
+
+
+.container-category{
+  background-color: var(--ion-color-light);
+  border-radius: 8px;
+  margin-left: 8px;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  p {
+    margin: 0px;
+  }
+}
+.container-category.active{
+  background-color: var(--ion-color-tertiary);
+  color: var( --ion-color-tertiary-contrast);
 }

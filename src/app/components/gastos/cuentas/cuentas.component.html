@@ -1,0 +1,14 @@
+
+<ion-item class="ion-item-custom" lines="none" *ngIf="!nuevo">
+  <div class="container-cuenta">
+    <h5>{{cuenta.nombre}}</h5>
+    <p>S/.{{cuenta.gasto}}</p>
+  </div>
+</ion-item>
+
+<ion-item class="ion-item-custom" lines="none" *ngIf="nuevo">
+  <ion-icon name="add-circle" slot="start"></ion-icon>
+  <ion-label>
+    <h2>NUEVO</h2>
+  </ion-label>
+</ion-item>

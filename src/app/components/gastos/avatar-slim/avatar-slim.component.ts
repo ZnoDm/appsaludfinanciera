@@ -8,11 +8,11 @@ import { ToastrService } from 'src/app/services/toastr.service';
 
 
 @Component({
-  selector: 'app-avatar',
-  templateUrl: './avatar.component.html',
-  styleUrls: ['./avatar.component.scss']
+  selector: 'app-avatar-slim',
+  templateUrl: './avatar-slim.component.html',
+  styleUrls: ['./avatar-slim.component.scss']
 })
-export class AvatarComponent implements OnInit{
+export class AvatarSlimComponent implements OnInit{
   @ViewChild('fileInput') fileInput: ElementRef;
   uploadPercent: Observable<number>;
   @Input() user = null

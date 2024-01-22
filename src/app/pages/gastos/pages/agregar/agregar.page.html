@@ -11,93 +11,105 @@
   </ion-toolbar>
 
 </ion-header>
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" position="fixed">
 
-  <div class="container-date">
-    {{ fechaActual | date: 'dd/MM/yyyy' }}
-  </div>
+  <ion-card color="light" >
+    <ion-card-content>
+      <div class="container-date">
+        <ion-text >
+          <p>{{ nombreDia }} <span>{{fechaMes}}</span></p>
+        </ion-text>
+        <ion-button (click)="openCalendar()" color="tertiary" size="small">
+          <ion-icon slot="icon-only" name="calendar-outline" size="small"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
 
-  <div *ngIf="selectedDate" class="ion-text-center">
-    <p>Fecha seleccionada: {{ selectedDate | date: 'dd/MM/yyyy' }}</p>
-  </div>
+  </ion-card>
 
 
-  <!-- <ion-button shape="rounded" (click)="showDatePicker()">
-    <ion-icon name="calendar-number-outline"></ion-icon>
-  </ion-button>
-  <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="selectedDate"></ion-datetime> -->
-
-  <ion-datetime-button datetime="datetime"></ion-datetime-button>
-
-  <ion-modal [keepContentsMounted]="true">
+  <ion-datetime-button datetime="datetime" id="fake-click" class="ion-hide"></ion-datetime-button>
+  <ion-modal [keepContentsMounted]="true" [isOpen]="showCalendar" (didDismiss)="cancelCalendar()">
     <ng-template>
-      <ion-datetime id="datetime"></ion-datetime>
-      <ion-button (click)="closeModal()">
-        <ion-icon name="close"></ion-icon>
-      </ion-button>
+      <ion-datetime
+        id="datetime"
+        locale="es-ES"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Confirm"
+        cancelText="Cancel"
+        (ionChange)="onDateChange($event)"
+      ></ion-datetime>
     </ng-template>
   </ion-modal>
 
-  <!-- <ion-list>
-    <ion-item>
-      <ion-grid fixed>
-        <ion-row>
-          <ion-col size="12">
-            <div style="width: 100%;display: flex;justify-content: space-between;">
-              <div *ngIf="selectedDate" class="ion-text-center">
-                <p>Fecha seleccionada: {{ selectedDate | date: 'dd/MM/yyyy' }}</p>
-              </div>
-              <ion-button shape="rounded" (click)="showDatePicker()">
-                <ion-icon name="calendar-number-outline"></ion-icon>
-              </ion-button>
+
+  <ion-grid fixed>
+    <ion-row class="ion-justify-content-center">
+      <ion-col>
+        <ion-item class="ion-item-custom" lines="none">
+          <ion-input
+            type="text"
+            class="custom-input"
+            color="tertiary"
+            placeholder="0.00"
+            [(ngModel)]="tuModelo"
+            (input)="validarNumero($event)"
+          >
+          <span class="prefix-soles">S/.</span>
+          </ion-input>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size="12">
+          <ion-item class="ion-item-custom" lines="none">
+            <ion-input
+              type="text"
+              class="custom-gasto-input"
+              placeholder="¿Qué gasto fue?"
+            ></ion-input>
+          </ion-item>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-text>
+          <p class="ion-no-margin">Gastos variables recurrentes</p>
+        </ion-text>
+      </ion-col>
+
+      <ion-col size="12">
+        <swiper-container
+        #swiper
+        [autoplay]="false"
+        [modules]="swiperModules"
+        [allowTouchMove] ="false"
+        [slidesPerView] = 3.5>
+
+          <swiper-slide  *ngFor="let category of array_categorias">
+
+            <div class="container-category" [class.active]="category.active == true">
+              <p>{{category.nombre}}</p>
             </div>
-          </ion-col>
-          <ion-col size="12" align="center">
-            <ion-input type="text" placeholder="20.0" style="font-size: 4rem;"></ion-input>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+
+          </swiper-slide>
 
 
-    </ion-item>
-    <ion-item>
-      <ion-grid fixed>
-        <ion-row>
-          <ion-col size="12">
-            <ion-segment [scrollable]="true" mode="md">
-              <ion-segment-button value="pizza">
-                <div class="periodo">
-                  <h1>Feb</h1>
-                  <span>20233</span>
-                </div>
-              </ion-segment-button>
-              <ion-segment-button value="pizza2">
-                <div class="periodo">
-                  <h1>Feb</h1>
-                  <span>20233</span>
-                </div>
-              </ion-segment-button>
-              <ion-segment-button value="pizza3">
-                <div class="periodo">
-                  <h1>Feb</h1>
-                  <span>20233</span>
-                </div>
-              </ion-segment-button>
-              <ion-segment-button value="pizza4">
-                <div class="periodo">
-                  <h1>Feb</h1>
-                  <span>20233</span>
-                </div>
-              </ion-segment-button>
-            </ion-segment>
-          </ion-col>
-          <ion-col size="12">
-            <ion-button expand="block" size="large">REGISTRAR</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-  </ion-list> -->
+        </swiper-container>
+      </ion-col>
+
+      <ion-col size="12" class="ion-padding-vertical">
+        <ion-button
+        expand="block"
+        type="submit"
+        mode="ios"
+        color="tertiary">REGISTRAR</ion-button>
+      </ion-col>
+
+
+    </ion-row>
+  </ion-grid>
+
+
 
 
 </ion-content>

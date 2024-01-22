@@ -1,51 +1,114 @@
 
 <ion-header >
   <ion-toolbar>
-    <ion-title class="ion-text-capitalize">
-        Tarjetas
-    </ion-title>
-    <!-- <ion-progress-bar type="indeterminate" ></ion-progress-bar> -->
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title ></ion-title>
+    <ion-buttons slot="start">
+      <ion-button>
+        <app-logo-header></app-logo-header>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" color="light">
+<ion-content [fullscreen]="true" class="ion-padding-horizontal" >
 
-  <!-- <section class="ion-padding">
-    <div class="header-cuentas">
-      <h4>Cuenta</h4>
-      <a href="">Ver todas</a>
-    </div>
-    <div class="container-cuentas">
-      <div class="cuenta" *ngFor="let cuenta of array_cuentas">
-        <h5>{{cuenta.nombre}}</h5>
-        <p>S/.{{cuenta.gasto}}</p>
-      </div>
-      <div class="btn-add-cuenta">
-          <ion-icon name="add-circle" size="large"></ion-icon>
-      </div>
-    </div>
-  </section>
+  <ion-grid fixed class="ion-padding-vertical">
+    <ion-row>
+      <ion-col size="4">
+        <app-avatar-slim [user]="usuario" [showUser]= "false"></app-avatar-slim>
+      </ion-col>
+      <ion-col size="8">
+        <ion-card class="ion-no-margin">
+          <ion-card-content class="ion-no-margin ion-no-padding">
+            <div class="gastos-status">
+              <p class="title">Vas gastando</p>
+              <div class="container-gasto-total">
+                <h2>S/. </h2>
+                <h1> 1,080 </h1>
+                <span>.80</span>
+              </div>
+              <div class="container-gasto-faltante">
+                <h6>de S/. </h6>
+                <h5> 1,380 </h5>
+                <span>.80</span>
+              </div>
+              <div>
+                <p style="font-size: smaller;">Faltan gastar <span style="color: var(--ion-color-danger);">S/ 500.00</span> para 5 días</p>
+              </div>
+              <div class="progress-container">
+                <div class="progress-bar" id="myProgressBar"></div>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
 
-  <div class="container-movimientos">
-    <a href=""> PROXIMOS MOVIMIENTOS</a>
-  </div> -->
+    <ion-row>
+      <ion-col size="12">
+        <div style="display: flex;justify-content: space-between;align-items: center;" >
+          <p>Cuentas</p>
+          <ion-buttons slot="end">
+            <ion-button>
+              <ion-icon slot="icon-only" name="add"></ion-icon> NUEVO
+            </ion-button>
+          </ion-buttons>
+        </div>
+      </ion-col>
+    </ion-row>
 
-  <!-- <section class="ion-padding">
-    <div class="card-historial">
-      <div class="historia">
+    <ion-row class="ion-padding-vertical">
+      <ion-col size="12" *ngFor="let currentCuenta of array_cuentas">
+        <app-cuentas [cuenta] = "currentCuenta"></app-cuentas>
+      </ion-col>
 
-      </div>
-    </div>
-  </section> -->
+      <ion-col size="12">
+        <div style="display: flex;justify-content: center;">
+          <a>
+            Ver más
+          </a>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-no-padding">
+      <ion-col size="12">
+        <ion-card class="ion-no-margin">
+          <ion-card-content>
+            <h2>Mira tu progreso</h2>
+            <h3>Vienes gastando S./ 1, 080.80</h3>
+            <div>
+              <canvas #barCanvas style="position: relative; width:100%;height: auto;"></canvas>
+            </div>
 
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="6">
+                  <div class="circle-leyend"[ngStyle]="{'background-color': '#4CAF50'}"></div>
+                  <h6>Compras</h6>
+                </ion-col>
+                <ion-col size="6">
+                  <div class="circle-leyend"[ngStyle]="{'background-color': '#4CAF50'}"></div>
+                  <h6>Comida</h6>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
 
+          </ion-card-content>
+        </ion-card>
 
-
-
-
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" id="open-modal"  expand="block" >
-    <ion-fab-button color="tertiary" (click)="agregar()">
+    <ion-fab-button color="tertiary" (click)="agregarGastoIngreso()">
       <ion-img [src]="'./assets/saludfinanciera/gastos_white.svg'" style="padding:2rem;max-width: 136px;margin-right: -20px;"></ion-img>
     </ion-fab-button>
   </ion-fab>
@@ -54,3 +117,89 @@
 
 
 </ion-content>
+
+
+
+   <!-- Contenido basado en el valor del segmento -->
+  <!-- <ng-container *ngIf="selectedTab === 'historial'">
+    <ion-grid fixed>
+      <ion-row>
+          <ion-col size="4">
+
+          </ion-col>
+          <ion-col size="8">
+            <ion-card>
+              <ion-card-content>
+                <div class="gastos-status">
+                  <span>Vas gastando</span>
+                  <h1>S./ 1, 080.80</h1>
+                  <h4>de S/1,580.00</h4>
+                  <h6>Faltan gastar S/ 500.00 para 5 días</h6>
+                  <div class="progress-container">
+                    <div class="progress-bar" id="myProgressBar"></div>
+                  </div>
+                </div>
+              </ion-card-content>
+            </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-card>
+            <ion-card-content>
+              <h2>Mira tu progreso</h2>
+              <h3>Vienes gastando S./ 1, 080.80</h3>
+              <div>
+                <canvas #barCanvas style="position: relative; height:15vh; width:40vw"></canvas>
+              </div>
+
+              <ion-grid fixed>
+                <ion-row>
+                  <ion-col size="6">
+                    <div class="circle-leyend"[ngStyle]="{'background-color': '#4CAF50'}"></div>
+                    <h6>Compras</h6>
+                  </ion-col>
+                  <ion-col size="6">
+                    <div class="circle-leyend"[ngStyle]="{'background-color': '#4CAF50'}"></div>
+                    <h6>Comida</h6>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+
+            </ion-card-content>
+          </ion-card>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
+  <ng-container *ngIf="selectedTab === 'cuentas'">
+
+    <ion-text color="dark" class="ion-text-center">
+      <h5 class="ion-padding-horizontal ion-no-margin ion-padding-top">Selecciona una cuenta</h5>
+    </ion-text>
+
+    <ion-row class="ion-padding">
+
+      <ion-col size="6" *ngFor="let currentCuenta of array_cuentas">
+        <app-cuentas [cuenta] = "currentCuenta"></app-cuentas>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-item class="ion-item-custom" lines="none" >
+          <ion-icon name="add-circle" slot="start"></ion-icon>
+          <ion-label>
+            <h2>NUEVO</h2>
+          </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-item-divider>
+      <div style="width: 100%; text-align: center;">PRÓXIMOS MOVIMIENTOS</div>
+    </ion-item-divider>
+
+
+
+  </ng-container> -->

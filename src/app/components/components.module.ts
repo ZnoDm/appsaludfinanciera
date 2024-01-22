@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { HeaderPeriodoComponent } from './header-periodo/header-periodo.component';
 import { FormsModule } from '@angular/forms';
 import { ArticleComponent } from './news/article/article.component';
 import { ArticlesComponent } from './news/articles/articles.component';
@@ -17,32 +16,42 @@ import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { PeriodoTarjetaComponent } from './tarjetas/periodo-tarjeta/periodo-tarjeta.component';
 import { AvatarEditComponent } from './avatar-edit/avatar-edit.component';
+import { LogoHeaderComponent } from './logo-header/logo-header.component';
+import { CuentasComponent } from './gastos/cuentas/cuentas.component';
+import { HistorialComponent } from './gastos/historial/historial.component';
+import { AvatarSlimComponent } from './gastos/avatar-slim/avatar-slim.component';
 
 @NgModule({
   declarations: [
-    HeaderPeriodoComponent,
     ArticleComponent,
     ArticlesComponent,
     LogoComponent,
+    LogoHeaderComponent,
     EsloganComponent,
 
     AvatarComponent,
     AvatarEditComponent,
-
+    AvatarSlimComponent,
     CalendarioTarjetaComponent,
-    PeriodoTarjetaComponent
+    PeriodoTarjetaComponent,
+
+    HistorialComponent,
+    CuentasComponent
   ],
   exports: [
-    HeaderPeriodoComponent,
     ArticleComponent,
     ArticlesComponent,
     LogoComponent,
+    LogoHeaderComponent,
     EsloganComponent,
     AvatarComponent,
     AvatarEditComponent,
-
+    AvatarSlimComponent,
     CalendarioTarjetaComponent,
-    PeriodoTarjetaComponent
+    PeriodoTarjetaComponent,
+
+    HistorialComponent,
+    CuentasComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,30 @@
+.theme-dependent-image {
+  width: 24px;
+  height: auto;
+  g path{
+    fill: var(--ion-color-dark);
+  }
+  // Cambia el color de la imagen cuando el tema es dark
+  ion-item.dark & {
+    g path{
+      fill: var(--ion-color-light);
+    }
+  }
+}
+
+.theme-dependent-image-2 {
+  margin-bottom: -1px;
+  margin-left: 4px;
+
+  width: 60px; /* Ajusta el tamaño según tus necesidades */
+  height: auto; /* Ajusta el tamaño según tus necesidades */
+  g path,path {
+    fill: var(--ion-color-dark);
+  }
+  // Cambia el color de la imagen cuando el tema es dark
+  ion-item.dark & {
+    g path,path{
+      fill: var(--ion-color-light);
+    }
+  }
+}

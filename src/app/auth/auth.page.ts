@@ -14,6 +14,7 @@ import { ToastrService } from '../services/toastr.service';
 })
 
 export class AuthPage implements OnInit{
+  
   swiperModules = [IonicSlides];
   @ViewChild('swiper')
   swiperRef: ElementRef | undefined;
@@ -23,6 +24,7 @@ export class AuthPage implements OnInit{
   formRegister: FormGroup;
 
   isLoading$: Observable<boolean>;
+
   constructor(
     private fb: FormBuilder,
     private authService:AuthService,

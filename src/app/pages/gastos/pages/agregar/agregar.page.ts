@@ -1,6 +1,8 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { PickerController, ModalController } from '@ionic/angular';
+import { Component, OnInit, LOCALE_ID, Inject, ViewChild, ElementRef } from '@angular/core';
+import { PickerController, ModalController, IonModal, IonicSlides } from '@ionic/angular';
+import { register } from 'swiper/element';
+import { Swiper, SwiperOptions } from 'swiper/types';
 
 @Component({
   selector: 'app-agregar',
@@ -9,57 +11,70 @@ import { PickerController, ModalController } from '@ionic/angular';
   providers: [ DatePipe ]
 })
 export class AgregarPage implements OnInit {
+  swiperModules = [IonicSlides];
+  @ViewChild('swiper')
+  swiperRef: ElementRef | undefined;
+
 
   fechaActual : any;
+  nombreDia: string;
+  fechaMes: string;
+
+  array_categorias:any =  [ {id:1, nombre:'Indriver',active:true},{id:1,nombre:'Golosinas',active:false},{id:1,nombre:'Demo',active:false},{id:1,nombre:'Indriver',active:false} ]
 
   constructor(
-    private pickerController: PickerController,
     private modalController: ModalController,
     private datePipe: DatePipe,
+    @Inject(LOCALE_ID) private locale: string
   ) { }
 
+
+  tuModelo: string;
+  validarNumero(event: any): void {
+    this.tuModelo = event.target.value.replace(/[^0-9.]/g, '');
+    const partes = this.tuModelo.split('.');
+    if (partes[0].length > 3) {
+      partes[0] = partes[0].slice(0, 3);
+    }
+    if (partes.length > 1) {
+      partes[1] = partes[1].slice(0, 2);
+    }
+    this.tuModelo = partes.join('.');
+  }
+
+
   ngOnInit() {
-    this.fechaActual = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    const fecha = new Date();
+    this.obtenerFechaActualConFormato(fecha);
   }
 
-
-  selectedDate: Date;
-  async showDatePicker() {
-    const picker = await this.pickerController.create({
-      columns: [
-        {
-          name: 'date',
-          options: [
-            // Puedes personalizar las opciones de fecha según tus necesidades.
-            { text: '01/01/2023', value: new Date(2023, 0, 1) },
-            { text: '02/01/2023', value: new Date(2023, 0, 2) },
-            // Agrega más opciones aquí
-          ],
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
-        {
-          text: 'Aceptar',
-          handler: (value) => {
-            this.selectedDate = value.date.value;
-          },
-        },
-      ],
-    });
-    await picker.present();
+  obtenerFechaActualConFormato(fecha:Date){
+    const formato = 'EEEE d \'de\' MMMM';
+    this.fechaActual = this.datePipe.transform(fecha, formato, null, this.locale);
+    this.nombreDia= this.datePipe.transform(fecha, 'EEEE', null, this.locale);
+    this.fechaMes= this.datePipe.transform(fecha, 'd \'de\' MMMM', null, this.locale);
   }
 
-  date_event:any;
-  datePick(){
-    this.date_event = this.date_event.substring(0, 10);
+  showCalendar = false;
+  onDateChange(event: any) {
+    const selectedDate = event.detail.value;
+    if(selectedDate != null){
+      console.log('Fecha seleccionada:', selectedDate);
+      this.obtenerFechaActualConFormato(selectedDate)
+    }
   }
-
+  openCalendar() {
+    this.showCalendar = true;
+  }
+  cancelCalendar() {
+    this.showCalendar = false;
+  }
   closeModal() {
     this.modalController.dismiss();
   }
 
+
+  onCategorySelected(){
+    console.log('categoria seleccionada');
+  }
 }
