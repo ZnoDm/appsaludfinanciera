@@ -6,28 +6,34 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" color="light">
-    <ion-card class="card" >
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" [pullFactor]="0.5" [pullMin]="100" [pullMax]="200" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+    <ion-card >
       <ion-grid fixed >
         <ion-row >
-          <ion-col size="12" style="padding-top: 2rem;">
+          <ion-col size="12" class="ion-padding-vertical ion-margin-vertical">
             <app-avatar [user]="usuario"></app-avatar>
           </ion-col>
           <ion-col size="12">
             <ion-list-header>
-            <ion-label class="ion-padding-horizontal" style="font-weight: 600;">Configuracion</ion-label>
+              <ion-label class="ion-padding-horizontal ion-no-margin" >Configuración</ion-label>
             </ion-list-header>
 
             <ion-list [inset]="true" style="padding: 0px;">
               <ion-item [button]="true" (click)="navigateToSettings()" color="light">
                 <ion-icon slot="start" name="settings-sharp" ></ion-icon>
                 <ion-label>Informacion Personal</ion-label>
-               <!--  <ion-icon slot="end" name="chevron-forward-sharp" size="small" mode="md"></ion-icon> -->
               </ion-item>
               <ion-item [button]="true" (click)="navigateToChangePassword()" color="light">
                 <ion-icon slot="start" name="lock-closed-sharp" ></ion-icon>
                 <ion-label>Cambiar Contraseña</ion-label>
-                <!-- <ion-icon slot="end" name="chevron-forward-sharp" size="small" mode="ios"></ion-icon> -->
+              </ion-item>
+              <ion-item [button]="true" color="light">
+                <ion-icon slot="start" name="alert-circle"></ion-icon>
+                <ion-label>Información</ion-label>
               </ion-item>
               <ion-item [button]="true" (click)="logout()" color="light">
                 <ion-icon slot="start" name="log-out-sharp"></ion-icon>
@@ -39,7 +45,7 @@
       </ion-grid>
     </ion-card>
 
-  <!-- <div class="footer-img">
+  <div class="footer-img">
     <ion-img [src]="'./assets/saludfinanciera/profile.svg'"></ion-img>
-  </div> -->
+  </div>
 </ion-content>

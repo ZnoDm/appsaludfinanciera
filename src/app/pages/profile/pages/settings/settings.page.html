@@ -1,24 +1,24 @@
 <ion-header mode="ios">
   <ion-toolbar >
-
-    <ion-buttons slot="start">
-      <ion-back-button
-        defaultHref="/tabs/profile"
+    <ion-buttons  slot="start">
+      <ion-button (click)="cerrarModal()"
         text="Volver"
-        color="primary">
-      </ion-back-button>
+        color="primary"
+       >
+       <ion-icon name="chevron-back"></ion-icon>
+       Volver
+      </ion-button>
     </ion-buttons>
-
-
     <ion-progress-bar type="indeterminate" *ngIf="isLoading$ | async"></ion-progress-bar>
-
   </ion-toolbar>
 </ion-header>
 
 
-<ion-content [fullscreen]="true" color="light">
+<ion-content [fullscreen]="true">
   <form [formGroup]="personForm" (ngSubmit)="onSubmit()">
-    <h6 class="ion-padding-horizontal">INFORMACION PERSONAL</h6>
+    <h5 class="ion-padding-horizontal ion-text-center">Información Personal</h5>
+
+    <app-avatar-edit [urlImagen] = "urlAvatar"></app-avatar-edit>
 
     <ion-list ion-list [inset]="true">
 

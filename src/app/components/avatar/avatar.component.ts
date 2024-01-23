@@ -32,7 +32,6 @@ export class AvatarComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
   }
 
 

@@ -1,10 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { PersonService } from '../../../../services/person/person.service';
 import { ToastrService } from 'src/app/services/toastr.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../services/auth/auth.service';
+import { LoadingController, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-settings',
@@ -12,7 +13,7 @@ import { AuthService } from '../../../../services/auth/auth.service';
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
-
+  @Input() urlAvatar :  any = null;
   personForm: FormGroup;
 
   isLoading$: Observable<boolean>;
@@ -28,11 +29,14 @@ export class SettingsPage implements OnInit {
     private toastrService: ToastrService,
     private router: Router,
     private authService:AuthService,
+    private modalController: ModalController,
+    private loadingController: LoadingController
   ) {
     this.isLoading$ = this.personService.isLoading$;
   }
 
   ngOnInit() {
+    this.showLoading()
     this.personFormInit();
     this.getDatosPersonales();
   }
@@ -97,7 +101,7 @@ export class SettingsPage implements OnInit {
         if (resp.ok) {
           console.log(resp);
           await this.authService.setCurrentUserValue(resp.user);
-          this.router.navigate(['/main/tabs/profile']);
+          this.modalController.dismiss(resp);
         } else {
           this.toastrService.alertaInformativa(resp.message || resp);
         }
@@ -108,5 +112,18 @@ export class SettingsPage implements OnInit {
         console.log(error);
       },
     });
+  }
+
+  async showLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Loading...',
+      duration: 500,
+    });
+
+    loading.present();
+  }
+
+  cerrarModal(){
+    this.modalController.dismiss(null);
   }
 }

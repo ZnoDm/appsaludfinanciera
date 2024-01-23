@@ -1,12 +1,12 @@
 <ion-header mode="ios">
   <ion-toolbar >
-
-    <ion-buttons slot="start">
-      <ion-back-button
-        defaultHref="/main/tabs/tarjetas"
+    <ion-title>{{ tarjeta != null ? 'Editar' : 'Nueva'  }} Tarjeta</ion-title>
+    <ion-buttons  slot="start">
+      <ion-button (click)="cerrarModal()"
         text="Volver"
-        color="primary">
-      </ion-back-button>
+        color="primary"
+       >Volver
+      </ion-button>
     </ion-buttons>
 
 
@@ -15,7 +15,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" color="light">
+<ion-content [fullscreen]="true">
 
   <h4 class="title ion-padding ion-text-center">Registra tus Tarjetas para recibir recordatorios de pago </h4>
 
@@ -41,7 +41,7 @@
           formControlName="banco"
           fill="solid"
           required
-          (ionChange)="getTipoTarjetaListar(tarjetaForm.controls['banco'].value,tarjetaForm.controls['proveedorTarjeta'].value);getTipoCierreListar(tarjetaForm.controls['banco'].value)">
+          (ionChange)="getTipoTarjetaListar(tarjetaForm.controls['banco'].value,tarjetaForm.controls['proveedorTarjeta'].value,null);getTipoCierreListar(tarjetaForm.controls['banco'].value,null)">
           <div slot="label">Banco <ion-text color="danger" *ngIf="controlHasError('required', 'banco')">(*)</ion-text></div>
           <ion-select-option *ngFor="let banco of array_banco" [value]="banco.id">
             {{ banco.nombre | uppercase}}
@@ -55,7 +55,7 @@
           formControlName="proveedorTarjeta"
           fill="solid"
           required
-          (ionChange)="getTipoTarjetaListar(tarjetaForm.controls['banco'].value,tarjetaForm.controls['proveedorTarjeta'].value)">
+          (ionChange)="getTipoTarjetaListar(tarjetaForm.controls['banco'].value,tarjetaForm.controls['proveedorTarjeta'].value,null)">
           <div slot="label">Proveedor Tarjeta <ion-text color="danger" *ngIf="controlHasError('required', 'proveedorTarjeta')">(*)</ion-text></div>
           <ion-select-option *ngFor="let proveedorTarjeta of array_proveedorTarjeta" [value]="proveedorTarjeta.id">
             {{ proveedorTarjeta.nombre }}

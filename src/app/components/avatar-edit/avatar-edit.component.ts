@@ -18,12 +18,8 @@ export class AvatarEditComponent implements OnInit{
   @Input() urlImagen: string = null;
   uploadPercent: Observable<number>;
 
-
-  user : any =null;
-
-
   defaultUrlAvatar:string = './assets/avatars/av-1.png';
-
+  loading = false;
   constructor(
     private storage: AngularFireStorage,
     private personService : PersonService,
@@ -31,11 +27,12 @@ export class AvatarEditComponent implements OnInit{
     private toastr: ToastrService,
     private chgRef: ChangeDetectorRef
   ) {
-    // this.user = this.authService.currentUserValue;
   }
 
   ngOnInit(): void {
-
+    setTimeout(() => {
+      this.loading = true;
+    }, 500);
   }
 
 
@@ -62,12 +59,13 @@ export class AvatarEditComponent implements OnInit{
      )
     .subscribe()
   }
+
   async updateAvatar(url:string){
-    console.log('updateAvata')
     const personService =  await this.personService.updateAvatar({urlAvatar: url});
     personService.subscribe({
-      next: (resp : any) => {
+      next: async (resp : any) => {
         this.urlImagen = url;
+        await this.authService.setCurrentUserValue(resp.user);
         console.log(resp);
       },
       error: (error) => {

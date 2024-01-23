@@ -53,4 +53,15 @@ export class NewsPage implements OnInit {
         })
 
   }
+
+  handleRefresh(event) {
+
+    setTimeout(() => {
+      this.selectedTab = 'tendecias';
+
+      this.newsService.getTopHeadlinesByCategory( 'business', true )
+      .subscribe( articles => this.articles.push( ...articles ) );
+      event.target.complete();
+    }, 2000);
+  }
 }

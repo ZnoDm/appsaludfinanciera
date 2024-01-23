@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from '../../../../services/toastr.service';
 import { TarjetaService } from 'src/app/services/tarjeta/tarjetas.service';
@@ -8,6 +8,7 @@ import { TipoTarjetaService } from '../../../../services/tipo-tarjeta/tipo-tarje
 import { ProveedorTarjetaService } from 'src/app/services/proveedor-tarjeta/proveedor-tarjeta.service';
 import { TipoCierreService } from 'src/app/services/tipo-cierre/tipo-cierre.service';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-save-update-tarjeta',
@@ -15,7 +16,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./save-update-tarjeta.page.scss'],
 })
 export class SaveUpdateTarjetaPage implements OnInit {
-
+  @Input() tarjeta : any = null
   array_banco: any = [];
   array_proveedorTarjeta: any = [];
   array_tipoTarjeta: any = [];
@@ -28,7 +29,7 @@ export class SaveUpdateTarjetaPage implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
+    private modalController: ModalController,
     private bancoService:BancoService,
     private proveedorTarjetaService:ProveedorTarjetaService,
     private tipoTarjetaService:TipoTarjetaService,
@@ -42,8 +43,13 @@ export class SaveUpdateTarjetaPage implements OnInit {
 
   ngOnInit() {
     this.formInit();
-    this.getBancosListar();
-    this.getProveedoresTarjetaListar();
+    console.log(this.tarjeta);
+    if(this.tarjeta != null){
+      this.setData(this.tarjeta);
+    }else{
+      this.getBancosListar(null);
+      this.getProveedoresTarjetaListar(null);
+    }
   }
 
   formInit(){
@@ -57,13 +63,25 @@ export class SaveUpdateTarjetaPage implements OnInit {
       hasNotifyEmail: [false],
     });
   }
-
-  async getBancosListar(){
+  
+  async setData(data:any){
+    this.tarjetaForm.controls['nombre'].setValue(data.nombreTarjeta);
+    this.tarjetaForm.controls['hasNotifyCelular'].setValue(data.hasNotifyCelular);
+    this.tarjetaForm.controls['hasNotifyEmail'].setValue(data.hasNotifyEmail);
+    await this.getBancosListar(data.idBanco);
+    await this.getProveedoresTarjetaListar(data.idProveedorTarjeta);
+    await this.getTipoTarjetaListar(data.idBanco,data.idProveedorTarjeta,data.idTipoTarjeta);
+    await this.getTipoCierreListar(data.idBanco,data.idTipoCierre);
+  }
+  async getBancosListar(posibleValor){
     const getBancosListar = await this.bancoService.getBancosListar();
 
     getBancosListar.subscribe({
       next: async (resp: any) => {
         this.array_banco = resp;
+        if(posibleValor!= null){
+          this.tarjetaForm.controls['banco'].setValue(posibleValor);
+        }
         this.chgRef.markForCheck();
       },
       error: async (error) => {
@@ -73,13 +91,16 @@ export class SaveUpdateTarjetaPage implements OnInit {
     });
   }
 
-  async getProveedoresTarjetaListar(){
+  async getProveedoresTarjetaListar(posibleValor){
 
     const getProveedoresTarjetaListar = await this.proveedorTarjetaService.getProveedoresTarjetaListar();
 
     getProveedoresTarjetaListar.subscribe({
       next: async (resp: any) => {
         this.array_proveedorTarjeta = resp;
+        if(posibleValor!= null){
+          this.tarjetaForm.controls['proveedorTarjeta'].setValue(posibleValor);
+        }
         this.chgRef.markForCheck();
       },
       error: async (error) => {
@@ -90,7 +111,7 @@ export class SaveUpdateTarjetaPage implements OnInit {
 
   }
 
-  async getTipoTarjetaListar(bancoId,proveedorTarjetaId){
+  async getTipoTarjetaListar(bancoId,proveedorTarjetaId,posibleValor){
     console.log(bancoId);
     if(bancoId &&bancoId!=null && bancoId!=undefined &&
        proveedorTarjetaId &&proveedorTarjetaId!=null && proveedorTarjetaId!=undefined)
@@ -100,6 +121,9 @@ export class SaveUpdateTarjetaPage implements OnInit {
       getTiposTarjetaListar.subscribe({
         next: async (resp: any) => {
           this.array_tipoTarjeta = resp;
+          if(posibleValor!= null){
+            this.tarjetaForm.controls['tipoTarjeta'].setValue(posibleValor);
+          }
           this.chgRef.markForCheck();
         },
         error: async (error) => {
@@ -114,7 +138,7 @@ export class SaveUpdateTarjetaPage implements OnInit {
 
   }
 
-  async getTipoCierreListar(bancoId){
+  async getTipoCierreListar(bancoId,posibleValor){
     console.log(bancoId);
     if(bancoId && bancoId!=null && bancoId!=undefined)
       {
@@ -123,6 +147,9 @@ export class SaveUpdateTarjetaPage implements OnInit {
       getTipoCierreListar.subscribe({
         next: async (resp: any) => {
           this.array_tipoCierre = resp;
+          if(posibleValor!= null){
+            this.tarjetaForm.controls['tipoCierre'].setValue(posibleValor);
+          }
           this.chgRef.markForCheck();
         },
         error: async (error) => {
@@ -158,26 +185,46 @@ export class SaveUpdateTarjetaPage implements OnInit {
       return;
     }
     const model = this.prepareModel()
-    const create = await this.tarjetaService.create(model);
+    if(this.tarjeta != null){
+      const update = await this.tarjetaService.update(this.tarjeta.idTarjetaCredito,model);
 
-    create.subscribe({
-      next: async (resp: any) => {
-        console.log(resp);
-        if (resp.ok) {
+      update.subscribe({
+        next: async (resp: any) => {
           console.log(resp);
-          this.router.navigate(['/main/tabs/tarjetas']).then(() => {
-            window.location.reload();
-          });
-        } else {
-          this.toastrService.alertaInformativa(resp.message || resp);
-        }
-        this.chgRef.markForCheck();
-      },
-      error: async (error) => {
-        this.toastrService.alertaInformativa(error?.error?.message || error?.message);
-        console.log(error);
-      },
-    });
+          if (resp.ok) {
+            console.log(resp);
+            this.modalController.dismiss(resp);
+          } else {
+            this.toastrService.alertaInformativa(resp.message || resp);
+          }
+          this.chgRef.markForCheck();
+        },
+        error: async (error) => {
+          this.toastrService.alertaInformativa(error?.error?.message || error?.message);
+          console.log(error);
+        },
+      });
+    }else{
+      const create = await this.tarjetaService.create(model);
+
+      create.subscribe({
+        next: async (resp: any) => {
+          console.log(resp);
+          if (resp.ok) {
+            console.log(resp);
+            this.modalController.dismiss(resp);
+          } else {
+            this.toastrService.alertaInformativa(resp.message || resp);
+          }
+          this.chgRef.markForCheck();
+        },
+        error: async (error) => {
+          this.toastrService.alertaInformativa(error?.error?.message || error?.message);
+          console.log(error);
+        },
+      });
+    }
+
   }
 
   // helpers for View
@@ -201,4 +248,7 @@ export class SaveUpdateTarjetaPage implements OnInit {
     return control.dirty || control.touched;
   }
 
+  cerrarModal(){
+    this.modalController.dismiss(null);
+  }
 }

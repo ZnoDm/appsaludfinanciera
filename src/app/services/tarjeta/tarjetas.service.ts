@@ -98,11 +98,11 @@ export class TarjetaService {
       finalize( () =>{this.isLoadingSubject.next(false);})
     );
   }
-  
-  async update(data) {
+
+  async update(idTarjeta,data) {
     this.isLoadingSubject.next(true);
     const headers = await this.obtenerHeaders();
-    return this.http.post(`${ this.apiUrl }`, data ,{
+    return this.http.patch(`${ this.apiUrl }/${ idTarjeta }`, data ,{
       headers: headers
     }).pipe(
       map( data => data ),
@@ -119,10 +119,20 @@ export class TarjetaService {
       finalize( () =>{this.isLoadingSubject.next(false);})
     );
   }
-  async delete(data) {
+  async delete(idTarjeta) {
     this.isLoadingSubject.next(true);
     const headers = await this.obtenerHeaders();
-    return this.http.post(`${ this.apiUrl }`, data ,{
+    return this.http.delete(`${ this.apiUrl }/${ idTarjeta }`,{
+      headers: headers
+    }).pipe(
+      map( data => data ),
+      finalize( () =>{this.isLoadingSubject.next(false);})
+    );
+  }
+  async enabledDisabled(idTarjeta) {
+    this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
+    return this.http.post(`${ this.apiUrl }/${ idTarjeta }/enabled-disabled`,{
       headers: headers
     }).pipe(
       map( data => data ),

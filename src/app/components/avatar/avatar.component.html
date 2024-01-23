@@ -7,8 +7,12 @@
   </div>
 
   <div class="container-profile">
-    <h6 class="ion-no-margin ion-padding-top ion-text-center" color="dark">{{user?.person?.nombres + ' ' + user?.person?.apellidos}}</h6>
-    <p *ngIf="showUser == true" class="ion-no-margin" color="medium">{{user?.email}}</p>
+    <h6 class="ion-no-margin ion-padding-top ion-text-center" color="dark">
+      {{user?.person?.nombres + ' ' + user?.person?.apellidos}}
+    </h6>
+    <p *ngIf="showUser == true" class="ion-no-margin" color="medium">
+      {{user?.email}}
+    </p>
   </div>
 </div>
 

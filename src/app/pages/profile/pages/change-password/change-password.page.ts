@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { PersonService } from 'src/app/services/person/person.service';
@@ -25,6 +26,7 @@ export class ChangePasswordPage implements OnInit {
     private toastrService: ToastrService,
     private router: Router,
     private authService:AuthService,
+    private modalController: ModalController,
   ) {
     this.isLoading$ = this.personService.isLoading$;
   }
@@ -63,33 +65,36 @@ export class ChangePasswordPage implements OnInit {
       confirmPassword: formData.confirmPassword,
     }
   }
- // Puedes usar esta función para enviar el formulario
- async onSubmit() {
-  const controls = this.passwordForm.controls;
-  if ( this.passwordForm.invalid ) {
-    Object.keys(controls).forEach(controlName =>
-      controls[controlName].markAsTouched()
-    );
-    this.toastrService.alertaInformativa('Formulario Inválido');
-    return;
-  }
-  const model = this.prepareModel()
-  const updatePassword = await this.personService.updatePassword(model);
+  // Puedes usar esta función para enviar el formulario
+  async onSubmit() {
+    const controls = this.passwordForm.controls;
+    if ( this.passwordForm.invalid ) {
+      Object.keys(controls).forEach(controlName =>
+        controls[controlName].markAsTouched()
+      );
+      this.toastrService.alertaInformativa('Formulario Inválido');
+      return;
+    }
+    const model = this.prepareModel()
+    const updatePassword = await this.personService.updatePassword(model);
 
-  updatePassword.subscribe({
-    next: async (resp: any) => {
-      console.log(resp);
-      if (resp.ok) {
-        this.router.navigate(['/main/tabs/profile']);
-      } else {
-        this.toastrService.alertaInformativa(resp.message || resp);
-      }
-      this.chgRef.markForCheck();
-    },
-    error: async (error) => {
-      this.toastrService.alertaInformativa(error?.error?.message || error?.message);
-      console.log(error);
-    },
-  });
-}
+    updatePassword.subscribe({
+      next: async (resp: any) => {
+        console.log(resp);
+        if (resp.ok) {
+          this.modalController.dismiss(resp);
+        } else {
+          this.toastrService.alertaInformativa(resp.message || resp);
+        }
+        this.chgRef.markForCheck();
+      },
+      error: async (error) => {
+        this.toastrService.alertaInformativa(error?.error?.message || error?.message);
+        console.log(error);
+      },
+    });
+  }
+  cerrarModal(){
+    this.modalController.dismiss(null);
+  }
 }
