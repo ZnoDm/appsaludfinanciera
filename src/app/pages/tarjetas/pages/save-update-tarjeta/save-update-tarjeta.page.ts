@@ -8,7 +8,7 @@ import { TipoTarjetaService } from '../../../../services/tipo-tarjeta/tipo-tarje
 import { ProveedorTarjetaService } from 'src/app/services/proveedor-tarjeta/proveedor-tarjeta.service';
 import { TipoCierreService } from 'src/app/services/tipo-cierre/tipo-cierre.service';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-save-update-tarjeta',
@@ -26,6 +26,10 @@ export class SaveUpdateTarjetaPage implements OnInit {
   tarjetaForm: FormGroup;
 
   isLoading$: Observable<boolean>;
+  isLoadingBanco$: Observable<boolean>;
+  isLoadingProveedorTarjeta$: Observable<boolean>;
+  isLoadingTipoTarjeta$: Observable<boolean>;
+  isLoadingTipoCierre$: Observable<boolean>;
 
   constructor(
     private fb: FormBuilder,
@@ -37,14 +41,27 @@ export class SaveUpdateTarjetaPage implements OnInit {
     private tipoCierreService:TipoCierreService,
     private chgRef: ChangeDetectorRef,
     private toastrService: ToastrService,
+    private loadingController: LoadingController
   ) {
     this.isLoading$ = this.tarjetaService.isLoading$;
+    this.isLoadingBanco$ = this.bancoService.isLoading$;
+    this.isLoadingProveedorTarjeta$ = this.proveedorTarjetaService.isLoading$;
+    this.isLoadingTipoTarjeta$ = this.tipoTarjetaService.isLoading$;
+    this.isLoadingTipoCierre$ = this.tipoCierreService.isLoading$;
    }
+   async showLoading(duracion) {
+    const loading = await this.loadingController.create({
+      message: 'Loading...',
+      duration: duracion,
+    });
 
+    loading.present();
+  }
   ngOnInit() {
     this.formInit();
     console.log(this.tarjeta);
     if(this.tarjeta != null){
+      this.showLoading(2000)
       this.setData(this.tarjeta);
     }else{
       this.getBancosListar(null);
@@ -63,7 +80,7 @@ export class SaveUpdateTarjetaPage implements OnInit {
       hasNotifyEmail: [false],
     });
   }
-  
+
   async setData(data:any){
     this.tarjetaForm.controls['nombre'].setValue(data.nombreTarjeta);
     this.tarjetaForm.controls['hasNotifyCelular'].setValue(data.hasNotifyCelular);

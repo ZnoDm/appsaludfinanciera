@@ -10,7 +10,14 @@
     </ion-buttons>
 
 
-    <ion-progress-bar type="indeterminate" *ngIf="isLoading$ | async"></ion-progress-bar>
+    <ion-progress-bar type="indeterminate"
+    *ngIf="
+      (isLoading$ | async) ||
+      (isLoadingBanco$ | async) ||
+      (isLoadingProveedorTarjeta$ | async) ||
+      (isLoadingTipoTarjeta$ | async) ||
+      (isLoadingTipoCierre$ | async)">
+    </ion-progress-bar>
 
   </ion-toolbar>
 </ion-header>
@@ -111,12 +118,24 @@
     </ion-list>
 
     <ion-button
-    expand="block"
-    type="submit"
-    mode="ios"
-    shape="round"
-    color="tertiary"
-    class="ion-padding">Guardar</ion-button>
+      class="ion-padding-horizontal"
+      type="submit"
+      expand="block"
+      shape="round"
+      color="tertiary"
+      [disabled]="
+      (isLoading$ | async) ||
+      (isLoadingBanco$ | async) ||
+      (isLoadingProveedorTarjeta$ | async) ||
+      (isLoadingTipoTarjeta$ | async) ||
+      (isLoadingTipoCierre$ | async) " mode="ios">
+      <ng-container *ngIf="isLoading$ | async; else inactiveR">
+        <ion-spinner name="circular"></ion-spinner>
+      </ng-container>
+      <ng-template #inactiveR>
+        <span>Guardar</span>
+      </ng-template>
+    </ion-button>
   </form>
 
 

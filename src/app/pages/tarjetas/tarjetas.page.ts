@@ -121,6 +121,7 @@ export class TarjetasPage implements OnInit {
         if(data != null && data.ok){
           this.getTarjetasByPerson();
           this.filterGroup.controls['Estado'].setValue('0000');
+          this.toastrService.presentToast(`Agregado con éxito`);
         }
       });
   }
@@ -139,6 +140,7 @@ export class TarjetasPage implements OnInit {
         if(data != null && data.ok){
           this.getTarjetasByPerson();
           this.filterGroup.controls['Estado'].setValue('0000');
+          this.toastrService.presentToast(`Actualizado con éxito`);
         }
       });
   }
