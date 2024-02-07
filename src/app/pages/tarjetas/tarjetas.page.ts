@@ -2,7 +2,7 @@ import { map } from 'rxjs/operators';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonList, ModalController, NavController, AlertController } from '@ionic/angular';
+import { IonList, ModalController, NavController, AlertController, IonSelect } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { TarjetaService } from 'src/app/services/tarjeta/tarjetas.service';
 import { ToastrService } from 'src/app/services/toastr.service';
@@ -15,7 +15,7 @@ import { SaveUpdateTarjetaPage } from './pages/save-update-tarjeta/save-update-t
 })
 export class TarjetasPage implements OnInit {
 
-  // @ViewChild(IonList) ionList: IonList;
+  @ViewChild('estadoSelect') estadoSelect: IonSelect;
 
 
   filterGroup: FormGroup;
@@ -55,7 +55,7 @@ export class TarjetasPage implements OnInit {
   }
 
   getFilter(event){
-    const valor = event.detail.value;
+    const valor = event?.detail?.value || event;
     let newArray  = [];
     if(valor == '0000'){
       newArray = this.array_tarjetasBase.filter((elemento) => elemento.isActive == true);
@@ -79,6 +79,9 @@ export class TarjetasPage implements OnInit {
       this.chgRef.markForCheck();
     }
 
+  }
+  llamarGetFilter() {
+    this.estadoSelect.ionChange.emit(this.estadoSelect.value);
   }
 
   async getTarjetasByPerson() {
@@ -150,10 +153,12 @@ export class TarjetasPage implements OnInit {
 
           enabledDisabled.subscribe({
             next: async (resp: any) => {
-              console.log(resp);
-              await this.getTarjetasByPerson();
-              this.filterGroup.controls['Estado'].setValue('0000');
-              this.chgRef.markForCheck();
+              if(resp.ok){
+                this.toastrService.presentToast(resp.message)
+                this.array_tarjetas = this.array_tarjetas.filter(objeto => objeto.idTarjetaCredito !== tarjeta.idTarjetaCredito);
+                this.array_tarjetasBase = this.array_tarjetasBase.filter(objeto => objeto.idTarjetaCredito !== tarjeta.idTarjetaCredito);
+                this.chgRef.detectChanges();
+              }
             },
             error: async (error) => {
               this.toastrService.alertaInformativa(error?.error?.message || error?.message);
@@ -166,37 +171,36 @@ export class TarjetasPage implements OnInit {
     }).then(alertEl=>alertEl.present());
 
   }
-  async enabledDisabled(tarjeta:any,flagActive){
-  this.alertController.create({
-    header: flagActive == true ? 'Activar':'Cancelar',
-    message: `Esta seguro de ${flagActive == true ? 'activar':'cancelar'} la tarjeta ' ${tarjeta.nombreTarjeta} ' ?`,
-    buttons:[ {
-      text:'SI',
-      handler:async ()=>{
-        const enabledDisabled = await this.tarjetaService.enabledDisabled(tarjeta.idTarjetaCredito);
+  enabledDisabled(tarjeta:any,flagActive){
+    this.alertController.create({
+      header: flagActive == true ? 'Activar':'Cancelar',
+      message: `Esta seguro de ${flagActive == true ? 'activar':'cancelar'} la tarjeta ' ${tarjeta.nombreTarjeta} ' ?`,
+      buttons:[ {
+        text:'SI',
+        handler:async ()=>{
+          const enabledDisabled = await this.tarjetaService.enabledDisabled(tarjeta.idTarjetaCredito);
 
-        enabledDisabled.subscribe({
-          next: async (resp: any) => {
-            console.log(resp);
-            await this.getTarjetasByPerson();
-            this.filterGroup.controls['Estado'].setValue('0000');
-            this.chgRef.markForCheck();
-          },
-          error: async (error) => {
-            this.toastrService.alertaInformativa(error?.error?.message || error?.message);
-            console.log(error);
-          },
-        });
-      }
-    },
-    { text:'NO'}]
-  }).then(alertEl=>alertEl.present());
+          enabledDisabled.subscribe({
+            next: async (resp: any) => {
+              if(resp.ok){
+                tarjeta.isActive = flagActive;
+                this.array_tarjetas = this.array_tarjetas.filter(objeto => objeto.idTarjetaCredito !== tarjeta.idTarjetaCredito);
+                this.toastrService.presentToast(`La tarjeta '${tarjeta.nombreTarjeta}' fue ${flagActive == true ? 'activada':'cancelada'}.`)
+                this.chgRef.detectChanges();
+              }
+            },
+            error: async (error) => {
+              this.toastrService.alertaInformativa(error?.error?.message || error?.message);
+              console.log(error);
+            },
+          });
+        }
+      },
+      { text:'NO'}]
+    }).then(alertEl=>alertEl.present());
   }
 
-
   skeletonOptions = Array(3).fill(null);
-
-  // Función para calcular el ancho del esqueleto según el tipo de elemento
   skeletonWidth(type: string): string {
     switch (type) {
       case 'icon-only':

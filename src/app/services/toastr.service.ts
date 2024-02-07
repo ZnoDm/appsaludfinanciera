@@ -22,7 +22,7 @@ export class ToastrService {
   async presentToast( message: string ) {
     const toast = await this.toastController.create({
       message,
-      position: 'top',
+      position: 'bottom',
       duration: 1500
     });
     toast.present();

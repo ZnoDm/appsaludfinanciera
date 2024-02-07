@@ -33,9 +33,7 @@ export class ChangePasswordPage implements OnInit {
 
 
   ngOnInit() {
-
     this.passwordFormInit()
-
   }
 
   passwordFormInit(){

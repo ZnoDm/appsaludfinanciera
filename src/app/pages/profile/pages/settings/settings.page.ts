@@ -145,9 +145,7 @@ export class SettingsPage implements OnInit {
 
     updatePerson.subscribe({
       next: async (resp: any) => {
-        console.log(resp);
         if (resp.ok) {
-          console.log(resp);
           await this.authService.setCurrentUserValue(resp.user);
           this.modalController.dismiss(resp);
         } else {

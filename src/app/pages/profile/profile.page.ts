@@ -20,7 +20,7 @@ export class ProfilePage implements OnInit {
     private router: Router,
     private authService:AuthService,
     private modalController: ModalController,
-    private alertController: AlertController
+    private toastrService: ToastrService,
   ) {
 
   }
@@ -43,8 +43,12 @@ export class ProfilePage implements OnInit {
       modal.present();
       return modal.onDidDismiss();
     })
-      .then(({ data, role }) => {
-        this.getUser();
+      .then(async ({ data, role }) => {
+        console.log(data);
+        if(data.ok){
+          this.toastrService.presentToast(data.message);
+        }
+        await this.getUser();
       });
   }
   navigateToChangePassword() {
@@ -54,10 +58,12 @@ export class ProfilePage implements OnInit {
       modal.present();
       return modal.onDidDismiss();
     })
-      .then(({ data, role }) => {
-        console.log(data,role)
-        if(data != null && data.ok){
+      .then(async ({ data, role }) => {
+        console.log(data);
+        if(data.ok){
+          this.toastrService.presentToast(data.message);
         }
+        this.getUser();
       });
   }
   async logout(){

@@ -12,17 +12,18 @@
 
   <div class="ion-padding-horizontal ion-margin-top" [formGroup]="filterGroup">
       <ion-select
-      label="Estado"
-      interface="action-sheet"
-      justify="space-between"
-      placeholder="Todos"
-      fill="solid"
-      formControlName="Estado"
-      (ionChange)="getFilter($event)"
-      value="0001">
-      <ion-select-option *ngFor="let estado of array_estado" [value]="estado.value">
-        {{ estado.nombre | titlecase}}
-      </ion-select-option>
+        #estadoSelect
+        label="Estado"
+        interface="action-sheet"
+        justify="space-between"
+        placeholder="Todos"
+        fill="solid"
+        formControlName="Estado"
+        (ionChange)="getFilter($event)"
+        value="0001">
+        <ion-select-option *ngFor="let estado of array_estado" [value]="estado.value">
+          {{ estado.nombre | titlecase}}
+        </ion-select-option>
       </ion-select>
   </div>
 
@@ -86,7 +87,13 @@
     (click)="addTarjeta()"
     expand="block"
     shape="round"
-    color="tertiary">
-    Nueva Tarjeta
+    color="tertiary"
+    [disabled]="(isLoading$ | async)" mode="ios">
+    <ng-container *ngIf="isLoading$ | async; else inactiveR">
+      <ion-spinner name="circular"></ion-spinner>
+    </ng-container>
+    <ng-template #inactiveR>
+      <span>Nueva tarjeta</span>
+    </ng-template>
   </ion-button>
 </ion-content>
