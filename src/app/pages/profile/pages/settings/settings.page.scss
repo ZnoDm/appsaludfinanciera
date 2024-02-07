@@ -1,0 +1,32 @@
+.container-avatar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .container-img{
+    position: relative;
+
+    .img-avatar{
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      border-radius: 50%;
+    }
+    .btn-editar{
+      position: absolute;
+      bottom: 0px;
+      right: -15px;
+    }
+  }
+}
+.container-profile{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+
+
+

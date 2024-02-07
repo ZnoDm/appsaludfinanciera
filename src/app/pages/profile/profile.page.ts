@@ -22,6 +22,7 @@ export class ProfilePage implements OnInit {
     private modalController: ModalController,
     private alertController: AlertController
   ) {
+
   }
 
   ionViewWillEnter() {
@@ -37,7 +38,7 @@ export class ProfilePage implements OnInit {
   navigateToSettings() {
     this.modalController.create({
       component: SettingsPage,
-      componentProps: {urlAvatar : this.usuario.person.urlAvatar}
+      componentProps: {urlImagen : this.usuario.person.urlAvatar}
     }).then(modal => {
       modal.present();
       return modal.onDidDismiss();
@@ -64,7 +65,6 @@ export class ProfilePage implements OnInit {
   }
 
   handleRefresh(event) {
-
     setTimeout(() => {
       event.target.complete();
     }, 2000);

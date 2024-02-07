@@ -18,7 +18,20 @@
   <form [formGroup]="personForm" (ngSubmit)="onSubmit()">
     <h5 class="ion-padding-horizontal ion-text-center">Información Personal</h5>
 
-    <app-avatar-edit [urlImagen] = "urlAvatar"></app-avatar-edit>
+    <div class="ion-padding-top ion-margin-top">
+      <div class="container-avatar">
+        <div class="container-img ion-padding-bottom">
+          <img [src]="urlImagen" alt="Profile" class="img-avatar">
+
+          <div class="btn-editar">
+            <ion-fab-button size="small" (click)="onUploadFile()" [disabled]="(isLoading$ | async)">
+              <input #fileInput id="fileInput" type="file" (change)="onFileSelected($event)" accept="image/*" class="ion-hide" />
+              <ion-icon name="pencil"></ion-icon>
+            </ion-fab-button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <ion-list ion-list [inset]="true">
 
@@ -49,13 +62,15 @@
     </ion-item>
   </ion-list>
 
-    <ion-button
-    expand="block"
-    type="submit"
-    mode="ios"
-    shape="round"
-    color="tertiary"
-    class="ion-padding">Actualizar</ion-button>
+
+  <ion-button expand="block" shape="round" color="tertiary" type="submit" class="ion-padding" [disabled]="(isLoading$ | async)" mode="ios">
+    <ng-container *ngIf="isLoading$ | async; else inactiveR">
+      <ion-spinner name="circular"></ion-spinner>
+    </ng-container>
+    <ng-template #inactiveR>
+      <span>Guardar</span>
+    </ng-template>
+  </ion-button>
   </form>
 
 </ion-content>

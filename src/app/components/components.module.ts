@@ -15,7 +15,6 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { PeriodoTarjetaComponent } from './tarjetas/periodo-tarjeta/periodo-tarjeta.component';
-import { AvatarEditComponent } from './avatar-edit/avatar-edit.component';
 import { LogoHeaderComponent } from './logo-header/logo-header.component';
 import { CuentaComponent } from './gastos/cuenta/cuenta.component';
 import { HistorialComponent } from './gastos/historial/historial.component';
@@ -34,7 +33,6 @@ import { BarComponent } from './protips/bar/bar.component';
     EsloganComponent,
 
     AvatarComponent,
-    AvatarEditComponent,
     AvatarSlimComponent,
     CalendarioTarjetaComponent,
     PeriodoTarjetaComponent,
@@ -55,7 +53,6 @@ import { BarComponent } from './protips/bar/bar.component';
     LogoHeaderComponent,
     EsloganComponent,
     AvatarComponent,
-    AvatarEditComponent,
     AvatarSlimComponent,
     CalendarioTarjetaComponent,
     PeriodoTarjetaComponent,

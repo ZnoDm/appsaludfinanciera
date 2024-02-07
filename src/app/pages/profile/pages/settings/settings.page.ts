@@ -1,33 +1,34 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, finalize } from 'rxjs';
 import { PersonService } from '../../../../services/person/person.service';
 import { ToastrService } from 'src/app/services/toastr.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../services/auth/auth.service';
 import { LoadingController, ModalController } from '@ionic/angular';
-
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
-  @Input() urlAvatar :  any = null;
-  personForm: FormGroup;
+  @Input() urlImagen: string = null;
 
+  defaultUrlAvatar:string = './assets/avatars/av-1.png';
+  @ViewChild('fileInput') fileInput: ElementRef;
+  uploadPercent: Observable<number>;
+
+  personForm: FormGroup;
   isLoading$: Observable<boolean>;
 
-  customCounterFormatter(inputLength: number, maxLength: number) {
-    return `${maxLength - inputLength} characters remaining`;
-  }
   constructor(
+    private storage: AngularFireStorage,
     private fb: FormBuilder,
     private personService:PersonService,
     private toastr: ToastrService,
     private chgRef: ChangeDetectorRef,
     private toastrService: ToastrService,
-    private router: Router,
     private authService:AuthService,
     private modalController: ModalController,
     private loadingController: LoadingController
@@ -36,7 +37,7 @@ export class SettingsPage implements OnInit {
   }
 
   ngOnInit() {
-    this.showLoading()
+    this.showLoading(1000)
     this.personFormInit();
     this.getDatosPersonales();
   }
@@ -71,6 +72,53 @@ export class SettingsPage implements OnInit {
     });
 
   }
+
+  onUploadFile(){
+    const fileInputElement = this.fileInput.nativeElement;
+    fileInputElement.click();
+  }
+
+  onFileSelected(event: any) {
+
+    this.personService.isLoadingSubject.next(true);
+    const file = event.target.files[0];
+    if (file) {
+      const filePath = `tesis/${new Date().getTime()}_${file.name}`;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, file);
+
+      // observe percentage changes
+      this.uploadPercent = task.percentageChanges();
+      // get notified when the download URL is available
+      task.snapshotChanges().pipe(
+          finalize(async () => {
+            let downloadURL = await fileRef.getDownloadURL().toPromise();
+            console.log(downloadURL);
+            this.updateAvatar(downloadURL);
+            this.personService.isLoadingSubject.next(false);
+          } )
+      )
+      .subscribe()
+    }
+    else{
+      this.personService.isLoadingSubject.next(false);
+    }
+  }
+
+  async updateAvatar(url:string){
+    const personService =  await this.personService.updateAvatar({urlAvatar: url});
+    personService.subscribe({
+      next: async (resp : any) => {
+        this.urlImagen = url;
+        await this.authService.setCurrentUserValue(resp.user);
+        console.log(resp);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
 
   private prepareModel(){
     const formData = this.personForm.value;
@@ -114,10 +162,10 @@ export class SettingsPage implements OnInit {
     });
   }
 
-  async showLoading() {
+  async showLoading(duracion) {
     const loading = await this.loadingController.create({
       message: 'Loading...',
-      duration: 500,
+      duration: duracion,
     });
 
     loading.present();
