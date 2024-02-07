@@ -1,14 +1,35 @@
 
-<ion-item class="ion-item-custom" lines="none" *ngIf="!nuevo">
-  <div class="container-cuenta">
-    <h6>{{cuenta.nombre}}</h6>
-    <p>S/.{{cuenta.gasto}}</p>
-  </div>
-</ion-item>
 
-<ion-item class="ion-item-custom" lines="none" *ngIf="nuevo">
-  <ion-icon name="add-circle" slot="start" class="ion-no-margin"></ion-icon>
-  <ion-label>
-    <h5 style="margin-left: 0.5rem;">NUEVO</h5>
-  </ion-label>
-</ion-item>
+
+<ion-card *ngIf="!nuevo" class="ion-no-margin">
+  <ion-card-content class="ion-no-padding" >
+    <div class="container-cuenta">
+      <ion-button color="tertiary" fill="outline">
+        <ion-icon name="cash-outline" size="default"></ion-icon>
+      </ion-button>
+
+      <div class="cuenta">
+        <h6>{{cuenta.nombre}}</h6>
+        <p>S/.{{cuenta.saldoDisponible  | number:'1.2-2'}}</p>
+        <span>Linea disponible</span>
+      </div>
+    </div>
+
+  </ion-card-content>
+</ion-card>
+
+<ion-card *ngIf="nuevo" class="ion-no-margin">
+  <ion-card-content class="ion-no-padding">
+    <div class="container-cuenta">
+      <div class="cuenta nuevo">
+        <ion-button fill="clear">
+          <ion-icon name="add-circle" slot="start" class="ion-no-margin" color="tertiary" size="large"></ion-icon>
+        </ion-button>
+        <ion-label>
+          <h5 style="margin-left: 0.5rem;">NUEVO</h5>
+        </ion-label>
+      </div>
+    </div>
+  </ion-card-content>
+</ion-card>
+

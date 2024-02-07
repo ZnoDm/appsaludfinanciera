@@ -6,10 +6,10 @@
     position: relative;
 
     .img-avatar{
-      width: 100%;
-      height: auto;
-      max-width: 80px;
-      max-height: 80px;
+      width: 80px;
+      height: 80px;
+      margin: auto;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
       object-fit: cover;
       border-radius: 50%;
     }

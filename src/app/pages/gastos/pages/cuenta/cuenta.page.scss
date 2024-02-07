@@ -1,0 +1,19 @@
+.container-historia{
+  display: flex;
+  padding: 0.5rem 1rem;
+  flex-direction: column;
+}
+.custom-title-mov{
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.title{
+  font-weight: 700;
+}
+.title-container{
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: var(--ion-color-dark);
+  color: var(--ion-color-dark-contrast);
+}

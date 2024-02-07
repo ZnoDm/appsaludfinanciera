@@ -1,9 +1,11 @@
 <ion-header mode="ios">
   <ion-toolbar >
     <ion-title> {{ cuenta != null ? 'Editar' : 'Nueva'  }} Cuenta</ion-title>
-    <ion-buttons slot="end" >
-      <ion-button color="danger" (click)="cerrarModal()">
-      Cerrar
+    <ion-buttons  slot="start">
+      <ion-button (click)="cerrarModal()"
+        text="Volver"
+        color="primary"
+       >Volver
       </ion-button>
     </ion-buttons>
 

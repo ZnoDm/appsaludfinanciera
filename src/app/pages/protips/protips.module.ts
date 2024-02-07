@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ProtipsPageRoutingModule } from './protips-routing.module';
 
 import { ProtipsPage } from './protips.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ProtipsPageRoutingModule
+    ProtipsPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [ProtipsPage]
 })

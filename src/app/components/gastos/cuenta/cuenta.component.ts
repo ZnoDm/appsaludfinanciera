@@ -10,6 +10,7 @@ export class CuentaComponent implements OnInit {
   @Input() nuevo: any = false;
   @Input() cuenta: any = null;
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+  }
 
 }

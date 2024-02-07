@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 //TOTALMENTE NECESARIO
 import { register } from 'swiper/element/bundle';
+import { PushService } from './services/push.service';
 register();
 
 @Component({
@@ -10,5 +11,10 @@ register();
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(
+    private pushService: PushService
+  ) {
+    // this.pushService.OneSignalInit()
+  }
+
 }

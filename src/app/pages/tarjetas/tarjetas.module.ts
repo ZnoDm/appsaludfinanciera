@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { TarjetasPageRoutingModule } from './tarjetas-routing.module';
 
 import { TarjetasPage } from './tarjetas.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { TarjetasPage } from './tarjetas.page';
     IonicModule,
     TarjetasPageRoutingModule,
     ReactiveFormsModule,
+    ComponentsModule
   ],
   declarations: [TarjetasPage]
 })

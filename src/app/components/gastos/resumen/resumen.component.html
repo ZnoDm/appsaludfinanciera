@@ -4,15 +4,15 @@
       <p class="title">Vas gastando</p>
       <div class="container-gasto-total">
         <h2>S/. </h2>
-        <h1> 1,080 </h1>
-        <span>.80</span>
+        <h1> {{resumen.totalGastado | number:'1.2-2'}}</h1>
+        <!-- <span>.80</span> -->
       </div>
       <div class="container-gasto-faltante">
         <h6>de S/. </h6>
-        <h4> 1,380 </h4>
-        <span>.80</span>
+        <h4> {{resumen.totalSaldoMensualPromedio | number:'1.2-2'}}</h4>
+        <!-- <span>.80</span> -->
       </div>
-      <p class="subtitle">Faltan gastar <span style="color: var(--ion-color-danger);">S/ 500.00</span> para 5 días</p>
+      <p class="subtitle">Faltan gastar <span style="color: var(--ion-color-danger);">S/ {{resumen.saldoDisponible}} </span> para {{diasRestantes}} días.</p>
       <div class="progress-container">
         <div class="progress-bar" id="myProgressBar"></div>
       </div>

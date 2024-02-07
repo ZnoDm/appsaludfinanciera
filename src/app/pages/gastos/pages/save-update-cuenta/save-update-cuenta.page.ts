@@ -27,8 +27,20 @@ export class SaveUpdateCuentaPage implements OnInit {
   ) { }
 
   ngOnInit(){
+
     this.cuentaFormInit();
-    this.getMetasListar(null);
+    console.log(this.cuenta);
+    if(this.cuenta != null){
+      this.setData(this.cuenta);
+    }else{
+      this.getMetasListar(null);
+    }
+  }
+
+  async setData(data:any){
+    this.cuentaForm.controls['nombre'].setValue(data.nombre);
+    this.cuentaForm.controls['saldoMensualPromedio'].setValue(data.saldoMensualPromedio);
+    await this.getMetasListar(data.idMeta);
   }
 
   cuentaFormInit() {
@@ -46,6 +58,9 @@ export class SaveUpdateCuentaPage implements OnInit {
     getMetasListar.subscribe({
       next: async (resp: any) => {
         this.array_metas = resp;
+        if(posibleValor!= null){
+          this.cuentaForm.controls['metas'].setValue(posibleValor);
+        }
         this.chgRef.markForCheck();
       },
       error: async (error) => {
@@ -77,24 +92,24 @@ export class SaveUpdateCuentaPage implements OnInit {
     }
     const model = this.prepareModel()
     if(this.cuenta != null){
-      // const update = await this.tarjetaService.create(model);
+      const update = await this.cuentaService.update(this.cuenta.id,model);
 
-      // create.subscribe({
-      //   next: async (resp: any) => {
-      //     console.log(resp);
-      //     if (resp.ok) {
-      //       console.log(resp);
-
-      //     } else {
-      //       this.toastrService.alertaInformativa(resp.message || resp);
-      //     }
-      //     this.chgRef.markForCheck();
-      //   },
-      //   error: async (error) => {
-      //     this.toastrService.alertaInformativa(error?.error?.message || error?.message);
-      //     console.log(error);
-      //   },
-      // });
+      update.subscribe({
+        next: async (resp: any) => {
+          console.log(resp);
+          if (resp.ok) {
+            console.log(resp);
+            this.modalController.dismiss(resp);
+          } else {
+            this.toastrService.alertaInformativa(resp.message || resp);
+          }
+          this.chgRef.markForCheck();
+        },
+        error: async (error) => {
+          this.toastrService.alertaInformativa(error?.error?.message || error?.message);
+          console.log(error);
+        },
+      });
     }else{
       const create = await this.cuentaService.create(model);
 
@@ -117,7 +132,7 @@ export class SaveUpdateCuentaPage implements OnInit {
     }
     console.log(this.cuentaForm.value);
   }
-  
+
   cerrarModal(){
     this.modalController.dismiss(null);
   }

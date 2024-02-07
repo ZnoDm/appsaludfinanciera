@@ -1,6 +1,8 @@
 
 import {Component, ViewChild, type OnInit, ElementRef } from '@angular/core';
 import { Chart , registerables } from 'chart.js';
+import { CuentaService } from '../../../services/cuenta/cuenta.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 @Component({
   selector: 'app-chart-pie',
   templateUrl: './chart-pie.component.html',
@@ -8,50 +10,70 @@ import { Chart , registerables } from 'chart.js';
 })
 export class ChartPieComponent implements OnInit {
 
-  ngOnInit(): void { }
-
-  @ViewChild('barCanvas') barCanvas: ElementRef | undefined;
-  barChart: any;
-
   ngAfterViewInit(){
     Chart.register(...registerables);
-    this.barChartMethod();
   }
-  barChartMethod() {
+  ngOnInit(): void {
+    this.getGraficoDonaResumen();
+  }
+
+  constructor(
+    private cuentaService:CuentaService,
+    private toastrService:ToastrService
+  ){}
+
+  backgroundColors = [
+    'rgba(255, 99, 132, 0.5)',
+    'rgba(54, 162, 235, 0.5)',
+    'rgba(255, 206, 86, 0.5)',
+    'rgba(75, 192, 192, 0.5)',
+    'rgba(153, 102, 255, 0.5)',
+    'rgba(255, 159, 64, 0.5)',
+    'rgba(255, 0, 0, 0.5)',
+    'rgba(0, 255, 0, 0.5)',
+    'rgba(0, 0, 255, 0.5)',
+    'rgba(128, 128, 128, 0.5)'
+  ];
+  labelsCategorias: string[] = []
+  datasetCategorias : number[] = []
+
+  @ViewChild('donaCanvas') donaCanvas: ElementRef | undefined;
+  donaChart: any;
+
+
+  donaChartMethod() {
     // Now we need to supply a Chart element reference with an object that defines the type of chart we want to use, and the type of data we want to display.
-    this.barChart = new Chart(this.barCanvas?.nativeElement, {
-      type: "bar",
+    this.donaChart = new Chart(this.donaCanvas?.nativeElement, {
+      type: "doughnut",
       data: {
-        labels: ['BJP', 'INC', 'AAP', 'CPI', 'CPI-M', 'NCP'],
+        labels: this.labelsCategorias,
         datasets: [{
-          label: '# of Votes',
-          data: [200, 50, 30, 15, 20, 34],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255,99,132,1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
+          label: 'Monto gastado',
+          data: this.datasetCategorias,
+          backgroundColor: this.backgroundColors.slice(3),
+          hoverOffset: 4
         }]
       },
       options: {
-        scales: {
 
-        }
       }
     });
   }
 
+  async getGraficoDonaResumen(){
+    const addGasto = await this.cuentaService.getGraficoDonaResumen();
 
+    addGasto.subscribe({
+      next: async (resp: any) => {
+        console.log(resp)
+        this.labelsCategorias = resp.map(item => item.nombre);
+        console.log( this.labelsCategorias)
+        this.datasetCategorias = resp.map(item => item.suma_montos);
+        this.donaChartMethod();
+      },
+      error: async (error) => {
+        this.toastrService.alertaInformativa(error?.error?.message || error?.message);
+      },
+    });
+  }
 }

@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { SaveUpdateCuentaPage } from './pages/save-update-cuenta/save-update-cuenta.page';
 import { CuentaService } from '../../services/cuenta/cuenta.service';
 import { ToastrService } from 'src/app/services/toastr.service';
+import { CuentaPage } from './pages/cuenta/cuenta.page';
 @Component({
   selector: 'app-gastos',
   templateUrl: './gastos.page.html',
@@ -16,8 +17,8 @@ import { ToastrService } from 'src/app/services/toastr.service';
 export class GastosPage implements OnInit{
 
   usuario :any = null;
+  resumen: any = {};
   array_cuentas = []
-
   constructor(
     private router: Router,
     private modalController: ModalController,
@@ -32,6 +33,7 @@ export class GastosPage implements OnInit{
   }
   ngOnInit() {
     this.getCuentasListarByUser();
+    this.getResumenGastoByPerson();
   }
 
   async getUser(){
@@ -40,7 +42,21 @@ export class GastosPage implements OnInit{
     this.usuario =  user;
   }
 
+  async getResumenGastoByPerson(){
+    const getResumenGastoByPerson = await this.cuentaService.getResumenGastoByPerson();
 
+    getResumenGastoByPerson.subscribe({
+      next: async (resp: any) => {
+        console.log(resp[0])
+        this.resumen = resp[0]
+        this.chgRef.markForCheck();
+      },
+      error: async (error) => {
+        this.toastrService.alertaInformativa(error?.error?.message || error?.message);
+        console.log(error);
+      },
+    });
+  }
   async getCuentasListarByUser(){
     const getCuentasListarByUser = await this.cuentaService.getCuentasListarByUser();
 
@@ -72,10 +88,25 @@ export class GastosPage implements OnInit{
 
   }
 
+  showCuenta(item) {
+    this.modalController.create({
+      component: CuentaPage,
+      componentProps: {cuenta : item}
+    }).then(modal => {
+      modal.present();
+      return modal.onDidDismiss();
+    })
+      .then(({ data, role }) => {
+        console.log(data,role)
+      });
+
+  }
+
 
   async agregarGastoIngreso() {
     this.modalController.create({
       component: AgregarPage,
+      componentProps: {array_cuentas: this.array_cuentas},
       breakpoints: [0, 0.9, 1],
       initialBreakpoint: 0.9,
       showBackdrop:true,
@@ -85,11 +116,16 @@ export class GastosPage implements OnInit{
       modal.present();
       return modal.onDidDismiss();
     })
-      .then(({ data}) => {
-        console.log(data)
+      .then(({ data , role}) => {
+        console.log(data, role)
+        if(data.ok){
+          this.getCuentasListarByUser()
+          this.getResumenGastoByPerson()
+        }
       });
 
   }
+
   // editar(cliente: any) {
   //   this.modalCtrl.create({
   //     component: AgregarPage,

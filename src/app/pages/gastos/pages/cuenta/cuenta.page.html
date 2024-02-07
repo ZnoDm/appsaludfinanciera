@@ -1,13 +1,67 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>cuenta</ion-title>
+<ion-header mode="ios">
+  <ion-toolbar >
+    <ion-title> {{ cuenta != null ? cuenta.nombre : 'Cuenta'  }} </ion-title>
+    <ion-buttons  slot="start">
+      <ion-button (click)="cerrarModal()"
+        text="Volver"
+        color="primary"
+       >Volver
+      </ion-button>
+    </ion-buttons>
+
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">cuenta</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="ion-padding" >
+    <ion-text >
+      <div style="display: flex;justify-content: space-between;">
+        <h3 class="title">{{cuenta.nombre}}</h3>
+        <ion-button fill="clear" (click)="editarCuenta(cuenta)">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+
+      </div>
+    </ion-text>
+    <h6>Gasto promedio: {{cuenta.saldoMensualPromedio | number:'1.2-2'}}</h6>
+    <h6>Total gastado: {{cuenta.totalGastado | number:'1.2-2' }}</h6>
+  </div>
+  <div class="title-container" color="dark">
+    <ion-label class="ion-text-center ion-no-margin">
+      <h6 class="custom-title-mov">MOVIMIENTOS</h6>
+    </ion-label>
+  </div>
+
+
+
+
+
+  <div  *ngFor="let mes of array_historia">
+    <ion-item color="light">
+      <ion-label class="ion-text-center ion-no-margin">
+        {{mes.mes}}
+      </ion-label>
+    </ion-item>
+    <div class="ion-padding">
+      <ion-card class="ion-no-margin" *ngFor="let historia of mes.historiasPorDia" style="margin-bottom: 0.75rem;">
+        <ion-card-content class="ion-no-padding"  >
+          <div class="container-historia">
+            <h3 style="font-size: 1.25rem;">{{historia.NombreDia +  ', ' + historia.NumeroDia}}</h3>
+            <div style="padding-top: 0.5rem;" *ngFor="let item of historia.historias">
+              <div style="display: flex;align-items: center;gap: 0.25rem;justify-content: space-between;">
+                <div style="display: flex;align-items: center;gap: 0.5rem;">
+                  <span style="width: 10px;height: 10px;display: flex;margin: 0px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 432c-101.7 0-184-82.3-184-184 0-101.7 82.3-184 184-184 101.7 0 184 82.3 184 184 0 101.7-82.3 184-184 184zm0-312c-70.7 0-128 57.3-128 128s57.3 128 128 128 128-57.3 128-128-57.3-128-128-128zm0 192c-35.3 0-64-28.7-64-64s28.7-64 64-64 64 28.7 64 64-28.7 64-64 64z"/></svg>
+                  </span>
+                  <p style="margin-bottom: 0px;font-weight: 700;">{{item.nombreCategoria}}</p>
+                </div>
+                <p style="margin-bottom: 0px;color: var(--ion-color-danger);">-  {{item.monto | number:'1.2-2' }}</p>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>

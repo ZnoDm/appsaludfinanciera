@@ -10,11 +10,6 @@ import { ToastrService } from 'src/app/services/toastr.service';
 import { AuthService } from '../auth/auth.service';
 import { HeaderBasicAuthorizationService } from '../header-basic-authorization.service';
 
-interface DataLogin  {
-  email: string;
-  password: string;
-}
-
 @Injectable({
   providedIn: 'root'
 })

@@ -1,10 +1,10 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="ion-padding-top">
-    <ion-segment value="default">
-      <ion-segment-button value="default">
+    <ion-segment [(ngModel)]="selectedTab">
+      <ion-segment-button value="variable">
         <ion-label>Variable</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="segment">
+      <ion-segment-button value="fijo">
         <ion-label>Fijo</ion-label>
       </ion-segment-button>
     </ion-segment>
@@ -12,117 +12,110 @@
 
 </ion-header>
 <ion-content class="ion-padding" position="fixed">
+  <form [formGroup]="formGasto" (ngSubmit)="onSubmit()">
 
-  <ion-text>
-    <p class="ion-no-margin">Cuenta</p>
-  </ion-text>
+    <ion-item class="ion-item-custom">
+      <ion-select label="Cuenta" formControlName="cuenta" interface="action-sheet" placeholder="Selecciona una cuenta">
+        <ion-select-option *ngFor="let cuenta of array_cuentas" [value]="cuenta.id">{{cuenta.nombre}}</ion-select-option>
+      </ion-select>
+    </ion-item>
 
-  <ion-item class="ion-item-custom">
-    <ion-select interface="action-sheet" placeholder="Selecciona una cuenta">
-      <ion-select-option value="apples">Apples</ion-select-option>
-      <ion-select-option value="oranges">Oranges</ion-select-option>
-      <ion-select-option value="bananas">Bananas</ion-select-option>
-    </ion-select>
-  </ion-item>
+    <ion-card color="light" >
+      <ion-card-content>
+        <div class="container-date">
+          <ion-text >
+            <p>{{ nombreDia }} <span>{{fechaMes}}</span></p>
+          </ion-text>
+          <ion-button (click)="openCalendar()" color="tertiary" size="small">
+            <ion-icon slot="icon-only" name="calendar-outline" size="small"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-card-content>
 
+    </ion-card>
 
-  <ion-card color="light" >
-    <ion-card-content>
-      <div class="container-date">
-        <ion-text >
-          <p>{{ nombreDia }} <span>{{fechaMes}}</span></p>
-        </ion-text>
-        <ion-button (click)="openCalendar()" color="tertiary" size="small">
-          <ion-icon slot="icon-only" name="calendar-outline" size="small"></ion-icon>
-        </ion-button>
-      </div>
-    </ion-card-content>
+    <ion-datetime-button datetime="datetime" id="fake-click" class="ion-hide"></ion-datetime-button>
+    <ion-modal [keepContentsMounted]="true" [isOpen]="showCalendar" (didDismiss)="cancelCalendar()">
+      <ng-template>
+        <ion-datetime
+          id="datetime"
+          locale="es-ES"
+          presentation="date"
+          [showDefaultButtons]="true"
+          doneText="Confirm"
+          cancelText="Cancel"
+          (ionChange)="onDateChange($event)"
+          formControlName="fecha"
+        ></ion-datetime>
+      </ng-template>
+    </ion-modal>
 
-  </ion-card>
-
-
-  <ion-datetime-button datetime="datetime" id="fake-click" class="ion-hide"></ion-datetime-button>
-  <ion-modal [keepContentsMounted]="true" [isOpen]="showCalendar" (didDismiss)="cancelCalendar()">
-    <ng-template>
-      <ion-datetime
-        id="datetime"
-        locale="es-ES"
-        presentation="date"
-        [showDefaultButtons]="true"
-        doneText="Confirm"
-        cancelText="Cancel"
-        (ionChange)="onDateChange($event)"
-      ></ion-datetime>
-    </ng-template>
-  </ion-modal>
-
-
-  <ion-grid fixed>
-    <ion-row class="ion-justify-content-center">
-      <ion-col>
-        <ion-item class="ion-item-custom" lines="none">
-          <ion-input
-            type="text"
-            class="custom-input"
-            color="tertiary"
-            placeholder="0.00"
-            [(ngModel)]="tuModelo"
-            (input)="validarNumero($event)"
-          >
-          <span class="prefix-soles">S/.</span>
-          </ion-input>
-        </ion-item>
-      </ion-col>
-
-      <ion-col size="12">
+    <ion-grid fixed>
+      <ion-row class="ion-justify-content-center">
+        <ion-col>
           <ion-item class="ion-item-custom" lines="none">
             <ion-input
               type="text"
-              class="custom-gasto-input"
-              placeholder="¿Qué gasto fue?"
-            ></ion-input>
+              class="custom-input"
+              color="tertiary"
+              placeholder="0.00"
+              formControlName="monto"
+              (input)="validarNumero($event)"
+              maxlength="6"
+            >
+            <span class="prefix-soles">S/.</span>
+            </ion-input>
           </ion-item>
-      </ion-col>
+        </ion-col>
 
-      <ion-col size="12">
-        <ion-text>
-          <p class="ion-no-margin">Gastos variables recurrentes</p>
-        </ion-text>
-      </ion-col>
+        <ion-col size="12">
+            <ion-item class="ion-item-custom" lines="none">
+              <ion-input
+                type="text"
+                class="custom-gasto-input"
+                placeholder="¿Qué gasto fue?"
+                formControlName="categoriaGasto"
+                (input)="validarCategoria($event)"
+              ></ion-input>
+            </ion-item>
+        </ion-col>
 
-      <ion-col size="12">
-        <swiper-container
-        #swiper
-        [autoplay]="false"
-        [modules]="swiperModules"
-        [allowTouchMove] ="false"
-        [slidesPerView] = 3.5>
+        <ion-col size="12">
+          <ion-text>
+            <p class="ion-no-margin">Gastos variables recurrentes</p>
+          </ion-text>
+        </ion-col>
 
-          <swiper-slide  *ngFor="let category of array_categorias">
+        <ion-col size="12">
+          <swiper-container
+          #swiper
+          [autoplay]="false"
+          [modules]="swiperModules"
+          [allowTouchMove] ="false"
+          [slidesPerView] = 2.75>
 
-            <div class="container-category" [class.active]="category.active == true">
-              <p>{{category.nombre}}</p>
-            </div>
+            <swiper-slide  *ngFor="let category of array_categorias">
 
-          </swiper-slide>
+              <div class="container-category" [class.active]="category.active == true" (click)="onCategorySelected(category)">
+                <p>{{category.nombre}}</p>
+              </div>
 
-
-        </swiper-container>
-      </ion-col>
-
-      <ion-col size="12" class="ion-padding-vertical">
-        <ion-button
-        expand="block"
-        type="submit"
-        mode="ios"
-        color="tertiary">REGISTRAR</ion-button>
-      </ion-col>
-
-
-    </ion-row>
-  </ion-grid>
+            </swiper-slide>
 
 
+          </swiper-container>
+        </ion-col>
+
+        <ion-col size="12" class="ion-padding-vertical">
+          <ion-button
+          expand="block"
+          type="submit"
+          mode="ios"
+          color="tertiary">REGISTRAR</ion-button>
+        </ion-col>
 
 
+      </ion-row>
+    </ion-grid>
+  </form>
 </ion-content>

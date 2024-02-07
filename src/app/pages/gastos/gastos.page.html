@@ -2,7 +2,7 @@
 <ion-header >
   <ion-toolbar>
     <ion-buttons slot="end">
-      <ion-button>
+      <ion-button routerLink="/main/tabs/gastos">
         <ion-icon name="notifications-outline" color="tertiary"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -22,11 +22,13 @@
 
   <ion-grid fixed class="ion-padding-vertical">
     <ion-row>
-      <ion-col size="4">
+      <ion-col size="4" style="  display: flex;
+      justify-content: center;
+      align-items: center;">
         <app-avatar-slim [user]="usuario" [showUser]= "false"></app-avatar-slim>
       </ion-col>
       <ion-col size="8">
-        <app-resumen></app-resumen>
+        <app-resumen [resumen] = "resumen"></app-resumen>
       </ion-col>
     </ion-row>
 
@@ -34,15 +36,15 @@
       <ion-col size="12" >
         <div style="display: flex;justify-content: space-between;align-items: center;" >
           <h5 class="ion-no-margin">Cuentas</h5>
-          <ion-buttons slot="end">
+          <!-- <ion-buttons slot="end">
             <ion-button (click)="addCuenta()" color="tertiary" size="small">
               <ion-icon name="chevron-forward-outline" slot="end" class="ion-no-margin" size="small"></ion-icon> Ver más
             </ion-button>
-          </ion-buttons>
+          </ion-buttons> -->
         </div>
       </ion-col>
-      <ion-col size="12" *ngFor="let currentCuenta of array_cuentas">
-        <app-cuenta [cuenta] = "currentCuenta"></app-cuenta>
+      <ion-col size="12" *ngFor="let item of array_cuentas">
+        <app-cuenta [cuenta] = "item" (click)="showCuenta(item)"></app-cuenta>
       </ion-col>
       <ion-col size="12" >
         <app-cuenta [nuevo]="true" (click)="addCuenta()"></app-cuenta>

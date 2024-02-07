@@ -1,5 +1,5 @@
 
-import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, type OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-resumen',
@@ -7,7 +7,20 @@ import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core';
   styleUrls: ['./resumen.component.scss'],
 })
 export class ResumenComponent implements OnInit {
+  @Input() resumen: any = null;
 
-  ngOnInit(): void { }
+  // Obtener la fecha actual
+  fechaActual: Date = new Date();
+
+  // Calcular el último día del mes actual
+  ultimoDiaDelMes: number = null;
+
+  // Calcular los días restantes hasta el final del mes
+  diasRestantes: number = null;
+
+  ngOnInit(): void {
+    this.ultimoDiaDelMes = new Date(this.fechaActual.getFullYear(), this.fechaActual.getMonth() + 1, 0).getDate();
+    this.diasRestantes = this.ultimoDiaDelMes - this.fechaActual.getDate();
+  }
 
 }

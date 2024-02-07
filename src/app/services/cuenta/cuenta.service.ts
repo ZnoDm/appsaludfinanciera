@@ -33,20 +33,44 @@ export class CuentaService {
     }
   }
 
-  async getCuentasListar() {
+  async getGraficoDonaResumen() {
     this.isLoadingSubject.next(true);
     const headers = await this.obtenerHeaders();
-    return this.httpClient.get(`${this.apiUrl}/listar`, {
+    return this.httpClient.get(`${ this.apiUrl }/grafico/donaHistorial`, {
+      headers: headers
+    }).pipe(
+      map( data => data ),
+      finalize( () =>{this.isLoadingSubject.next(false);})
+    );
+  }
+  async getHistoriaCuentaByPerson(idCuenta:number) {
+    this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
+    return this.httpClient.get(`${ this.apiUrl }/${idCuenta}/historial`, {
+      headers: headers
+    }).pipe(
+      map( data => data ),
+      finalize( () =>{this.isLoadingSubject.next(false);})
+    );
+  }
+
+
+
+
+  async getCuentasListarByUser() {
+    this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
+    return this.httpClient.get(`${this.apiUrl}/listar/user`, {
       headers: headers
     }).pipe(
       map(data => data),
       finalize(() => this.isLoadingSubject.next(false))
     );
   }
-  async getCuentasListarByUser() {
+  async getResumenGastoByPerson() {
     this.isLoadingSubject.next(true);
     const headers = await this.obtenerHeaders();
-    return this.httpClient.get(`${this.apiUrl}/listar/user`, {
+    return this.httpClient.get(`${this.apiUrl}/resumen/user`, {
       headers: headers
     }).pipe(
       map(data => data),
@@ -66,14 +90,26 @@ export class CuentaService {
     );
   }
 
-  async update(data) {
+  async update(idCuenta,data) {
     this.isLoadingSubject.next(true);
     const headers = await this.obtenerHeaders();
-    return this.httpClient.post(`${ this.apiUrl }`, data ,{
+    return this.httpClient.patch(`${ this.apiUrl }/${ idCuenta }`, data ,{
       headers: headers
     }).pipe(
       map( data => data ),
       finalize( () =>{this.isLoadingSubject.next(false);})
     );
   }
+
+  async addGasto(data) {
+    this.isLoadingSubject.next(true);
+    const headers = await this.obtenerHeaders();
+    return this.httpClient.post(`${ this.apiUrl }/gasto/add`, data ,{
+      headers: headers
+    }).pipe(
+      map( data => data ),
+      finalize( () =>{this.isLoadingSubject.next(false);})
+    );
+  }
+
 }

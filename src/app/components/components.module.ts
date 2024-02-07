@@ -22,6 +22,8 @@ import { HistorialComponent } from './gastos/historial/historial.component';
 import { AvatarSlimComponent } from './gastos/avatar-slim/avatar-slim.component';
 import { ChartPieComponent } from './gastos/chart-pie/chart-pie.component';
 import { ResumenComponent } from './gastos/resumen/resumen.component';
+import { HistorialBarComponent } from './protips/historial-bar/historial-bar.component';
+import { BarComponent } from './protips/bar/bar.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,11 @@ import { ResumenComponent } from './gastos/resumen/resumen.component';
     HistorialComponent,
     CuentaComponent,
     ChartPieComponent,
-    ResumenComponent
+    ResumenComponent,
+
+
+    HistorialBarComponent,
+    BarComponent
   ],
   exports: [
     ArticleComponent,
@@ -57,7 +63,11 @@ import { ResumenComponent } from './gastos/resumen/resumen.component';
     HistorialComponent,
     CuentaComponent,
     ChartPieComponent,
-    ResumenComponent
+    ResumenComponent,
+
+
+    HistorialBarComponent,
+    BarComponent
   ],
   imports: [
     CommonModule,
