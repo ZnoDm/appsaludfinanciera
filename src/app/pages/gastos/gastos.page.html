@@ -36,18 +36,13 @@
       <ion-col size="12" >
         <div style="display: flex;justify-content: space-between;align-items: center;" >
           <h5 class="ion-no-margin">Cuentas</h5>
-          <!-- <ion-buttons slot="end">
-            <ion-button (click)="addCuenta()" color="tertiary" size="small">
-              <ion-icon name="chevron-forward-outline" slot="end" class="ion-no-margin" size="small"></ion-icon> Ver más
-            </ion-button>
-          </ion-buttons> -->
         </div>
       </ion-col>
       <ion-col size="12" *ngFor="let item of array_cuentas">
         <app-cuenta [cuenta] = "item" (click)="showCuenta(item)"></app-cuenta>
       </ion-col>
       <ion-col size="12" >
-        <app-cuenta [nuevo]="true" (click)="addCuenta()"></app-cuenta>
+        <app-cuenta [nuevo]="true" (click)="addCuenta()" ></app-cuenta>
       </ion-col>
     </ion-row>
 
@@ -56,13 +51,13 @@
         <h5 class="ion-no-margin">Mira tu progreso</h5>
       </ion-col>
       <ion-col size="12">
-        <app-chart-pie></app-chart-pie>
+        <app-chart-pie [resumen] = "resumen"></app-chart-pie>
       </ion-col>
     </ion-row>
   </ion-grid>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" id="open-modal"  expand="block" >
-    <ion-fab-button color="tertiary" (click)="agregarGastoIngreso()">
+    <ion-fab-button color="tertiary" (click)="agregarGastoIngreso()" [disabled]="(isLoading$ | async)">
       <ion-img [src]="'./assets/saludfinanciera/gastos_white.svg'" style="padding:2rem;max-width: 136px;margin-right: -20px;"></ion-img>
     </ion-fab-button>
   </ion-fab>

@@ -64,4 +64,5 @@ export class NewsPage implements OnInit {
       event.target.complete();
     }, 2000);
   }
+  skeletonOptions = Array(3).fill(null);
 }

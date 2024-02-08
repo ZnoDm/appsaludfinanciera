@@ -18,10 +18,18 @@
 
   <!-- Contenido basado en el valor del segmento -->
   <div *ngIf="selectedTab === 'tendecias'">
-    <app-articles
-    [articles]="articles"
-    ></app-articles>
-
+    <div *ngIf="articles.length > 0">
+      <app-articles
+      [articles]="articles"
+      ></app-articles>
+    </div>
+    <div  *ngIf="articles.length <= 0">
+      <div *ngFor="let tarjeta of skeletonOptions">
+        <ion-thumbnail slot="start" style="width: 100%;height: 200px;margin-bottom: 0.5rem;">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+      </div>
+    </div>
   </div>
 
   <div *ngIf="selectedTab === 'favoritos'">

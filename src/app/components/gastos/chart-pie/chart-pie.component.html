@@ -1,10 +1,22 @@
 <ion-card class="ion-no-margin">
   <ion-card-content>
-    <h2>Mira tu progreso</h2>
-    <h3>Vienes gastando S./ 1, 080.80</h3>
-    <div>
-      <canvas #donaCanvas></canvas>
+    <div  [ngStyle]="{'display': (
+      labelsCategorias !== null && datasetCategorias !== null &&
+      labelsCategorias?.length > 0 && datasetCategorias?.length > 0
+      ) ? 'block' : 'none'}">
+      <h3>Vienes gastando S./ {{resumen?.totalGastado | number:'1.2-2'}}</h3>
+      <div>
+        <canvas #donaCanvas></canvas>
+      </div>
     </div>
-    
+    <div *ngIf="labelsCategorias == null && datasetCategorias == null">
+      <ion-thumbnail slot="start" style="width: 100%;height: 300px;">
+        <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+      </ion-thumbnail>
+    </div>
+    <div *ngIf="labelsCategorias?.length <= 0 && datasetCategorias?.length <= 0" style="display: flex;justify-content: center;align-items: center;margin-top: 1rem;margin-bottom: 1rem;">
+      <p>Sin registros.</p>
+    </div>
+
   </ion-card-content>
 </ion-card>

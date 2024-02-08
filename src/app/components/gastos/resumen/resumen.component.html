@@ -3,16 +3,23 @@
     <div class="gastos-status">
       <p class="title">Vas gastando</p>
       <div class="container-gasto-total">
-        <h2>S/. </h2>
-        <h1> {{resumen.totalGastado | number:'1.2-2'}}</h1>
-        <!-- <span>.80</span> -->
+        <h2 *ngIf="resumen!=null">S/. </h2>
+        <h1 *ngIf="resumen!=null"> {{resumen?.totalGastado | number:'1.2-2'}}</h1>
+        <h2 *ngIf="resumen==null">
+          <ion-skeleton-text [animated]="true" style="width: 80px;height: 20px;"></ion-skeleton-text>
+        </h2>
       </div>
       <div class="container-gasto-faltante">
-        <h6>de S/. </h6>
-        <h4> {{resumen.totalSaldoMensualPromedio | number:'1.2-2'}}</h4>
-        <!-- <span>.80</span> -->
+        <h6 *ngIf="resumen!=null">de S/. </h6>
+        <h4 *ngIf="resumen!=null"> {{resumen?.totalSaldoMensualPromedio | number:'1.2-2'}}</h4>
+        <h2 *ngIf="resumen==null">
+          <ion-skeleton-text [animated]="true" style="width: 120px;height: 10px;"></ion-skeleton-text>
+        </h2>
       </div>
-      <p class="subtitle">Faltan gastar <span style="color: var(--ion-color-danger);">S/ {{resumen.saldoDisponible}} </span> para {{diasRestantes}} días.</p>
+      <p *ngIf="resumen!=null" class="subtitle">Faltan gastar <span style="color: var(--ion-color-danger);">S/ {{resumen?.saldoDisponible}} </span> para {{diasRestantes}} días.</p>
+      <p *ngIf="resumen==null">
+        <ion-skeleton-text [animated]="true" style="width: 100%;height: 10px;"></ion-skeleton-text>
+      </p>
       <div class="progress-container">
         <div class="progress-bar" id="myProgressBar"></div>
       </div>

@@ -63,10 +63,11 @@ export class BarComponent implements OnInit {
         ]
       },
       options: {
+        indexAxis: 'y',
         plugins: {
           title: {
             display: true,
-            text: 'PROYECCION DE GASTOS HORMIGA POR CATEGORIA'
+            text: 'PROYECCION DE GASTOS POR CATEGORIA'
           },
         },
         responsive: true,
@@ -83,21 +84,31 @@ export class BarComponent implements OnInit {
   }
 
   async getGraficoBar(){
-    const addGasto = await this.machineService.getGastosHormiga();
+    const addGasto = await this.machineService.getGastosCategoria();
 
     addGasto.subscribe({
-      next: async (resp: any) => {
-        console.log(resp)
-        const keys: string[] = [];
-        const values: number[] = [];
+      next: async (datos : any) => {
+        const futuroArray = Object.entries(datos.futuro[0]).map(([categoria, total_monto]) => ({
+          categoria: categoria.replace('categoria_', ''),
+          total_monto
+        }));
 
-        for (const key in resp.futuro[0]) {
-            if (resp.futuro[0].hasOwnProperty(key)) {
-                keys.push(key);
-                values.push(resp.futuro[0][key]);
+        console.log(futuroArray);
+
+        // Crear un mapa de categorías para acceder eficientemente a las categorías existentes en "actual"
+        const actualMap = new Map(datos.actual.map(obj => [obj.categoria, obj]));
+
+        // Iterar sobre "futuro" y llenar las categorías faltantes en "actual" con un total de monto de 0
+        futuroArray.forEach(obj => {
+            if (!actualMap.has(obj.categoria)) {
+                datos.actual.push({ categoria: obj.categoria, total_monto: 0 });
             }
-        }
-        this.historialBarMethod(keys,resp.actual,values);
+        });
+        console.log(datos.actual);
+        const keys = datos.actual.map(obj => obj.categoria);
+        const totalMontoActual = datos.actual.map(obj => obj.total_monto);
+        const totalMontoFuturo = futuroArray.map(obj => obj.total_monto);
+        this.historialBarMethod(keys,totalMontoActual,totalMontoFuturo);
       },
       error: async (error) => {
         this.toastrService.alertaInformativa(error?.error?.message || error?.message);

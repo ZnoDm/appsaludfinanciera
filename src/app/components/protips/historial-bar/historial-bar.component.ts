@@ -86,18 +86,18 @@ export class HistorialBarComponent implements OnInit {
   }
 
   async getGraficoHistorialBar(){
-    const addGasto = await this.machineService.getGastosDiarios();
+    // const addGasto = await this.machineService.getGastosDiarios();
 
-    addGasto.subscribe({
-      next: async (resp: any) => {
-        console.log(resp)
-        this.sumaGastosMesAnterior =  resp.gastos_originales.reduce((total, gasto) => total + gasto, 0);
-        this.sumaGastosMesSiguiente =  resp.predicciones.reduce((total, gasto) => total + gasto, 0);
-        this.historialBarMethod(resp.gastos_originales,resp.predicciones);
-      },
-      error: async (error) => {
-        this.toastrService.alertaInformativa(error?.error?.message || error?.message);
-      },
-    });
+    // addGasto.subscribe({
+    //   next: async (resp: any) => {
+    //     console.log(resp)
+    //     this.sumaGastosMesAnterior =  resp.gastos_originales.reduce((total, gasto) => total + gasto, 0);
+    //     this.sumaGastosMesSiguiente =  resp.predicciones.reduce((total, gasto) => total + gasto, 0);
+    //     this.historialBarMethod(resp.gastos_originales,resp.predicciones);
+    //   },
+    //   error: async (error) => {
+    //     this.toastrService.alertaInformativa(error?.error?.message || error?.message);
+    //   },
+    // });
   }
 }

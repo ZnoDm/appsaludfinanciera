@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="ion-padding-top">
-    <ion-segment [(ngModel)]="selectedTab">
+    <ion-segment [(ngModel)]="selectedTab" (ionChange)="onSegmentChange($event)">
       <ion-segment-button value="variable">
         <ion-label>Variable</ion-label>
       </ion-segment-button>
@@ -86,7 +86,7 @@
           </ion-text>
         </ion-col>
 
-        <ion-col size="12">
+        <ion-col size="12" *ngIf="array_categorias!= null">
           <swiper-container
           #swiper
           [autoplay]="false"
@@ -106,12 +106,30 @@
           </swiper-container>
         </ion-col>
 
+        <ion-col size="12" *ngIf="array_categorias== null">
+          <div style="display: flex;gap: 0.5rem;">
+            <ion-skeleton-text [animated]="true" style="width: 50%;height: 20px;"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 50%;height: 20px;"></ion-skeleton-text>
+          </div>
+        </ion-col>
+
         <ion-col size="12" class="ion-padding-vertical">
           <ion-button
           expand="block"
           type="submit"
           mode="ios"
-          color="tertiary">REGISTRAR</ion-button>
+          color="tertiary"
+          [disabled]=" (isLoading$ | async) ||
+          (isLoadingCategoriaGasto$ | async)"
+          >
+          <ng-container *ngIf="(isLoading$ | async) ||
+          (isLoadingCategoriaGasto$ | async); else inactiveR">
+            <ion-spinner name="circular"></ion-spinner>
+          </ng-container>
+          <ng-template #inactiveR>
+            REGISTRAR
+          </ng-template>
+        </ion-button>
         </ion-col>
 
 

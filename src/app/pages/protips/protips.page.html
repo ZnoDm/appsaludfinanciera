@@ -9,10 +9,38 @@
 
 <ion-content [fullscreen]="true">
 
+  <div class="ion-padding">
+    <p class="ion-no-margin">Este módulo está diseñado para ofrecerte una plataforma intuitiva y poderosa que te permitirá prever y proyectar tus gastos de manera precisa y eficiente.</p>
+  </div>
 <div class="ion-padding">
-  <app-historial-bar></app-historial-bar>
+  <!-- <app-historial-bar></app-historial-bar> -->
+  <ion-card class="ion-no-margin">
+    <ion-card-content>
+      <div>
+        <h4>Proyeccion Historia para el sigueinte mes: </h4>
+        <h1 style="margin-left: auto;    text-align: end;">{{valor | number:'1.2-2'}}</h1>
+      </div>
+    </ion-card-content>
+  </ion-card>
 </div>
 <div class="ion-padding">
   <app-bar></app-bar>
+</div>
+<div class="ion-padding">
+  <!-- <app-historial-bar></app-historial-bar> -->
+  <ion-card class="ion-no-margin">
+    <ion-card-content>
+      <div>
+        <h4>Posibles Gastos Hormiga: </h4>
+        <table>
+          <tbody>
+            <tr *ngFor="let item of datosFinales">
+              <td>{{ item.key}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ion-card-content>
+  </ion-card>
 </div>
 </ion-content>

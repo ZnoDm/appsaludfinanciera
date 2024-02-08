@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component,OnInit} from '@angular/core';
-import { ModalController} from '@ionic/angular';
+import { LoadingController, ModalController} from '@ionic/angular';
 
 
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { SaveUpdateCuentaPage } from './pages/save-update-cuenta/save-update-cue
 import { CuentaService } from '../../services/cuenta/cuenta.service';
 import { ToastrService } from 'src/app/services/toastr.service';
 import { CuentaPage } from './pages/cuenta/cuenta.page';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-gastos',
   templateUrl: './gastos.page.html',
@@ -17,16 +18,20 @@ import { CuentaPage } from './pages/cuenta/cuenta.page';
 export class GastosPage implements OnInit{
 
   usuario :any = null;
-  resumen: any = {};
+  resumen: any = null;
   array_cuentas = []
+  isLoading$: Observable<boolean>;
   constructor(
     private router: Router,
     private modalController: ModalController,
+    private loadingController: LoadingController,
     private authService: AuthService,
     private cuentaService: CuentaService,
     private chgRef: ChangeDetectorRef,
     private toastrService: ToastrService,
-  ) {}
+  ) {
+    this.isLoading$ = this.cuentaService.isLoading$;
+  }
 
   ionViewWillEnter() {
     this.getUser();
@@ -38,7 +43,6 @@ export class GastosPage implements OnInit{
 
   async getUser(){
     const user = await this.authService.getCurrentUserValue();
-    console.log(user)
     this.usuario =  user;
   }
 
@@ -81,7 +85,7 @@ export class GastosPage implements OnInit{
     })
       .then(({ data, role }) => {
         console.log(data,role)
-        if(data.ok){
+        if(data?.ok){
           this.getCuentasListarByUser()
         }
       });
@@ -103,27 +107,31 @@ export class GastosPage implements OnInit{
   }
 
 
-  async agregarGastoIngreso() {
-    this.modalController.create({
-      component: AgregarPage,
-      componentProps: {array_cuentas: this.array_cuentas},
-      breakpoints: [0, 0.9, 1],
-      initialBreakpoint: 0.9,
-      showBackdrop:true,
-      mode: 'ios',
-      handle: true
-    }).then(modal => {
-      modal.present();
-      return modal.onDidDismiss();
-    })
-      .then(({ data , role}) => {
-        console.log(data, role)
-        if(data.ok){
-          this.getCuentasListarByUser()
-          this.getResumenGastoByPerson()
-        }
-      });
-
+  agregarGastoIngreso() {
+    if(this.array_cuentas.length > 0 ){
+      this.modalController.create({
+        component: AgregarPage,
+        componentProps: {array_cuentas: this.array_cuentas},
+        breakpoints: [0, 0.9, 1],
+        initialBreakpoint: 0.9,
+        showBackdrop:true,
+        mode: 'ios',
+        handle: true
+      }).then(modal => {
+        modal.present();
+        return modal.onDidDismiss();
+      })
+        .then(({ data , role}) => {
+          console.log(data, role)
+          if(data?.ok){
+            this.showLoading(2000)
+            this.getCuentasListarByUser()
+            this.getResumenGastoByPerson()
+          }
+        });
+    }else{
+      this.toastrService.alertaInformativa('Debes agregar una cuenta primero.')
+    }
   }
 
   // editar(cliente: any) {
@@ -145,4 +153,13 @@ export class GastosPage implements OnInit{
   //     });
 
   // }
+
+  async showLoading(duracion) {
+    const loading = await this.loadingController.create({
+      message: 'Loading...',
+      duration: duracion,
+    });
+
+    loading.present();
+  }
 }

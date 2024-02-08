@@ -18,7 +18,6 @@ export class LoggedInGuard implements CanActivate {
 
     async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
       const valor = await this.authService.isLoggedIn();
-      console.log(valor);
       if (valor) {
         return true;
       }

@@ -1,5 +1,5 @@
 
-import {Component, ViewChild, type OnInit, ElementRef } from '@angular/core';
+import {Component, ViewChild, type OnInit, ElementRef, Input, SimpleChanges } from '@angular/core';
 import { Chart , registerables } from 'chart.js';
 import { CuentaService } from '../../../services/cuenta/cuenta.service';
 import { ToastrService } from 'src/app/services/toastr.service';
@@ -9,12 +9,18 @@ import { ToastrService } from 'src/app/services/toastr.service';
   styleUrls: ['./chart-pie.component.scss'],
 })
 export class ChartPieComponent implements OnInit {
+  @Input() resumen: any = null;
 
   ngAfterViewInit(){
     Chart.register(...registerables);
   }
   ngOnInit(): void {
     this.getGraficoDonaResumen();
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['resumen'] && !changes['resumen'].firstChange) {
+      this.getGraficoDonaResumen();
+    }
   }
 
   constructor(
@@ -34,14 +40,17 @@ export class ChartPieComponent implements OnInit {
     'rgba(0, 0, 255, 0.5)',
     'rgba(128, 128, 128, 0.5)'
   ];
-  labelsCategorias: string[] = []
-  datasetCategorias : number[] = []
+  labelsCategorias: string[] = null;
+  datasetCategorias : number[] = null;
 
   @ViewChild('donaCanvas') donaCanvas: ElementRef | undefined;
   donaChart: any;
 
 
   donaChartMethod() {
+    if (this.donaChart) {
+      this.donaChart.destroy(); // Destruye el gráfico anterior si existe
+    }
     // Now we need to supply a Chart element reference with an object that defines the type of chart we want to use, and the type of data we want to display.
     this.donaChart = new Chart(this.donaCanvas?.nativeElement, {
       type: "doughnut",

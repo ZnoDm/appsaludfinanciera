@@ -32,22 +32,6 @@ export class MachineService {
       return null;
     }
   }
-
-  async getGastosHormiga() {
-    this.isLoadingSubject.next(true);
-    return this.httpClient.get(`${ this.apiUrl }/gastosHormiga/8`, ).pipe(
-      map( data => data ),
-      finalize( () =>{this.isLoadingSubject.next(false);})
-    );
-  }
-  async getGastosDiarios() {
-    this.isLoadingSubject.next(true);
-    return this.httpClient.get(`${ this.apiUrl }/gastosDiarios/8`,
-    ).pipe(
-      map( data => data ),
-      finalize( () =>{this.isLoadingSubject.next(false);})
-    );
-  }
   async getGastosCategoria() {
     this.isLoadingSubject.next(true);
     return this.httpClient.get(`${ this.apiUrl }/gastosCategoria/8`,
@@ -57,6 +41,22 @@ export class MachineService {
     );
   }
 
+  async gastosMes() {
+    this.isLoadingSubject.next(true);
+    return this.httpClient.get(`${ this.apiUrl }/gastosMes/8`,
+    ).pipe(
+      map( data => data ),
+      finalize( () =>{this.isLoadingSubject.next(false);})
+    );
+  }
+
+  async getGastosHormiga() {
+    this.isLoadingSubject.next(true);
+    return this.httpClient.get(`${ this.apiUrl }/gastosHormiga/8`, ).pipe(
+      map( data => data ),
+      finalize( () =>{this.isLoadingSubject.next(false);})
+    );
+  }
 
 
 
