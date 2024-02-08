@@ -14,7 +14,7 @@ export class AppComponent {
   constructor(
     private pushService: PushService
   ) {
-    // this.pushService.OneSignalInit()
+    this.pushService.OneSignalInit()
   }
 
 }
