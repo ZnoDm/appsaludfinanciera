@@ -15,7 +15,7 @@ export class CalendarioTarjetaComponent implements OnInit {
   @Input() anio: string;
 
   /*DATOS IMPORTANTES PARA EL MES */
-  @Input() calendario: any;
+  @Input() calendario: any = null;
   /* @Input() fechaInicio: string; */
   /* @Input() fechaFin: string; */
   /* @Input() diaInicio: number; */

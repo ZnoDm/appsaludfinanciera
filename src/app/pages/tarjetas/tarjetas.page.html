@@ -64,11 +64,10 @@
     </ion-item-sliding>
   </ion-list>
 
-
   <ion-list lines="full" [inset]="true" *ngIf="array_tarjetas.length <= 0 && array_tarjetasBase <= 0">
     <ion-item *ngFor="let tarjeta of skeletonOptions" >
       <ion-thumbnail slot="start" style="width: 24px;height: 24px;">
-        <ion-skeleton-text [animated]="true" w></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true"></ion-skeleton-text>
       </ion-thumbnail>
       <ion-label>
         <h3>

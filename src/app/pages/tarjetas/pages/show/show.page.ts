@@ -21,16 +21,17 @@ export class ShowPage implements OnInit {
   array_anios: any = [
     { value: 2024, nombre: 2024 },
   ];
-  array_periodo:any = []
+  array_periodo:any = [];
   array_calendario: any = [];
 
-  tarjeta:any = null;
-  periodoActual:any = {}
-  periodoSiguiente:any = {};
-  fechaActual: any;
+  tarjeta:any = {};
+  periodoActual:any = null;
+  periodoSiguiente:any = null;
+  fechaActual: any = null;
 
 
   isLoading$: Observable<boolean>;
+
   constructor(
     private activateRoute:ActivatedRoute,
     private fb: FormBuilder,
@@ -41,7 +42,6 @@ export class ShowPage implements OnInit {
   ) {
     this.isLoading$ = this.tarjetaService.isLoading$;
     this.tarjeta = this.activateRoute.snapshot.params;
-    console.log(this.activateRoute.snapshot.params)
    }
 
   ngOnInit() {
@@ -92,7 +92,6 @@ export class ShowPage implements OnInit {
       next: async (resp: any) => {
         console.log(resp);
         this.array_periodo = resp;
-        this.periodoActual = {};
 
         let indexPeriodoActual = -1;
         for (let index = 0; index < this.array_periodo.length; index++) {
@@ -162,4 +161,7 @@ export class ShowPage implements OnInit {
     let xfechaFin = new Date(fechaFin);
     return Number(Math.round((xfechaFin.getTime() - xfechaInicio.getTime())/ (1000*60*60*24)));
   }
+
+  skeletonOptions = Array(3).fill(null);
+  skeletonOptionsItem = Array(5).fill(null);
 }

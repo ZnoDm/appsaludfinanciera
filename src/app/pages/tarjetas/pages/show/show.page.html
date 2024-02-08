@@ -42,18 +42,18 @@
   </div>
 
   <ion-card>
-    <ion-card-header [style.background]="periodoActual.estado === '0001'?'#0CBB00':
-                (fechaActual< periodoActual.fechaFacturacion?'#FFFFFF':
-                (fechaActual< periodoActual.fechaPago?'#FFDE00':
+    <ion-card-header [style.background]="periodoActual?.estado === '0001'?'#0CBB00':
+                (fechaActual< periodoActual?.fechaFacturacion?'#FFFFFF':
+                (fechaActual< periodoActual?.fechaPago?'#FFDE00':
                 '#FF0000'))">
       <ion-card-title class="ion-text-center" >
-        <h5 class="ion-no-margin"  [style.color]="periodoActual.estado === '0001'?'#FFFFFF':(fechaActual< periodoActual.fechaFacturacion?'#000':
-        (fechaActual< periodoActual.fechaPago?'#000':'#FFFFFF'))" >{{tarjeta.nombreTarjeta}}</h5>
+        <h5 class="ion-no-margin"  [style.color]="periodoActual?.estado === '0001'?'#FFFFFF':(fechaActual< periodoActual?.fechaFacturacion?'#000':
+        (fechaActual< periodoActual?.fechaPago?'#000':'#FFFFFF'))" >{{tarjeta.nombreTarjeta}}</h5>
       </ion-card-title>
     </ion-card-header>
 
     <div>
-      <ion-segment [scrollable]="true" value="{{periodoActual.mes}}">
+      <ion-segment [scrollable]="true" value="{{periodoActual?.mes}}">
         <ion-segment-button *ngFor="let periodo of array_periodo" value="{{periodo.mes}}" (click)="changePeriodo(periodo)">
             <app-periodo-tarjeta [periodo]="periodo" [periodoActual]="periodoActual"  ></app-periodo-tarjeta>
         </ion-segment-button>
@@ -61,67 +61,108 @@
       </ion-segment>
     </div>
 
+
+    <div *ngIf="array_periodo.length <= 0" style="height: 50px;display: flex;width: 100%;gap: 8px;" >
+      <ng-container  *ngFor="let item of skeletonOptionsItem" >
+        <ion-thumbnail  slot="start" style="width: 20%;height: 50px;">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ng-container>
+    </div>
+
+
     <ion-card-content>
       <div class="ion-padding">
         <ion-img [src]="tarjeta.urlTarjetaLogo"></ion-img>
+        <div *ngIf="tarjeta.urlTarjetaLogo == null" style="display: flex;margin: auto;width: 100%;">
+          <ion-thumbnail  slot="start" style="width: 100%;height: 150px;">
+            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          </ion-thumbnail>
+        </div>
       </div>
-      <div class="ion-padding-vertical">
-        <div class="ion-text-center" *ngIf="periodoActual.estado !== '0001' && fechaActual< periodoActual.fechaFacturacion">
+      <div class="ion-padding-vertical" *ngIf="periodoActual != null && periodoSiguiente != null">
+        <div class="ion-text-center" *ngIf="periodoActual?.estado !== '0001' && fechaActual< periodoActual?.fechaFacturacion">
           <h1 style="font-weight: bolder;margin-bottom: 0px;font-size: 2rem;">TE QUEDAN</h1>
           <span style="font-weight: bolder;font-size: 5rem;line-height: 5rem;">
-            {{getDiferenciaFechas(fechaActual,periodoActual.fechaFacturacion ) +1}}
+            {{getDiferenciaFechas(fechaActual,periodoActual?.fechaFacturacion ) +1}}
           </span>
           <h1 style="font-weight: bolder;margin-bottom: 0px;font-size: 2rem;">DÍAS DE CONSUMO</h1>
         </div>
-        <div class="ion-text-center" *ngIf="periodoActual.estado !== '0001' && fechaActual>periodoActual.fechaFacturacion && fechaActual< periodoActual.fechaPago">
+        <div class="ion-text-center" *ngIf="periodoActual?.estado !== '0001' && fechaActual>periodoActual?.fechaFacturacion && fechaActual< periodoActual?.fechaPago">
           <h1 style="font-weight: bolder;margin-bottom: 0px;font-size: 2rem;">TE QUEDAN</h1>
-          <span style="font-weight: bolder;font-size: 5rem;line-height: 5rem;">{{periodoActual.diasPago + 1}}</span>
+          <span style="font-weight: bolder;font-size: 5rem;line-height: 5rem;">{{periodoActual?.diasPago + 1}}</span>
           <h1 style="font-weight: bolder;margin-bottom: 0px;font-size: 1rem;text-align: center;">días para Último día de Pago</h1>
         </div>
 
-        <div class="ion-text-center"  *ngIf="periodoActual.estado !== '0001' && periodoActual.diasAtraso > 0 ">
-          <span style="font-weight: bolder;font-size: 6rem;line-height: 6rem;">{{periodoActual.diasAtraso}}</span>
+        <div class="ion-text-center"  *ngIf="periodoActual?.estado !== '0001' && periodoActual?.diasAtraso > 0 ">
+          <span style="font-weight: bolder;font-size: 6rem;line-height: 6rem;">{{periodoActual?.diasAtraso}}</span>
           <div>
             <h1 style="font-weight: bolder;margin-bottom: 0px;font-size: 2.5rem;">días</h1>
             <h1 style="font-weight: bolder;margin-bottom: 0px;font-size: 1.5rem;">ATRASO</h1>
           </div>
         </div>
       </div>
+      <div class="ion-padding-vertical" *ngIf="periodoActual == null && periodoSiguiente == null" style="display: flex;justify-content: center;flex-direction: column;align-items: center;">
+        <ion-thumbnail  slot="start" style="width: 70%;height: 25px;margin-bottom: 1rem;">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+
+        <ion-thumbnail  slot="start" style="width: 50%;height: 50px;margin-bottom: 1rem;">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+
+        <ion-thumbnail  slot="start" style="width: 60%;height: 25px;margin-bottom: 1rem;">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+
+        <ion-thumbnail  slot="start" style="width: 80%;height: 25px;margin-bottom: 1rem;">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+      </div>
 
 
-
-      <div class="ion-padding ion-text-center">
-        <h6 style="color: #FF0000;" *ngIf="periodoActual.fechaPagoPeriodo != null">
-          La fecha en la que realizaste el pago fue: <span style="font-weight: 600;"> {{periodoActual.fechaPagoPeriodo | date:'d'}} de {{periodoActual.fechaPagoPeriodo | date:'MMMM' |titlecase}} del {{periodoActual.fechaPagoPeriodo | date:'y'}}.</span>
+      <div class="ion-padding ion-text-center"  *ngIf="periodoActual != null && periodoSiguiente != null">
+        <h6 style="color: #FF0000;" *ngIf="periodoActual?.fechaPagoPeriodo != null">
+          La fecha en la que realizaste el pago fue: <span style="font-weight: 600;"> {{periodoActual?.fechaPagoPeriodo | date:'d'}} de {{periodoActual?.fechaPagoPeriodo | date:'MMMM' |titlecase}} del {{periodoActual?.fechaPagoPeriodo | date:'y'}}.</span>
         </h6>
-        <h6 style="color: #FF0000;" *ngIf="periodoActual.fechaPagoPeriodo == null">
-          Los consumos que hagas desde el<span style="font-weight: 600;"> {{periodoSiguiente.fechaDesde | date:'d'}} de {{periodoSiguiente.fechaDesde | date:'MMMM' |titlecase}} del {{periodoSiguiente.fechaDesde | date:'y'}}</span> hasta el <span style="font-weight: 600;">{{periodoSiguiente.fechaHasta | date:'d'}} de {{periodoSiguiente.fechaHasta | date:'MMMM' |titlecase}} del {{periodoSiguiente.fechaHasta | date:'y'}} </span>se factura en el <span style="font-weight: 600;">Siguiente Periodo</span>.
+        <h6 style="color: #FF0000;" *ngIf="periodoActual?.fechaPagoPeriodo == null">
+          Los consumos que hagas desde el<span style="font-weight: 600;"> {{periodoSiguiente?.fechaDesde | date:'d'}} de {{periodoSiguiente?.fechaDesde | date:'MMMM' |titlecase}} del {{periodoSiguiente?.fechaDesde | date:'y'}}</span> hasta el <span style="font-weight: 600;">{{periodoSiguiente?.fechaHasta | date:'d'}} de {{periodoSiguiente?.fechaHasta | date:'MMMM' |titlecase}} del {{periodoSiguiente?.fechaHasta | date:'y'}} </span>se factura en el <span style="font-weight: 600;">Siguiente Periodo</span>.
         </h6>
       </div>
 
-      <div class="ion-padding-vertical ion-text-center">
+      <div class="ion-padding-vertical ion-text-center"  *ngIf="periodoActual != null && periodoSiguiente != null">
         <h5>
-          <ion-icon name="calendar-outline"></ion-icon> Fecha Facturación: {{periodoActual.fechaFacturacion | date:'d'}} de {{periodoActual.fechaFacturacion | date:'MMMM' |titlecase}} del {{periodoActual.fechaFacturacion | date:'y'}}
+          <ion-icon name="calendar-outline"></ion-icon> Fecha Facturación: {{periodoActual?.fechaFacturacion | date:'d'}} de {{periodoActual?.fechaFacturacion | date:'MMMM' |titlecase}} del {{periodoActual?.fechaFacturacion | date:'y'}}
         </h5>
         <h5 style="font-weight: 600;">
-          <ion-icon name="calendar-outline"></ion-icon>  Último día Pago: {{periodoActual.fechaPago | date:'d'}} de {{periodoActual.fechaPago | date:'MMMM' |titlecase}} del {{periodoActual.fechaPago | date:'y'}}
+          <ion-icon name="calendar-outline"></ion-icon>  Último día Pago: {{periodoActual?.fechaPago | date:'d'}} de {{periodoActual?.fechaPago | date:'MMMM' |titlecase}} del {{periodoActual?.fechaPago | date:'y'}}
         </h5>
       </div>
-
 
       <div class="ion-padding-vertical ion-text-center">
         <ion-chip class="caption-consumo">Consumo</ion-chip>
         <ion-chip class="caption-ruleteo">Ruleteo</ion-chip>
         <ion-chip class="caption-diaPago">Último día pago</ion-chip>
-        <ion-chip class="caption-diaAtraso" *ngIf="periodoActual.diasAtraso > 0 && periodoActual.estado =='0002'">Atraso</ion-chip>
+        <ion-chip class="caption-diaAtraso" *ngIf="periodoActual?.diasAtraso > 0 && periodoActual?.estado =='0002'">Atraso</ion-chip>
       </div>
+
+      <ng-container *ngIf="array_calendario.length > 0">
 
       <ng-container *ngFor="let item of array_calendario">
         <app-calendario-tarjeta
-                                  [hoy]="this.fechaActual"
-                                  [anio]="item.anio"
-                                  [calendario]="item">
+          [hoy]="this.fechaActual"
+          [anio]="item.anio"
+          [calendario]="item">
         </app-calendario-tarjeta>
+      </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="array_calendario.length <= 0 && array_calendario <= 0">
+        <ng-container *ngFor="let tarjeta of skeletonOptions">
+        <ion-thumbnail slot="start" style="width: 100%;height: 200px;margin-bottom: 12px;border-radius: 8px;">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ng-container>
       </ng-container>
     </ion-card-content>
   </ion-card>
