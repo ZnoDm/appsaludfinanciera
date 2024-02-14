@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'https://apisaludfinanciera.azurewebsites.net/api',
-  apiUrlMachine: 'https://apiflasksaludfinanciera.azurewebsites.net/',
+  apiUrlMachine: 'https://apisaludfinancieraflask.azurewebsites.net/',
 
 
   apiNewsUrl: 'https://newsapi.org/v2',
